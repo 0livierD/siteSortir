@@ -44,6 +44,9 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
+    #[ORM\Column]
+    private ?bool $isPublished = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +156,18 @@ class Sortie
     public function setLieu(?Lieu $lieu): static
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function isIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): static
+    {
+        $this->isPublished = $isPublished;
 
         return $this;
     }
