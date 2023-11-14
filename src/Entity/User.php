@@ -181,6 +181,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPseudo(): ?string
     {
+        if ($this->pseudo == null)
+            $this->pseudo = "non renseigné";
         return $this->pseudo;
     }
 

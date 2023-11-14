@@ -1,4 +1,6 @@
-body{
+
+body {
+
     background-color: lightgray;
     display: flex;
     flex-direction: column;
@@ -57,5 +59,16 @@ strong::before {
 }
 .infos{
 
+}
+
+
+
+.flexEnColonne{
+display: flex;
+flex-direction: column;
+}
+
+.flex{
+    display: flex;
 }
 
