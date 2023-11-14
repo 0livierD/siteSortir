@@ -1,0 +1,55 @@
+<header>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <img src="{{ asset('img/logo.png') }}" alt="">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ path('home') }}">Home
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ path('wish_index') }}">Your Wish List
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ path('wish_new') }}">New wish
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ path('app_logout') }}">Logout
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ path('app_login') }}">log in
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ path('app_register') }}">sign in
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ path('about_us') }}">About us
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
