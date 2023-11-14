@@ -1,45 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie index{% endblock %}
+{% block title %}Sorties{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
+   <h1>Sortir avec Eni</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>DateHeureDebut</th>
-                <th>Duree</th>
-                <th>DateLimiteInscription</th>
-                <th>NbInscriptionMax</th>
-                <th>InfosSortie</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.id }}</td>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.nbInscriptionMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-                <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h2>Filtres</h2>
 
-    <a href="{{ path('app_sortie_new') }}">Create new</a>
+    <div>
+        <form action=""></form>
+        <div>
+            <div>
+                <label for="">Site <select name="" id="">
+                <option>Tous</option>
+                {% for site in sites %}
+                    <option value="{{ site.nom }}">{{ site.nom }}</option>
+                {% endfor %}
+
+            </select></label><br>
+            </div>
+            <div>
+            <label for="">Rechercher par nom<input type="text"></label>
+            </div>
+            <div>
+                <label for="">début<input type="date"></label>
+                <label for="">Fin<input type="date"></label>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for=""><input type="checkbox">Sortie que j'organise</label>
+            </div>
+            <div>
+                <label for=""><input type="checkbox">Sortie où je suis inscrit/e</label>
+            </div>
+            <div>
+                <label for=""><input type="checkbox">Sortie où je ne suis pas inscrit/e</label>
+            </div>
+           <div>
+               <label for=""><input type="checkbox">Sortie passées</label>
+           </div>
+            <div>
+                <button type="submit">Rechercher</button>
+            </div>
+        </div>
+        <div>
+            <label for="">Une sortie à proposer ?</label>
+            <button type="submit">Créer une sortie</button>
+        </div>
+    </div>
+
+    <h2>Liste des sorties</h2>
+
+
+    {% for sortie in sorties %}
+        <h3>{{ sortie.nom }}</h3>
+    {% endfor %}
+
 {% endblock %}

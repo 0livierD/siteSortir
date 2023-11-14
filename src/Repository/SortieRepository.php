@@ -36,6 +36,17 @@ class SortieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function findAllUnder1Month(): array
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('s.dateHeureDebut > :dateLimite');
+
+        $qb->setParameter('dateLimite',new \DateTime('-1 month'));
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    public function findOneBySomeField($value): ?Sortie
 //    {
 //        return $this->createQueryBuilder('s')

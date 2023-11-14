@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,15 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/sortie')]
+
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
-    public function index(SortieRepository $sortieRepository): Response
+    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository): Response
     {
+
+
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+            'sorties' => $sortieRepository->findAllUnder1Month(),
+            'sites' => $siteRepository->findBy([],['nom'=>'ASC'])
         ]);
+
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
