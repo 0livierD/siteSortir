@@ -64,11 +64,15 @@ strong::before {
 
 
 .flexEnColonne{
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .flex{
     display: flex;
 }
 
+form{
+    width: 60%;
+}
