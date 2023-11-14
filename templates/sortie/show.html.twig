@@ -3,44 +3,47 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
+    <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
+    <div class="sortie">
+        <div class="infos">
+            <div class="date">
+                <h5>Début : {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</h5>
+                <h5>Fin : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
+            </div>
+            <p> Durée : {{ sortie.duree }} minutes</p>
+            <p>Nombre d'inscription max : {{ sortie.nbInscriptionMax }}</p>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionMax</th>
-                <td>{{ sortie.nbInscriptionMax }}</td>
-            </tr>
-            <tr>
-                <th>InfosSortie</th>
-                <td>{{ sortie.infosSortie }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <h5>Description et Infos</h5>
+            <p>{{ sortie.infosSortie }}</p>
 
+            <button class="btn btn-primary">Annuler la sortie</button>
+        </div>
+        <div class="siteInfo">
+            <div>
+                <h5>Site de rattachement : </h5>
+                <p>{{ sortie.site.nom }}</p>
+            </div>
+            <div>
+                <h5>Ville : </h5>
+                <p>{{ sortie.lieu.ville.nom }}</p>
+            </div>
+            <div>
+                <h5>Code Postal : </h5>
+                <p>{{ sortie.lieu.ville.codePostal }}</p>
+            </div>
+            <div class="participants">
+                <h5>Liste des inscrits : </h5>
+
+
+                {% for participant in sortie.participants %}
+                    <p>{{ participant.nom }}</p>
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
-    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
 {% endblock %}

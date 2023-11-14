@@ -1,3 +1,61 @@
-body {
+body{
     background-color: lightgray;
+    display: flex;
+    flex-direction: column;
 }
+.container{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    height: 100vh;
+
+}
+
+.titre{
+
+    text-align: center;
+    color: white;
+}
+
+.date{
+    display: flex;
+    gap: 20px;
+}
+.sortie{
+    border: 2px solid #00407A;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: #00407A 4px 4px;
+    margin-top: 40px;
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    width: 100%;
+}
+strong {
+    position: relative;
+}
+
+strong::before {
+    /* Highlight color */
+    background-color: #00407A;
+    content: "";
+    position: absolute;
+    width: calc(100% + 4px);
+    height: 100%;
+    left: -2px;
+    bottom: 0;
+    z-index: -1;
+    transform: rotate(2deg);
+}
+.participants{
+    padding: 20px;
+    border: 2px solid #00407A;
+    border-radius: 20px;
+}
+.infos{
+
+}
+
