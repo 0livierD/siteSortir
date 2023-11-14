@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Lieu;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LieuFixtures extends Fixture
+class LieuFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -51,5 +52,11 @@ class LieuFixtures extends Fixture
         $this->addReference('lieu-parc-des-loisirs',$lieu4);
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [VilleFixtures::class];
+
     }
 }
