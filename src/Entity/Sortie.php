@@ -47,7 +47,7 @@ class Sortie
     private ?Lieu $lieu = null;
 
     #[ORM\Column]
-    private ?bool $isPublished = null;
+    private ?bool $isPublished = false;
 
     #[ORM\ManyToOne(inversedBy: 'sortiesOrganises')]
     #[ORM\JoinColumn(nullable: false)]

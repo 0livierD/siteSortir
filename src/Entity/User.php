@@ -54,6 +54,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Site $site = null;
 
+    #[ORM\Column]
+    private ?bool $isAdministrateur = false;
+
+    #[ORM\Column]
+    private ?bool $isActif = true;
+
     public function __construct()
     {
         $this->sortiesOrganises = new ArrayCollection();
@@ -262,6 +268,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSite(?Site $site): static
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function isIsAdministrateur(): ?bool
+    {
+        return $this->isAdministrateur;
+    }
+
+    public function setIsAdministrateur(bool $isAdministrateur): static
+    {
+        $this->isAdministrateur = $isAdministrateur;
+
+        return $this;
+    }
+
+    public function isIsActif(): ?bool
+    {
+        return $this->isActif;
+    }
+
+    public function setIsActif(bool $isActif): static
+    {
+        $this->isActif = $isActif;
 
         return $this;
     }

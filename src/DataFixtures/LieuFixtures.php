@@ -48,7 +48,7 @@ class LieuFixtures extends Fixture
         $lieu4->setLatitude(48.031008);
         $lieu4->setLongitude(-1.7597746);
         $manager->persist($lieu4);
-        $this->addReference('lieu-parc-des-loisir',$lieu4);
+        $this->addReference('lieu-parc-des-loisirs',$lieu4);
 
         $manager->flush();
     }
