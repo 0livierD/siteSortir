@@ -131,7 +131,7 @@ class SortieFixtures extends Fixture
         $sortie8->setDateHeureDebut(new \DateTime('27-11-2023 14:00:00'));
         $sortie8->setDateLimiteInscription(new \DateTime('25-11-2023 19:00:00'));
         $sortie8->setDuree(200);
-        $sortie8->addParticipant($userPaula)
+        $sortie8->addParticipant($userPaula);
         $sortie8->setNbInscriptionMax(1);
         $sortie8->setEtat($etatCreee);
         $manager->persist($sortie8);
