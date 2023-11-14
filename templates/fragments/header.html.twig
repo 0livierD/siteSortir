@@ -8,44 +8,21 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ path('home') }}">Home
+                        <a class="nav-link " href="{{ path('app') }}">Accueil
                             <span class="visually-hidden">(current)</span>
                         </a>
-                    </li>
-                    {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link " href="{{ path('wish_index') }}">Your Wish List
-                            <span class="visually-hidden">(current)</span>
-                        </a>
-                    </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="{{ path('wish_new') }}">New wish
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="{{ path('app_logout') }}">Logout
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link " href="{{ path('app_login') }}">log in
-                                    <span class="visually-hidden">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="{{ path('app_register') }}">sign in
-                                    <span class="visually-hidden">(current)</span>
-                                </a>
-                            </li>
-                    {% endif %}
+                    </
 
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ path('about_us') }}">About us
+                        <a class="nav-link " href="{{ path('') }}">Ville
                             <span class="visually-hidden">(current)</span>
                         </a>
                     </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ path('') }}">Sites
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
 
                 </ul>
 
