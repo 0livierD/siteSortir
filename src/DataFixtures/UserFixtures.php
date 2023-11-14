@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -80,5 +81,10 @@ class UserFixtures extends Fixture
         //à ajouter pour inscrire lors des sorties
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [SiteFixtures::class];
     }
 }
