@@ -7,7 +7,14 @@
 
     <h2>Filtres</h2>
 
-    <div>
+    {{ form_start(filtreForm) }}
+    {{ form_widget(filtreForm) }}
+    <button type="submit">Filtrer</button>
+    {{ form_end(filtreForm) }}
+
+
+
+    {#<div>
         <form action=""></form>
         <div>
             <div>
@@ -48,13 +55,19 @@
             <label for="">Une sortie à proposer ?</label>
             <button type="submit">Créer une sortie</button>
         </div>
-    </div>
+    </div>#}
 
     <h2>Liste des sorties</h2>
+    <p><a href="{{ path('app_sortie_new') }}">Test</a></p>
 
 
     {% for sortie in sorties %}
         <h3>{{ sortie.nom }}</h3>
+        <ul>
+            {% for participant in sortie.participants %}
+            <li>{{ participant.prenom ~ ' ' ~participant.nom}}</li>
+            {% endfor %}
+        </ul>
     {% endfor %}
 
 {% endblock %}
