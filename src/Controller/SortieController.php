@@ -25,8 +25,6 @@ class SortieController extends AbstractController
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
 
-        echo $this->getUser()->getUserIdentifier();
-
         $filtre = new Filtre();
         $filtreForm = $this->createForm(FiltreType::class, $filtre);
         $filtreForm->handleRequest($request);
