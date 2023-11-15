@@ -2,9 +2,18 @@
 
 namespace App\Repository;
 
+use App\Entity\Filtre;
+use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\User;
+use App\Form\FiltreType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormInterface;
+use function mysql_xdevapi\getSession;
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isInstanceOf;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -18,6 +27,7 @@ class SortieRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
+
         parent::__construct($registry, Sortie::class);
     }
 
@@ -41,7 +51,7 @@ class SortieRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s');
         $qb->where('s.dateHeureDebut > :dateLimite');
 
-        $qb->setParameter('dateLimite',new \DateTime('-1 month'));
+        $qb->setParameter('dateLimite', new \DateTime('-1 month'));
 
         $query = $qb->getQuery();
         return $query->execute();
@@ -56,4 +66,60 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    public function findSearch(Filtre $filtre, User $user): array
+    {
+
+        $qb = $this->createQueryBuilder('s')
+        ->leftJoin('s.participants','p')
+        ->addSelect('p')
+        ->where('s.dateHeureDebut > :dateLimite')
+        ->setParameter('dateLimite', new \DateTime('-1 month'));
+
+
+
+        if (!empty($filtre->getNom())) {
+            $qb = $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%'.$filtre->getNom().'%');
+        }
+
+        if (!empty($filtre->getSite()) && isInstanceOf(Site::class) ) {
+            $qb = $qb->andWhere('s.site = :idSite')
+                ->setParameter('idSite', $filtre->getSite()->getId());
+        }
+
+        if (!empty($filtre->getDateDebut())){
+            $qb = $qb->andWhere('s.dateHeureDebut > :dateDebut')
+                ->setParameter('dateDebut', $filtre->getDateDebut());
+        }
+
+        if (!empty($filtre->getDateFin())){
+            $qb = $qb->andWhere('s.dateLimiteInscription < :dateFin')
+                ->setParameter('dateFin', $filtre->getDateFin());
+        }
+
+        if ($filtre->isSortieOuJeNeParticipePas()){
+            $qb = $qb->andWhere('p.id != :userId')
+                ->setParameter('userId', $user->getId());
+        }
+
+        if ($filtre->isSortiePassee()){
+            $qb = $qb->andWhere('s.dateHeureDebut < :today')
+                ->setParameter('today', new \DateTime('now'));
+        }
+
+        if ($filtre->isSortieOuJeParcitipe()){
+            $qb = $qb->andWhere('p.id = :userId')
+                ->setParameter('userId', $user->getId());
+        }
+
+        if ($filtre->isSortieQueJOrganise()){
+            $qb = $qb->andWhere('s.organisateur = :userId')
+                ->setParameter('userId', $user->getId());
+        }
+
+        $querry= $qb->getQuery();
+        return $querry->execute();
+    }
 }

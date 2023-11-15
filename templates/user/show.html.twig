@@ -4,11 +4,11 @@
 
 {% block body %}
 
-    <h1 class="display-4 text-center mt-4 mb-5">Profil</h1>
-        <div class="flexEnColonne">
+    <h1 class="titre"><strong>Profil</strong></h1>
+        <div class="profil">
             <div class="flex" >
                 <div class="col-md-6 mx-auto">
-                    <p>Pseudo : </p>
+                    <h5>Pseudo : </h5>
                     <p>{{ user.pseudo }}</p>
                 </div>
                 <div class="col-md-6 mx-auto">
@@ -17,31 +17,35 @@
             </div>
             <div class="flex" >
                 <div class="col-md-6 mx-auto">
-                    <p>Prénom : </p>
+                    <h5>Prénom : </h5>
                     <p>{{ user.prenom }}</p>
                 </div>
                 <div class="col-md-6 mx-auto">
-                    <p>Nom : </p>
+                    <h5>Nom : </h5>
                     <p>{{ user.nom }}</p>
                 </div>
             </div>
             <div class="flex" >
                 <div class="col-md-6 mx-auto">
-                    <p>Email : </p>
+                    <h5>Email : </h5>
                     <p>{{ user.email }}</p>
                 </div>
                 <div class="col-md-6 mx-auto">
-                    <p>Téléphone : </p>
+                    <h5>Téléphone : </h5>
                     <p>{{ user.telephone }}</p>
                 </div>
             </div>
             <div>
-                <p>Site de rattachement : </p>
+                <h5>Site de rattachement : </h5>
                 <p>{{ user.site.nom }}</p>
             </div>
 
-            <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+
         </div>
+    <div class="mt-4">
+        <a class="btn btn-primary" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+    </div>
+
 
 
 {% endblock %}
