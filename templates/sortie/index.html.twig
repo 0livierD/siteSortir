@@ -7,14 +7,23 @@
 
     <h2>Filtres</h2>
 
-    {{ form_start(filtreForm) }}
-    {{ form_widget(filtreForm) }}
-    <button type="submit">Filtrer</button>
-    {{ form_end(filtreForm) }}
+    <div class="filtre">
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(filtreForm) }}
+                {{ form_widget(filtreForm) }}
+                <button type="submit">Filtrer</button>
+                {{ form_end(filtreForm) }}
+            </div>
+        </div>
+        <div>
+            <a class=" btn btn-primary" href="{{ path('app_sortie_new') }}">Créer une sortie</a>
+        </div>
+    </div>
+
 
 
     <h2>Liste des sorties</h2>
-    <p><a href="{{ path('app_sortie_new') }}">Test</a></p>
 
     <div class="listSortie">
         {% for sortie in sorties %}
@@ -34,7 +43,7 @@
                     <div class="date">
 
 
-                        <h6>Organisateur : <a href="#" class="card-link">{{ sortie.organisateur.nom }}</a></h6>
+                        <h6>Organisateur : <a href="#" class="card-link">{{ sortie.organisateur.getFullName }}</a></h6>
                     </div>
                     <div class="date d-flex justify-content-between">
                         <a class="mt-3 " href="{{ path('app_sortie_show', {'id':sortie.getId()}) }}">Plus d'infos</a>

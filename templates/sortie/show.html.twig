@@ -36,7 +36,7 @@
 
 
                 {% for participant in sortie.participants %}
-                    <p>{{ participant.nom }}</p>
+                    <p>{{ participant.getFullName }}</p>
                 {% endfor %}
             </div>
 
