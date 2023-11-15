@@ -3,7 +3,7 @@
 {% block title %}Sorties{% endblock %}
 
 {% block body %}
-   <h1>Sortir avec Eni</h1>
+    <h1>Sortir avec Eni</h1>
 
     <h2>Filtres</h2>
 
@@ -12,15 +12,15 @@
         <div>
             <div>
                 <label for="">Site <select name="" id="">
-                <option>Tous</option>
-                {% for site in sites %}
-                    <option value="{{ site.nom }}">{{ site.nom }}</option>
-                {% endfor %}
+                        <option>Tous</option>
+                        {% for site in sites %}
+                            <option value="{{ site.nom }}">{{ site.nom }}</option>
+                        {% endfor %}
 
-            </select></label><br>
+                    </select></label><br>
             </div>
             <div>
-            <label for="">Rechercher par nom<input type="text"></label>
+                <label for="">Rechercher par nom<input type="text"></label>
             </div>
             <div>
                 <label for="">début<input type="date"></label>
@@ -37,9 +37,9 @@
             <div>
                 <label for=""><input type="checkbox">Sortie où je ne suis pas inscrit/e</label>
             </div>
-           <div>
-               <label for=""><input type="checkbox">Sortie passées</label>
-           </div>
+            <div>
+                <label for=""><input type="checkbox">Sortie passées</label>
+            </div>
             <div>
                 <button type="submit">Rechercher</button>
             </div>
@@ -52,9 +52,31 @@
 
     <h2>Liste des sorties</h2>
 
+    <div class="listSortie">
+        {% for sortie in sorties %}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ sortie.nom }}</h4>
+                    <div class="date">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ sortie.dateHeureDebut |date('d/m/y H:i') }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted"> Durée: {{ sortie.duree }} min</h6>
+                    </div>
+                    <div class="date">
+                        <h6 class="card-subtitle mb-2 text-muted"> Places disponibles
+                            : {{ sortie.nbInscriptionMax }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted"> Status
+                            : {{ sortie.etat.libelle}}</h6>
+                    </div>
+                    <div class="date">
 
-    {% for sortie in sorties %}
-        <h3>{{ sortie.nom }}</h3>
-    {% endfor %}
-
+                    <h6>Organisateur : <a href="#" class="card-link">{{ sortie.organisateur.nom }}</a></h6>
+                    </div>
+                    <div class="date d-flex justify-content-between">
+                    <a class="mt-3 " href="{{ path('app_sortie_show', {'id':sortie.getId()}) }}"  >Plus d'infos</a>
+                    <a class=" btn btn-primary" href="#" class="card-link">S'inscrire</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
