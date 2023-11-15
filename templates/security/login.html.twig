@@ -14,23 +14,26 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
+    <h1 class="titre"><strong>Connexion</strong></h1>
+    <label class="marginTop40" for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label class="marginTop20" for="inputPassword">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
-
+<div class="marginLeft40 marginTop40" >
     <label>
         <input type="checkbox" name="_remember_me" checked>
-        Keep me logged in
+        Se souvenir de moi
     </label>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+    <button class="btn btn-primary marginLeft40" type="submit">
+        Se connecter
     </button>
+    <a class="marginLeft40" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+</div>
+
 </form>
 {% endblock %}

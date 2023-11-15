@@ -36,6 +36,18 @@ body {
     justify-content: center;
     width: 100%;
 }
+.profil{
+    border: 2px solid #00407A;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: #00407A 4px 4px;
+    margin-top: 40px;
+    gap: 100px;
+    justify-content: center;
+    width: 100%;
+}
+
+
 strong {
     position: relative;
 }
@@ -61,8 +73,6 @@ strong::before {
 
 }
 
-
-
 .flexEnColonne{
     display: flex;
     flex-direction: column;
@@ -75,4 +85,16 @@ strong::before {
 
 form{
     width: 60%;
+}
+
+.marginLeft40{
+    margin-left: 40px;
+}
+
+.marginTop40{
+    margin-top: 40px;
+}
+
+.marginTop20{
+    margin-top: 20px;
 }
