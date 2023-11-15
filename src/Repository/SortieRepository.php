@@ -100,7 +100,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if ($filtre->isSortieOuJeNeParticipePas()){
-            $qb = $qb->andWhere('p.id <> :userId')
+            $qb = $qb->andWhere('p.id != :userId')
                 ->setParameter('userId', $user->getId());
         }
 

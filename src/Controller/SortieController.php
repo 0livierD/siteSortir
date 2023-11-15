@@ -49,7 +49,7 @@ class SortieController extends AbstractController
         }
 
 
-        $sorties = $sortieRepository->findAll();
+        $sorties = $sortieRepository->findAllUnder1Month();
 
 
         return $this->render('sortie/index.html.twig', [
