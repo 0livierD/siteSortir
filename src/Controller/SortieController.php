@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\FiltreType;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -121,7 +122,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
         // vérifie que l'utilisateur ne soit pas déjà connecté
         $isInscrit = false;
@@ -129,7 +130,8 @@ class SortieController extends AbstractController
             if ($participant === $this->getUser())
                 $isInscrit = true;
 
-        if (!$isInscrit && count($sortie->getParticipants()) < $sortie->getNbInscriptionMax()) {
+        $placesRestantes = $sortie->getNbInscriptionMax() - count($sortie->getParticipants());
+        if (!$isInscrit && $placesRestantes > 0) {
             /**
              * @var User $user
              */
@@ -137,6 +139,15 @@ class SortieController extends AbstractController
             $sortie->addParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
+
+
+            if (--$placesRestantes == 0){
+                $etatComplet = $etatRepository->findOneBy(['libelle'=>'Clôturée']);
+                $sortie->setEtat($etatComplet);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
+
         }
 
         return $this->redirectToRoute('app_sortie_index');

@@ -34,13 +34,13 @@
             <p>{{ sortie.infosSortie }}</p>
 
             {% if boutonCardSortie == "S'inscrire" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Se desister" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link" >{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Annuler sortie" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Complet" %}
-                <button type="button" class=" btn btn-primary" href="" class="card-link">{{ boutonCardSortie }}</button>
+                <button type="button" class=" btn btn-primary" href="" class="card-link" id="completSortie">{{ boutonCardSortie }}</button>
             {% endif %}
         </div>
         <div class="siteInfo">
