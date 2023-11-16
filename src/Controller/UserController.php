@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -52,23 +56,52 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository): Response
     {
+      //  $form= $this->createFormBuilder($user, ['validation_groups' => ['MotDePasse'],])->add();
+
+
+        $userBase = $userRepository->find($user->getId());
+        $oldPassword = $userBase->getPassword();
+
+
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+        //dd($userBase->getPassword());
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $encodedPassword = $passwordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
 
-            $user->setPassword($encodedPassword);
+            if ($oldPassword == $form->get('password')->getData())
+            {
+                if ($form->get('plainPassword')->getData()==null)
+                {
+                    $entityManager->flush();
 
-            $entityManager->flush();
+                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
 
-            return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                }else
+                {
+                    $encodedPassword = $hashes->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                     );
+
+
+
+                   $user->setPassword($encodedPassword);
+
+
+
+
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                }
+            }
+
         }
 
         return $this->renderForm('user/edit.html.twig', [
