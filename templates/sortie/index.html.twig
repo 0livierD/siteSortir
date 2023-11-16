@@ -5,25 +5,58 @@
 {% block body %}
     <h1>Sortir avec Eni</h1>
 
-    <h2>Filtres</h2>
+    <h2 class="h2Accueil">Filtres</h2>
 
-    <div class="filtre">
-        <div class="card">
-            <div class="card-body">
-                {{ form_start(filtreForm) }}
-                {{ form_widget(filtreForm) }}
-                <button type="submit">Filtrer</button>
-                {{ form_end(filtreForm) }}
+    <div class="pageNavigation">
+        <div class="filtre">
+            <div class="card">
+                <div class="card-body">
+                    {{ form_start(filtreForm,{'attr': {'class': 'filtreForm form-floating'}}) }}
+                    <div class="col-md-8" id="filtreGauche">
+                        {{ form_row(filtreForm.site) }}
+                        {{ form_row(filtreForm.nom) }}
+                        <div class="d-flex" id="datesFiltre">
+                            <div class="col-10 d-flex justify-content-between">
+                            <div class="col-md-5">
+                                <label for="{{ field_label(filtreForm.dateDebut) }}">Date début<input type="date"
+                                    id="{{ field_name(filtreForm.dateDebut) }}"
+                                    name="{{ field_name(filtreForm.dateDebut) }}"
+                                    value="{{ field_value(filtreForm.dateDebut) }}"
+                                    class="form-control"
+                                    ></label>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="{{ field_label(filtreForm.dateFin) }}">Date Fin<input type="date"
+                                    id="{{ field_name(filtreForm.dateFin) }}"
+                                    name="{{ field_name(filtreForm.dateFin) }}"
+                                    value="{{ field_value(filtreForm.dateFin) }}"
+                                    class="form-control"
+                                    ></label>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-around" id="filtreDroit">
+                        {{ form_row(filtreForm.sortieQueJOrganise) }}
+                        {{ form_row(filtreForm.sortieOuJeParcitipe) }}
+                        {{ form_row(filtreForm.sortieOuJeNeParticipePas) }}
+                        {{ form_row(filtreForm.sortiePassee) }}
+                        <div class="d-flex justify-content-center ">
+                            <button type="submit" class=" btn btn-primary" >Filtrer</button>
+                        </div>
+                    </div>
+                    {{ form_end(filtreForm) }}
+                </div>
             </div>
         </div>
-        <div>
-            <a class=" btn btn-primary" href="{{ path('app_sortie_new') }}">Créer une sortie</a>
+        <div class="creerSortie">
+            <a class=" btn btn-primary align-self-center" href="{{ path('app_sortie_new') }}">Créer une sortie</a>
         </div>
     </div>
 
 
 
-    <h2>Liste des sorties</h2>
+    <h2 class="h2Accueil">Liste des sorties</h2>
 
     <div class="listSortie">
         {% for sortie in sorties %}
@@ -43,7 +76,7 @@
                     <div class="date">
 
 
-                        <h6>Organisateur : <a href="#" class="card-link">{{ sortie.organisateur.getFullName }}</a></h6>
+                        <h6>Organisateur : <a href="{{ path('app_user_show',{'id':sortie.organisateur.id}) }}" class="card-link">{{ sortie.organisateur.getFullName }}</a></h6>
                     </div>
                     <div class="date d-flex justify-content-between">
                         <a class="mt-3 " href="{{ path('app_sortie_show', {'id':sortie.getId()}) }}">Plus d'infos</a>
