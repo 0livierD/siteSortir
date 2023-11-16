@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function Sodium\add;
 
 
 class SortieController extends AbstractController
@@ -107,9 +108,10 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_sortie_delete')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+        dd('Fait lors du changement du bouton sur le homepage, enlever le dd var autoriser le bouton à prendre cette route');
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($sortie);
             $entityManager->flush();
@@ -117,4 +119,52 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+        // vérifie que l'utilisateur ne soit pas déjà connecté
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+        if (!$isInscrit && count($sortie->getParticipants()) < $sortie->getNbInscriptionMax()) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->addParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_sortie_index');
+    }
+
+    #[Route('//se-desister/{id}', name: 'app_sortie_desistement')]
+    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        // vérifie que l'utilisateur participe à la sortie
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+        return $this->redirectToRoute('app_sortie_index');
+    }
+
 }
