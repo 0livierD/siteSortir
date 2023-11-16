@@ -23,7 +23,7 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('pseudo')
             ->add('telephone')
-            ->add('password', PasswordType::class, ['label' => 'Ancien mot de passe'])
+
             ->add('plainPassword', RepeatedType::class, [
                 'required' => false,
                 'type' => PasswordType::class,
@@ -51,6 +51,7 @@ class UserType extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
             ])
+            ->add('password', PasswordType::class, ['label' => 'Mot de passe actuel'])
         ;
     }
 
