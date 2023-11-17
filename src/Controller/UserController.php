@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -56,7 +58,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository, FileUploader $uploader): Response
     {
         $userBase = $userRepository->find($user->getId());
         $oldPassword = $userBase->getPassword();
@@ -70,6 +72,11 @@ class UserController extends AbstractController
 
             if ($hashes->isPasswordValid($userBase, $form->get('password')->getData()))
             {
+                /** @var UploadedFile $photoFile */
+                $photoFile = $form->get('photoFile')->getData();
+                $photoFileName = $uploader->upload($photoFile, $this->getParameter('user_photos_directory'));
+                $user->setPhoto($photoFileName);
+
                 if ($form->get('plainPassword')->getData()==null)
                 {
                     $entityManager->flush();

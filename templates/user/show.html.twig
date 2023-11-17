@@ -12,7 +12,7 @@
                     <p>{{ user.pseudo }}</p>
                 </div>
                 <div class="col-md-6 mx-auto">
-                    <p>image</p>
+                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="">
                 </div>
             </div>
             <div class="flex" >
