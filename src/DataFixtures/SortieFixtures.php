@@ -55,7 +55,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
         $sortie2 = new Sortie();
         $sortie2->setSite($siteRennes);
-        $sortie2->setOrganisateur($userAlan);
+        $sortie2->setOrganisateur($userSerge);
         $sortie2->setLieu($lieuParcDesLoisirs);
         $sortie2->setInfosSortie('Nous remettons notre titre en jeu, sortez les boules et visez le cochonet !');
         $sortie2->setDateHeureDebut(new \DateTime('+3 day'));
@@ -71,16 +71,16 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
         $sortie3 = new Sortie();
         $sortie3->setSite($siteRennes);
-        $sortie3->setOrganisateur($userPaula);
+        $sortie3->setOrganisateur($userSerge);
         $sortie3->setLieu($lieuGolf);
         $sortie3->setInfosSortie('Pour avoir l\'impression d\'être riche quelques instants');
         $sortie3->setDateHeureDebut(new \DateTime('+3 day'));
         $sortie3->setDateLimiteInscription(new \DateTime('+1 day'));
         $sortie3->setDuree(240);
         $sortie3->setNbInscriptionMax(3);
-        $sortie2->addParticipant($userAlan);
-        $sortie2->addParticipant($userElisabeth);
-        $sortie2->addParticipant($userSerge);
+        $sortie3->addParticipant($userAlan);
+        $sortie3->addParticipant($userElisabeth);
+        $sortie3->addParticipant($userSerge);
         $sortie3->setEtat($etatCloturee);
         $sortie3->setNom('Initiation golf');
         $manager->persist($sortie3);

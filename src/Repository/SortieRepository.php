@@ -72,54 +72,66 @@ class SortieRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('s')
-        ->leftJoin('s.participants','p')
-        ->addSelect('p')
-        ->where('s.dateHeureDebut > :dateLimite')
-        ->setParameter('dateLimite', new \DateTime('-1 month'));
-
+            ->where('s.dateHeureDebut > :dateLimite')
+            ->setParameter('dateLimite', new \DateTime('-1 month'));
 
 
         if (!empty($filtre->getNom())) {
             $qb = $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%'.$filtre->getNom().'%');
+                ->setParameter('nom', '%' . $filtre->getNom() . '%');
         }
 
-        if (!empty($filtre->getSite()) && isInstanceOf(Site::class) ) {
+        if (!empty($filtre->getSite()) && isInstanceOf(Site::class)) {
             $qb = $qb->andWhere('s.site = :idSite')
                 ->setParameter('idSite', $filtre->getSite()->getId());
         }
 
-        if (!empty($filtre->getDateDebut())){
+        if (!empty($filtre->getDateDebut())) {
             $qb = $qb->andWhere('s.dateHeureDebut > :dateDebut')
                 ->setParameter('dateDebut', $filtre->getDateDebut());
         }
 
-        if (!empty($filtre->getDateFin())){
+        if (!empty($filtre->getDateFin())) {
             $qb = $qb->andWhere('s.dateLimiteInscription < :dateFin')
                 ->setParameter('dateFin', $filtre->getDateFin());
         }
 
-        if ($filtre->isSortieOuJeNeParticipePas()){
-            $qb = $qb->andWhere('p.id != :userId')
+
+        if ($filtre->isSortieOuJeParcitipe() && $filtre->isSortieOuJeNeParticipePas()) {
+
+
+            $qb = $qb->orWhere(':userId NOT MEMBER OF s.participants')
+                ->setParameter('userId', $user->getId())
+                ->orWhere(':userId MEMBER OF s.participants')
                 ->setParameter('userId', $user->getId());
+
+
+        } else {
+            if ($filtre->isSortieOuJeNeParticipePas()) {
+                $qb = $qb->andWhere(':userId NOT MEMBER OF s.participants')
+                    ->setParameter('userId', $user->getId());
+            }
+
+            if ($filtre->isSortieOuJeParcitipe()) {
+
+                $qb = $qb->andWhere(':userId MEMBER OF s.participants')
+                    ->setParameter('userId', $user->getId());
+            }
+
         }
 
-        if ($filtre->isSortiePassee()){
+        if ($filtre->isSortiePassee()) {
             $qb = $qb->andWhere('s.dateHeureDebut < :today')
                 ->setParameter('today', new \DateTime('now'));
         }
 
-        if ($filtre->isSortieOuJeParcitipe()){
-            $qb = $qb->andWhere('p.id = :userId')
-                ->setParameter('userId', $user->getId());
-        }
 
-        if ($filtre->isSortieQueJOrganise()){
+        if ($filtre->isSortieQueJOrganise()) {
             $qb = $qb->andWhere('s.organisateur = :userId')
                 ->setParameter('userId', $user->getId());
         }
 
-        $querry= $qb->getQuery();
+        $querry = $qb->getQuery();
         return $querry->execute();
     }
 }

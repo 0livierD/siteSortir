@@ -27,7 +27,7 @@ class EtatFixtures extends Fixture
         $this->addReference('etat-cloturee',$etat3);
 
         $etat4 = new Etat();
-        $etat4->setLibelle('Activité en cours');
+        $etat4->setLibelle('En cours');
         $manager->persist($etat4);
         $this->addReference('etat-en-cours',$etat4);
 

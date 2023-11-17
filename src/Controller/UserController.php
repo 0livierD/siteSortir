@@ -9,7 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -51,16 +56,46 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository): Response
     {
+        $userBase = $userRepository->find($user->getId());
+        $oldPassword = $userBase->getPassword();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+            $userBase->setPassword($oldPassword);
+
+            if ($hashes->isPasswordValid($userBase, $form->get('password')->getData()))
+            {
+                if ($form->get('plainPassword')->getData()==null)
+                {
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+
+                }else
+                {
+                    $encodedPassword = $hashes->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                     );
+
+                   $user->setPassword($encodedPassword);
+
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                }
+            }else
+            {
+                $this->addFlash('erreurMdp','Le mot de passe n\'est pas bon !');
+
+                return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
+            }
         }
 
         return $this->renderForm('user/edit.html.twig', [

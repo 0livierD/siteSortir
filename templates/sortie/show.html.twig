@@ -3,6 +3,24 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
+
+    {#
+    Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
+    #}
+    {% set boutonCardSortie = "S'inscrire"%}
+    {% for participant in sortie.participants %}
+        {% if app.user.id == participant.id %}
+            {% set boutonCardSortie = "Se desister" %}
+        {% endif %}
+    {% endfor %}
+    {% if sortie.organisateur == app.user %}
+        {% set boutonCardSortie = "Annuler sortie" %}
+    {% endif %}
+    {% set nbParticipant = sortie.participants|length %}
+    {% if sortie.nbInscriptionMax == nbParticipant
+        and boutonCardSortie == "S'inscrire" %}
+        {% set boutonCardSortie = "Complet" %}
+    {% endif %}
     <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
     <div class="sortie">
         <div class="infos">
@@ -16,9 +34,21 @@
             <h5>Description et Infos</h5>
             <p>{{ sortie.infosSortie }}</p>
 
+
             <button class="btn btn-primary">Annuler la sortie</button>
 
             <a class="btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
+
+            {% if boutonCardSortie == "S'inscrire" %}
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
+            {% elseif boutonCardSortie == "Se desister" %}
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link" >{{ boutonCardSortie }}</a>
+            {% elseif boutonCardSortie == "Annuler sortie" %}
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
+            {% elseif boutonCardSortie == "Complet" %}
+                <button type="button" class=" btn btn-primary" class="card-link" id="completSortie">{{ boutonCardSortie }}</button>
+            {% endif %}
+
         </div>
         <div class="siteInfo">
             <div>
@@ -38,14 +68,17 @@
 
 
                 {% for participant in sortie.participants %}
-                    <p>{{ participant.nom }}</p>
+                    <p>{{ participant.getFullName }}</p>
                 {% endfor %}
             </div>
 
 
         </div>
     </div>
-    <a class="btn btn-primary mt-4" href="{{ path('app_sortie_index') }}">back to list</a>
+    <div class="bouttonsDetailSortie">
+        <a class="btn btn-primary mt-4" href="{{ path('app_sortie_index') }}">Retour à l'accueil</a>
+    </div>
+
 
 
 {% endblock %}

@@ -10,7 +10,9 @@ use App\Entity\User;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+
 use App\Repository\LieuRepository;
+
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
@@ -31,7 +33,6 @@ class SortieController extends AbstractController
     {
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
-
 
 
         $filtre = new Filtre();
@@ -142,9 +143,10 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_sortie_delete')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+        dd('Fait lors du changement du bouton sur le homepage, enlever le dd var autoriser le bouton à prendre cette route');
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($sortie);
             $entityManager->flush();
@@ -178,7 +180,7 @@ class SortieController extends AbstractController
     #[Route('/miseAjourStatut/{id}', name: 'app_mise_a_jour_statut')]
     public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $id=$sortie->getId();
+        $id = $sortie->getId();
 
         // Récupérez la sortie depuis la base de données
         $sortie = $entityManager->getRepository(Sortie::class)->find($id);
@@ -195,6 +197,64 @@ class SortieController extends AbstractController
         $entityManager->flush();
 
         return $this->json(['success' => 'Statut mis à jour avec succès.']);
+    }
+
+    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    {
+        // vérifie que l'utilisateur ne soit pas déjà connecté
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+        $placesRestantes = $sortie->getNbInscriptionMax() - count($sortie->getParticipants());
+        if (!$isInscrit && $placesRestantes > 0) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->addParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+
+            if (--$placesRestantes == 0){
+                $etatComplet = $etatRepository->findOneBy(['libelle'=>'Clôturée']);
+                $sortie->setEtat($etatComplet);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
+
+        }
+
+        return $this->redirectToRoute('app_sortie_index');
+    }
+
+    #[Route('//se-desister/{id}', name: 'app_sortie_desistement')]
+    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        // vérifie que l'utilisateur participe à la sortie
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+        return $this->redirectToRoute('app_sortie_index');
+
     }
 
 }
