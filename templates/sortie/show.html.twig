@@ -34,6 +34,11 @@
             <h5>Description et Infos</h5>
             <p>{{ sortie.infosSortie }}</p>
 
+
+            <button class="btn btn-primary">Annuler la sortie</button>
+
+            <a class="btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
+
             {% if boutonCardSortie == "S'inscrire" %}
                 <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Se desister" %}
@@ -41,8 +46,9 @@
             {% elseif boutonCardSortie == "Annuler sortie" %}
                 <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Complet" %}
-                <button type="button" class=" btn btn-primary" href="" class="card-link" id="completSortie">{{ boutonCardSortie }}</button>
+                <button type="button" class=" btn btn-primary" class="card-link" id="completSortie">{{ boutonCardSortie }}</button>
             {% endif %}
+
         </div>
         <div class="siteInfo">
             <div>
