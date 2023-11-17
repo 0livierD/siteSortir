@@ -61,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isActif = true;
 
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
+
     public function __construct()
     {
         $this->sortiesOrganises = new ArrayCollection();
@@ -303,5 +306,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFullName():string
     {
         return $this->prenom.' '.strtoupper($this->nom);
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
     }
 }
