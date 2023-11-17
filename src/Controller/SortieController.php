@@ -8,21 +8,22 @@ use App\Entity\User;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
-use App\Repository\SiteRepository;
+
 use App\Repository\SortieRepository;
+use App\WorkLogic\EtatSortie;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\Exception;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function Sodium\add;
+
 
 
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, Request $request): Response
+    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie, EtatRepository $etatRepository): Response
     {
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
@@ -49,7 +50,14 @@ class SortieController extends AbstractController
         }
 
 
+
+
         $sorties = $sortieRepository->findAllUnder1Month();
+
+        foreach ($sorties as $sortie){
+
+            //$sortie = $etatSortie->miseAJourEtatDeSortie($sortie);
+        }
 
 
         return $this->render('sortie/index.html.twig', [
