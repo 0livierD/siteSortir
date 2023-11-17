@@ -29,8 +29,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user1->setPassword($this->hasher->hashPassword( $user1,'123'));
         $user1->setTelephone('0697580026');
         $user1->setSite($siteRennes);
+        $user1->setPhoto('photo_de_base.webp');
         $manager->persist($user1);
         $this->addReference('user-alan',$user1);
+
 
         $user2 = new User();
         $user2->setNom('Raves');
@@ -39,6 +41,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user2->setPassword($this->hasher->hashPassword($user2 ,'123'));
         $user2->setTelephone('0736845517');
         $user2->setSite($siteNantes);
+        $user2->setPhoto('photo_de_base.webp');
         $manager->persist($user2);
         $this->addReference('user-elisabeth',$user2);
 
@@ -51,6 +54,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user3->setRoles(['ROLE_ADMIN']);
         $user3->setSite($siteRennes);
         $user3->setIsAdministrateur(true);
+        $user3->setPhoto('photo_de_base.webp');
         $manager->persist($user3);
         $this->addReference('user-admin',$user3);
 
@@ -61,6 +65,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user4->setPassword($this->hasher->hashPassword($user4,'123'));
         $user4->setTelephone('0684628166');
         $user4->setSite($siteRennes);
+        $user4->setPhoto('photo_de_base.webp');
         $manager->persist($user4);
         $this->addReference('user-paula',$user4);
 
@@ -71,6 +76,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user5->setPassword($this->hasher->hashPassword( $user5,'123'));
         $user5->setTelephone('0697815562');
         $user5->setSite($siteRennes);
+        $user5->setPhoto('photo_de_base.webp');
         $manager->persist($user5);
         $this->addReference('user-serge',$user5);
 
@@ -82,6 +88,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user6->setTelephone('0697815562');
         $user6->setSite($siteRennes);
         $user6->setIsActif(false);
+        $user6->setPhoto('photo_de_base.webp');
         $manager->persist($user6);
         $this->addReference('user-non-visible',$user6);
 
