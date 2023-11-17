@@ -77,7 +77,8 @@
                 {% set boutonCardSortie = "Annuler sortie" %}
             {% endif %}
             {% set nbParticipant = sortie.participants|length %}
-            {% if sortie.nbInscriptionMax == nbParticipant and boutonCardSortie == "S'inscrire" %}
+            {% if sortie.nbInscriptionMax == nbParticipant
+                and boutonCardSortie == "S'inscrire" %}
                 {% set boutonCardSortie = "Complet" %}
             {% endif %}
 
