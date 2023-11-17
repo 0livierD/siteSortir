@@ -26,20 +26,42 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     {
     }
 
-    public function authenticate(Request $request): Passport
+    public function authenticate(Request $request)
     {
-        $email = $request->request->get('email', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
 
-        return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
-                new RememberMeBadge(),
-            ]
-        );
+     //   if ($request->request->get('email', ''))
+      //  {
+            $email = $request->request->get('email', '');
+
+            $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+            return new Passport(
+                new UserBadge($email),
+                new PasswordCredentials($request->request->get('password', '')),
+                [
+                    new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                    new RememberMeBadge(),
+                ]
+            );
+     //  }
+
+    /*    if ($request->request->get('pseudo', ''))
+        {
+            $pseudo = $request->request->get('pseudo', '');
+
+            $request->getSession()->set(Security::LAST_USERNAME, $pseudo);
+
+            return new Passport(
+                new UserBadge($pseudo),
+                new PasswordCredentials($request->request->get('password', '')),
+                [
+                    new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                    new RememberMeBadge(),
+                ]
+            );
+        }*/
+
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -47,7 +69,6 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
 
         return new RedirectResponse($this->urlGenerator->generate('app_sortie_index'));
 
