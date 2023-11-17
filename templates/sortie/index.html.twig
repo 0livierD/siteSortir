@@ -19,7 +19,7 @@
                         {{ form_row(filtreForm.site) }}
                         {{ form_row(filtreForm.nom) }}
                         <div class="d-flex" id="datesFiltre">
-                            <div class="col-10 d-flex justify-content-between">
+                            <div class="col-10">
                             <div class="col-md-5">
                                 <label for="{{ field_label(filtreForm.dateDebut) }}">Date début<input type="date"
                                     id="{{ field_name(filtreForm.dateDebut) }}"
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 d-flex flex-column justify-content-around" id="filtreDroit">
+                    <div class="col-md-4" id="filtreDroit">
                         {{ form_row(filtreForm.sortieQueJOrganise) }}
                         {{ form_row(filtreForm.sortieOuJeParcitipe) }}
                         {{ form_row(filtreForm.sortieOuJeNeParticipePas) }}

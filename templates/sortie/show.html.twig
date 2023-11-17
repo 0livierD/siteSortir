@@ -7,7 +7,7 @@
     {#
     Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
     #}
-    {% set boutonCardSortie = "S'inscrire"%}
+    {% set boutonCardSortie = "S'inscrire" %}
     {% for participant in sortie.participants %}
         {% if app.user.id == participant.id %}
             {% set boutonCardSortie = "Se desister" %}
@@ -22,55 +22,64 @@
         {% set boutonCardSortie = "Complet" %}
     {% endif %}
     <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
+
     <div class="sortie">
-        <div class="infos">
-            <div class="date">
-                <h5>Début : {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</h5>
-                <h5>Fin : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
+        <div class="top">
+            <div class="infos">
+                <div class="date">
+                    <h5>Début : {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</h5>
+                    <h5>Fin
+                        : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
+                </div>
+                <p> Durée : {{ sortie.duree }} minutes</p>
+                <p>Nombre d'inscription max : {{ sortie.nbInscriptionMax }}</p>
+
+                <h5>Description et Infos</h5>
+                <p>{{ sortie.infosSortie }}</p>
+
             </div>
-            <p> Durée : {{ sortie.duree }} minutes</p>
-            <p>Nombre d'inscription max : {{ sortie.nbInscriptionMax }}</p>
+            <div class="siteInfo">
+                <div>
+                    <h5>Site de rattachement : </h5>
+                    <p>{{ sortie.site.nom }}</p>
+                </div>
+                <div>
+                    <h5>Ville : </h5>
+                    <p>{{ sortie.lieu.ville.nom }}</p>
+                </div>
+                <div>
+                    <h5>Code Postal : </h5>
+                    <p>{{ sortie.lieu.ville.codePostal }}</p>
+                </div>
+                <div class="participants">
+                    <h5>Liste des inscrits : </h5>
 
-            <h5>Description et Infos</h5>
-            <p>{{ sortie.infosSortie }}</p>
+
+                    {% for participant in sortie.participants %}
+                        <p>{{ participant.getFullName }}</p>
+                    {% endfor %}
+                </div>
 
 
+            </div>
+        </div>
+        <div class="boutons">
 
-            <a class="btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
+            <a class="btn btn-primary" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
 
             {% if boutonCardSortie == "S'inscrire" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
+                   class="card-link" id="inscription">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Se desister" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link" id="seDesister" >{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}"
+                   class="card-link" id="seDesister">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Annuler sortie" %}
-                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}"
+                   class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Complet" %}
-                <button type="button" class=" btn btn-primary" class="card-link" id="completSortie">{{ boutonCardSortie }}</button>
+                <button type="button" class=" btn btn-primary" class="card-link"
+                        id="completSortie">{{ boutonCardSortie }}</button>
             {% endif %}
-
-        </div>
-        <div class="siteInfo">
-            <div>
-                <h5>Site de rattachement : </h5>
-                <p>{{ sortie.site.nom }}</p>
-            </div>
-            <div>
-                <h5>Ville : </h5>
-                <p>{{ sortie.lieu.ville.nom }}</p>
-            </div>
-            <div>
-                <h5>Code Postal : </h5>
-                <p>{{ sortie.lieu.ville.codePostal }}</p>
-            </div>
-            <div class="participants">
-                <h5>Liste des inscrits : </h5>
-
-
-                {% for participant in sortie.participants %}
-                    <p>{{ participant.getFullName }}</p>
-                {% endfor %}
-            </div>
-
 
         </div>
     </div>
