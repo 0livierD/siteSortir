@@ -25,6 +25,7 @@ class UserType extends AbstractType
             ->add('pseudo')
             ->add('telephone')
             ->add('photoFile', FileType::class, [
+                'label'=> 'Photo de profil',
                 'mapped' => false
             ])
             ->add('plainPassword', RepeatedType::class, [
