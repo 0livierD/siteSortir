@@ -39,20 +39,23 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $lieuParcDesLoisirs = $this->getReference('lieu-parc-des-loisirs');
 
 
+        //sortie créée mais non publiée
         $sortie1 = new Sortie();
         $sortie1->setSite($siteRennes);
         $sortie1->setOrganisateur($userAlan);
         $sortie1->setLieu($lieuParcDesLoisirs);
         $sortie1->setInfosSortie('Apéro pour fêter le diplôme');
-        $sortie1->setDateHeureDebut(new \DateTime('08-03-2024 19:00:00'));
-        $sortie1->setDateLimiteInscription(new \DateTime('05-03-2024 19:00:00'));
+        $sortie1->setDateHeureDebut(new \DateTime('+10 day'));
+        $sortie1->setDateLimiteInscription(new \DateTime('+3 day'));
         $sortie1->setDuree(300);
         $sortie1->setNbInscriptionMax(17);
         $sortie1->addParticipant($userAlan);
         $sortie1->setEtat($etatCreee);
         $sortie1->setNom('Apéro de la fête');
+        $sortie1->setIsPublished(false);
         $manager->persist($sortie1);
 
+        //sortie ouverte et complete
         $sortie2 = new Sortie();
         $sortie2->setSite($siteRennes);
         $sortie2->setOrganisateur($userSerge);
@@ -61,21 +64,23 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie2->setDateHeureDebut(new \DateTime('+3 day'));
         $sortie2->setDateLimiteInscription(new \DateTime('+1 day'));
         $sortie2->setDuree(90);
-        $sortie2->setNbInscriptionMax(4);
+        $sortie2->setNbInscriptionMax(3);
         $sortie2->setEtat($etatOuverte);
         $sortie2->addParticipant($userAlan);
         $sortie2->addParticipant($userElisabeth);
         $sortie2->addParticipant($userSerge);
         $sortie2->setNom('Pétanque');
+        $sortie2->setIsPublished(true);
         $manager->persist($sortie2);
 
+        //sortie cloturée
         $sortie3 = new Sortie();
         $sortie3->setSite($siteRennes);
         $sortie3->setOrganisateur($userSerge);
         $sortie3->setLieu($lieuGolf);
         $sortie3->setInfosSortie('Pour avoir l\'impression d\'être riche quelques instants');
         $sortie3->setDateHeureDebut(new \DateTime('+3 day'));
-        $sortie3->setDateLimiteInscription(new \DateTime('+1 day'));
+        $sortie3->setDateLimiteInscription(new \DateTime('-1 day'));
         $sortie3->setDuree(240);
         $sortie3->setNbInscriptionMax(3);
         $sortie3->addParticipant($userAlan);
@@ -83,8 +88,10 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie3->addParticipant($userSerge);
         $sortie3->setEtat($etatCloturee);
         $sortie3->setNom('Initiation golf');
+        $sortie3->setIsPublished(true);
         $manager->persist($sortie3);
 
+        //sortie ouverte
         $sortie4 = new Sortie();
         $sortie4->setSite($siteRennes);
         $sortie4->setOrganisateur($userSerge);
@@ -97,13 +104,15 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie4->setEtat($etatOuverte);
         $sortie4->addParticipant($userSerge);
         $sortie4->setNom('Repas en tête à tête');
+        $sortie4->setIsPublished(true);
         $manager->persist($sortie4);
 
+        //sortie annulée
         $sortie5 = new Sortie();
         $sortie5->setSite($siteRennes);
         $sortie5->setOrganisateur($userAlan);
         $sortie5->setLieu($lieuBlizz);
-        $sortie5->setInfosSortie('Annulée - pas assez froid on va prévoir une piscine plutôt');
+        $sortie5->setInfosSortie('Sortie annulée - pas assez froid on va prévoir une piscine plutôt');
         $sortie5->setDateHeureDebut(new \DateTime('+7 day'));
         $sortie5->setDateLimiteInscription(new \DateTime('+1 day'));
         $sortie5->setDuree(300);
@@ -112,8 +121,10 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie5->addParticipant($userElisabeth);
         $sortie5->setEtat($etatAnnulee);
         $sortie5->setNom('Patinoire');
+        $sortie5->setIsPublished(true);
         $manager->persist($sortie5);
 
+        //sortie passée
         $sortie6 = new Sortie();
         $sortie6->setSite($siteRennes);
         $sortie6->setOrganisateur($userAlan);
@@ -128,8 +139,10 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie6->addParticipant($userSerge);
         $sortie6->addParticipant($userElisabeth);
         $sortie6->setNom('Anniversaire Alan');
+        $sortie6->setIsPublished(true);
         $manager->persist($sortie6);
 
+        //sortie non visible
         $sortie7 = new Sortie();
         $sortie7->setSite($siteRennes);
         $sortie7->setOrganisateur($userAlan);
@@ -144,20 +157,23 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie7->addParticipant($userSerge);
         $sortie7->addParticipant($userElisabeth);
         $sortie7->setNom('Match France - All Black');
+        $sortie7->setIsPublished(true);
         $manager->persist($sortie7);
 
+        //sortie en cours
         $sortie8 = new Sortie();
         $sortie8->setSite($siteNantes);
         $sortie8->setOrganisateur($userPaula);
         $sortie8->setLieu($lieuGolf);
         $sortie8->setInfosSortie('Pour ne pas rater la plus belle region du monde');
-        $sortie8->setDateHeureDebut(new \DateTime('27-11-2023 14:00:00'));
-        $sortie8->setDateLimiteInscription(new \DateTime('25-11-2023 19:00:00'));
-        $sortie8->setDuree(200);
+        $sortie8->setDateHeureDebut(new \DateTime('now'));
+        $sortie8->setDateLimiteInscription(new \DateTime('-9 days'));
+        $sortie8->setDuree(5);
         $sortie8->addParticipant($userPaula);
         $sortie8->setNbInscriptionMax(1);
         $sortie8->setEtat($etatEnCours);
         $sortie8->setNom('Golf en Bretagne');
+        $sortie8->setIsPublished(true);
         $manager->persist($sortie8);
 
 

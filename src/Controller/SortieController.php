@@ -35,8 +35,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie, EtatRepository $etatRepository): Response
+    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie, EtatRepository $etatRepository,EntityManagerInterface $entityManager): Response
     {
+
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
 
@@ -64,12 +65,11 @@ class SortieController extends AbstractController
 
 
 
-
         $sorties = $sortieRepository->findAllUnder1Month();
 
         foreach ($sorties as $sortie){
 
-            //$sortie = $etatSortie->miseAJourEtatDeSortie($sortie);
+           $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
         }
 
 
@@ -101,9 +101,6 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-          //  $lieu = $lieuRepository->find($form->get('lieu')->getData());
-                       // dump($lieu);
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
