@@ -58,22 +58,17 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository): Response
     {
-      //  $form= $this->createFormBuilder($user, ['validation_groups' => ['MotDePasse'],])->add();
-
-
         $userBase = $userRepository->find($user->getId());
         $oldPassword = $userBase->getPassword();
-
-
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        //dd($userBase->getPassword());
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($oldPassword == $form->get('password')->getData())
+            $userBase->setPassword($oldPassword);
+
+            if ($hashes->isPasswordValid($userBase, $form->get('password')->getData()))
             {
                 if ($form->get('plainPassword')->getData()==null)
                 {
@@ -88,20 +83,19 @@ class UserController extends AbstractController
                         $form->get('plainPassword')->getData()
                      );
 
-
-
                    $user->setPassword($encodedPassword);
-
-
-
 
                     $entityManager->persist($user);
                     $entityManager->flush();
 
                     return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
                 }
-            }
+            }else
+            {
+                $this->addFlash('erreurMdp','Le mot de passe n\'est pas bon !');
 
+                return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
+            }
         }
 
         return $this->renderForm('user/edit.html.twig', [
