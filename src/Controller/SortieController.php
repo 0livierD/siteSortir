@@ -67,7 +67,11 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository ,Request $request, EntityManagerInterface $entityManager): Response
+    public function new(LieuRepository $lieuRepository,
+                        EtatRepository $etatRepository,
+                        VilleRepository $villeRepository ,
+                        Request $request,
+                        EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
         $user = $this->getUser();
@@ -84,6 +88,8 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+          //  $lieu = $lieuRepository->find($form->get('lieu')->getData());
+                       // dump($lieu);
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
@@ -97,7 +103,7 @@ class SortieController extends AbstractController
             'form' => $form,
             'user' => $user,
             'villes'=>$villes,
-            'lieux'=>$lieux
+            'lieux'=>$lieux,
 
         ]);
 
@@ -113,10 +119,14 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository,Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
+
+        $lieux = $lieuRepository->findAll();
+        $villes = $villeRepository->findAll();
+        $etat = $etatRepository->findOneBy(['libelle' => 'Créée']);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -127,6 +137,8 @@ class SortieController extends AbstractController
         return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'villes'=>$villes,
+            'lieux'=>$lieux,
         ]);
     }
 
@@ -144,7 +156,7 @@ class SortieController extends AbstractController
     public function getLieuxByVille(int $id, LieuRepository $lieuRepository): JsonResponse
     {
         // Utilisez directement l'annotation de type pour obtenir l'id
-        dump($id);
+
 
         // Utilisez le paramètre typé plutôt que get()
         $lieux = $lieuRepository->findByVille($id);
@@ -161,6 +173,28 @@ class SortieController extends AbstractController
 
 
         return $this->json($lieuxArray);
+    }
+
+    #[Route('/miseAjourStatut/{id}', name: 'app_mise_a_jour_statut')]
+    public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $id=$sortie->getId();
+
+        // Récupérez la sortie depuis la base de données
+        $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+
+        if (!$sortie) {
+            return $this->json(['error' => 'Sortie non trouvée.'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Mettez à jour le statut de la sortie (vous devrez adapter cette partie en fonction de votre logique)
+        $nouveauStatut = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+        $sortie->setEtat($nouveauStatut);
+
+        // Enregistrez les modifications en base de données
+        $entityManager->flush();
+
+        return $this->json(['success' => 'Statut mis à jour avec succès.']);
     }
 
 }

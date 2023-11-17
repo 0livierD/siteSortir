@@ -17,6 +17,8 @@
             <p>{{ sortie.infosSortie }}</p>
 
             <button class="btn btn-primary">Annuler la sortie</button>
+
+            <a class="btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
         </div>
         <div class="siteInfo">
             <div>
