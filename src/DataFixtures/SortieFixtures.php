@@ -71,7 +71,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
         $sortie3 = new Sortie();
         $sortie3->setSite($siteRennes);
-        $sortie3->setOrganisateur($userPaula);
+        $sortie3->setOrganisateur($userSerge);
         $sortie3->setLieu($lieuGolf);
         $sortie3->setInfosSortie('Pour avoir l\'impression d\'être riche quelques instants');
         $sortie3->setDateHeureDebut(new \DateTime('+3 day'));

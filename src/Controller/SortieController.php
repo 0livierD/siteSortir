@@ -10,7 +10,9 @@ use App\Entity\User;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+
 use App\Repository\LieuRepository;
+
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
@@ -66,7 +68,11 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository ,Request $request, EntityManagerInterface $entityManager): Response
+    public function new(LieuRepository $lieuRepository,
+                        EtatRepository $etatRepository,
+                        VilleRepository $villeRepository ,
+                        Request $request,
+                        EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
         $user = $this->getUser();
@@ -83,6 +89,8 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+          //  $lieu = $lieuRepository->find($form->get('lieu')->getData());
+                       // dump($lieu);
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
@@ -96,7 +104,7 @@ class SortieController extends AbstractController
             'form' => $form,
             'user' => $user,
             'villes'=>$villes,
-            'lieux'=>$lieux
+            'lieux'=>$lieux,
 
         ]);
 
@@ -112,10 +120,14 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository,Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
+
+        $lieux = $lieuRepository->findAll();
+        $villes = $villeRepository->findAll();
+        $etat = $etatRepository->findOneBy(['libelle' => 'Créée']);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -126,12 +138,15 @@ class SortieController extends AbstractController
         return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'villes'=>$villes,
+            'lieux'=>$lieux,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_sortie_delete')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+        dd('Fait lors du changement du bouton sur le homepage, enlever le dd var autoriser le bouton à prendre cette route');
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($sortie);
             $entityManager->flush();
@@ -143,7 +158,7 @@ class SortieController extends AbstractController
     public function getLieuxByVille(int $id, LieuRepository $lieuRepository): JsonResponse
     {
         // Utilisez directement l'annotation de type pour obtenir l'id
-        dump($id);
+
 
         // Utilisez le paramètre typé plutôt que get()
         $lieux = $lieuRepository->findByVille($id);
@@ -160,6 +175,86 @@ class SortieController extends AbstractController
 
 
         return $this->json($lieuxArray);
+    }
+
+    #[Route('/miseAjourStatut/{id}', name: 'app_mise_a_jour_statut')]
+    public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $id = $sortie->getId();
+
+        // Récupérez la sortie depuis la base de données
+        $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+
+        if (!$sortie) {
+            return $this->json(['error' => 'Sortie non trouvée.'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Mettez à jour le statut de la sortie (vous devrez adapter cette partie en fonction de votre logique)
+        $nouveauStatut = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+        $sortie->setEtat($nouveauStatut);
+
+        // Enregistrez les modifications en base de données
+        $entityManager->flush();
+
+        return $this->json(['success' => 'Statut mis à jour avec succès.']);
+    }
+
+    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    {
+        // vérifie que l'utilisateur ne soit pas déjà connecté
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+        $placesRestantes = $sortie->getNbInscriptionMax() - count($sortie->getParticipants());
+        if (!$isInscrit && $placesRestantes > 0) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->addParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+
+            if (--$placesRestantes == 0){
+                $etatComplet = $etatRepository->findOneBy(['libelle'=>'Clôturée']);
+                $sortie->setEtat($etatComplet);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
+
+        }
+
+        return $this->redirectToRoute('app_sortie_index');
+    }
+
+    #[Route('//se-desister/{id}', name: 'app_sortie_desistement')]
+    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        // vérifie que l'utilisateur participe à la sortie
+        $isInscrit = false;
+        foreach ($sortie->getParticipants() as $participant)
+            if ($participant === $this->getUser())
+                $isInscrit = true;
+
+
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit) {
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+        return $this->redirectToRoute('app_sortie_index');
+
     }
 
 }

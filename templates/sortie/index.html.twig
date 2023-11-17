@@ -3,6 +3,9 @@
 {% block title %}Sorties{% endblock %}
 
 {% block body %}
+
+
+
     <h1>Sortir avec Eni</h1>
 
     <h2 class="h2Accueil">Filtres</h2>
@@ -55,16 +58,35 @@
     </div>
 
 
-<<<<<<< HEAD
 
     <h2 class="h2Accueil">Liste des sorties</h2>
-=======
+
+
     <h2>Liste des sorties</h2>
     <p><a class="btn btn-primary" href="{{ path('app_sortie_new') }}">Créer une nouvelle sortie</a></p>
->>>>>>> yval
+
 
     <div class="listSortie">
+
         {% for sortie in sorties %}
+{#
+            Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
+#}
+            {% set boutonCardSortie = "S'inscrire"%}
+            {% for participant in sortie.participants %}
+                {% if app.user.id == participant.id %}
+                    {% set boutonCardSortie = "Se desister" %}
+                {% endif %}
+            {% endfor %}
+            {% if sortie.organisateur == app.user %}
+                {% set boutonCardSortie = "Annuler sortie" %}
+            {% endif %}
+            {% set nbParticipant = sortie.participants|length %}
+            {% if sortie.nbInscriptionMax == nbParticipant
+                and boutonCardSortie == "S'inscrire" %}
+                {% set boutonCardSortie = "Complet" %}
+            {% endif %}
+
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ sortie.nom }}</h4>
@@ -79,13 +101,19 @@
                             : {{ sortie.etat.libelle }}</h6>
                     </div>
                     <div class="date">
-
-
                         <h6>Organisateur : <a href="{{ path('app_user_show',{'id':sortie.organisateur.id}) }}" class="card-link">{{ sortie.organisateur.getFullName }}</a></h6>
                     </div>
                     <div class="date d-flex justify-content-between">
                         <a class="mt-3 " href="{{ path('app_sortie_show', {'id':sortie.getId()}) }}">Plus d'infos</a>
-                        <a class=" btn btn-primary" href="#" class="card-link">S'inscrire</a>
+                        {% if boutonCardSortie == "S'inscrire" %}
+                            <a class=" btn btn-primary" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
+                        {% elseif boutonCardSortie == "Se desister" %}
+                            <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link" >{{ boutonCardSortie }}</a>
+                        {% elseif boutonCardSortie == "Annuler sortie" %}
+                            <a class=" btn btn-primary" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
+                        {% elseif boutonCardSortie == "Complet" %}
+                            <button type="button" class=" btn btn-primary" href="" class="card-link"  id="completSortie">{{ boutonCardSortie }}</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>

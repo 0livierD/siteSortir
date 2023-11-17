@@ -6,6 +6,8 @@
     <h1>Edit Sortie</h1>
 
     {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
+    <a class=" btn btn-primary m-3" id="btn-publier" href="{{ path('app_mise_a_jour_statut', {'id': sortie.id} )}}"> Publier</a>
+
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 

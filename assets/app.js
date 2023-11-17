@@ -10,7 +10,7 @@ import './styles/app.css';
 
 document.addEventListener('DOMContentLoaded', function() {
     var selectVille = document.getElementById('select-ville');
-    var selectLieu = document.getElementById('select-lieu');
+    var selectLieu = document.getElementById('select_lieu');
 
     selectVille.addEventListener('change', function() {
         var selectedVilleId = this.value;
@@ -34,6 +34,27 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des lieux:', error);
+            });
+    });
+    document.getElementById('btn-publier').addEventListener('click', function() {
+        var form = document.querySelector('form');
+        var formData = new FormData(form);
+
+        // Effectuez une requête AJAX pour mettre à jour le statut
+        fetch('/miseAjourStatut', {
+            method: 'POST',
+            body: formData,
+        })
+    .then(response => {
+            if (response.ok) {
+                console.log('Statut mis à jour avec succès');
+                // Ajoutez ici tout autre traitement nécessaire après la mise à jour du statut
+            } else {
+                console.error('Erreur lors de la mise à jour du statut');
+            }
+        })
+            .catch(error => {
+                console.error('Erreur lors de la requête AJAX', error);
             });
     });
 });
