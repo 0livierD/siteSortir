@@ -6,7 +6,8 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-.container{
+
+.container {
     color: black;
     max-width: 90% !important;
     padding-top: 50px;
@@ -19,10 +20,11 @@ body {
     background-color: lightslategrey;
 
 }
-.btn-primary{
+
+.btn-primary {
     border: 1px solid #00407A !important;
     background-color: white !important;
-    color: #00407A!important;
+    color: #00407A !important;
     border-radius: 30em;
     font-size: 15px;
     font-family: inherit;
@@ -30,6 +32,7 @@ body {
     overflow: hidden;
     z-index: 1;
 }
+
 .btn-primary::before {
 
     content: '';
@@ -39,41 +42,47 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    background-image: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(0,64,122,1) 62%);
+    background-image: linear-gradient(40deg, rgba(2, 0, 36, 1) 0%, rgba(0, 64, 122, 1) 62%);
     transition: .5s ease-in;
     display: block;
     z-index: -1;
 }
-.btn-primary:hover{
-    color: white!important;
+
+.btn-primary:hover {
+    color: white !important;
 
 }
+
 .btn-primary:hover::before {
     width: 25em;
 }
-.btn{
+
+.btn {
     border-radius: 15px;
 }
+
 footer {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80px;
 }
 
-.titre{
+.titre {
 
     text-align: center;
     color: white;
 }
 
-.date{
+.date {
     display: flex;
     gap: 20px;
     align-items: center;
     width: 100%;
 }
-.sortie{
+
+.sortie {
     border: 2px solid #00407A;
     padding: 40px;
     border-radius: 20px;
@@ -82,9 +91,24 @@ footer {
     display: flex;
     gap: 100px;
     justify-content: center;
-    width: 100%;
+    width: 60%;
+    flex-direction: column;
+
 }
-.profil{
+
+.top {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.boutons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.profil {
     border: 2px solid #00407A;
     padding: 40px;
     border-radius: 20px;
@@ -112,66 +136,69 @@ strong::before {
     z-index: -1;
     transform: rotate(2deg);
 }
-.participants{
+
+.participants {
     padding: 20px;
     border: 2px solid #00407A;
     border-radius: 20px;
 }
-.infos{
+
+.infos {
 
 }
-.listSortie{
+
+.listSortie {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
 }
 
-.card{
-    border: 2px solid #00407A!important;
+.card {
+    border: 2px solid #00407A !important;
     border-radius: 20px;
-    min-height: 20vh;
+    min-height: 25vh;
     max-width: 30vw;
     min-width: 30vw;
     box-shadow: #00407A 4px 4px;
 }
-.card-body{
+
+.card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: flex-start;
 }
 
-.flexEnColonne{
+.flexEnColonne {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.flex{
+.flex {
     display: flex;
 }
 
-form{
+form {
     width: 60%;
 
 }
 
-.marginLeft40{
+.marginLeft40 {
     margin-left: 40px;
 }
 
-.marginTop40{
+.marginTop40 {
     margin-top: 40px;
 }
 
-.marginTop20{
+.marginTop20 {
     margin-top: 20px;
 }
 
 
-
-#seDesister{
+#seDesister {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -182,7 +209,8 @@ form{
     overflow: hidden;
     z-index: 1;
 }
-#seDesister::before{
+
+#seDesister::before {
 
     content: '';
     width: 0;
@@ -191,20 +219,22 @@ form{
     position: absolute;
     top: 0;
     left: 0;
-    background-image: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(0,64,122,1) 62%);
+    background-image: linear-gradient(40deg, rgba(2, 0, 36, 1) 0%, rgba(0, 64, 122, 1) 62%);
     transition: .5s ease-in;
     display: block;
     z-index: -1;
 }
-#seDesister:hover{
-    color: white!important;
+
+#seDesister:hover {
+    color: white !important;
 
 }
+
 #seDesister:hover::before {
     width: 25em;
 }
 
-#inscription{
+#inscription {
     border: 1px solid #00407A !important;
     background-color: #00407A !important;
     color: white !important;
@@ -215,7 +245,8 @@ form{
     overflow: hidden;
     z-index: 1;
 }
-#inscription::before{
+
+#inscription::before {
 
     content: '';
     width: 0;
@@ -229,16 +260,18 @@ form{
     display: block;
     z-index: -1;
 }
-#inscription:hover{
-    color: #00407A!important;
+
+#inscription:hover {
+    color: #00407A !important;
 
 }
+
 #inscription:hover::before {
     width: 25em;
 }
 
 
-#annulerSortie{
+#annulerSortie {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -249,7 +282,8 @@ form{
     overflow: hidden;
     z-index: 1;
 }
-#annulerSortie::before{
+
+#annulerSortie::before {
 
     content: '';
     width: 0;
@@ -263,16 +297,18 @@ form{
     display: block;
     z-index: -1;
 }
-#annulerSortie:hover{
-    color: white!important;
+
+#annulerSortie:hover {
+    color: white !important;
     border: 1px solid #A63535FF !important;
 
 }
+
 #annulerSortie:hover::before {
     width: 25em;
 }
 
-#completSortie{
+#completSortie {
     border: 1px solid #6d6b6b !important;
     background-color: white !important;
     color: #6d6b6b !important;
@@ -283,7 +319,8 @@ form{
     overflow: hidden;
     z-index: 1;
 }
-#completSortie::before{
+
+#completSortie::before {
 
     content: '';
     width: 0;
@@ -297,66 +334,154 @@ form{
     display: block;
     z-index: -1;
 }
-#completSortie:hover{
-    color: white!important;
+
+#completSortie:hover {
+    color: white !important;
 
 }
+
 #completSortie:hover::before {
     width: 25em;
 }
 
-.h2Accueil{
+.h2Accueil {
     align-self: baseline;
 }
 
-.pageNavigation{
+.pageNavigation {
     display: flex;
     min-width: 100%;
     gap: 1rem;
 }
 
-.creerSortie{
+.creerSortie {
     flex: 1;
 }
-.pageNavigation>.filtre{
+
+.pageNavigation > .filtre {
     display: flex;
     flex: 1;
 }
 
-.filtre>.card{
+.filtre > .card {
     min-width: 100%;
 }
 
-.filtreForm{
+.filtreForm {
     display: flex;
+    flex-direction: row;
     min-width: 100%;
+
 }
 
-.filtreForm>.col-md-8>.mb-3{
+.filtreForm > .col-md-8 > .mb-3 {
     display: flex;
     flex-direction: column;
 }
 
-.filtreForm>.col-md-8>.mb-3>.col-form-label{
+.filtreForm > .col-md-8 > .mb-3 > .col-form-label {
     min-width: 100%;
 }
 
-#filtreDroit{
+#filtreDroit {
     margin-top: 5dvh;
 }
 
-#datesFiltre{
+#datesFiltre {
 
     display: flex;
     justify-content: space-between;
 
 }
-#datesFiltre>.col-10 {
+
+#datesFiltre > .col-10 {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-.creerSortie{
+.creerSortie {
     display: flex;
     justify-content: center;
 }
+
+/* -------------- Ne rien faire Apres cette ligne*/
+/* ---------- MEDIA QUERIES */
+/*
+ */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 400px) and (max-width: 890px)     {
+
+
+    .pageNavigation {
+        display: flex;
+        flex-direction: column;
+        min-width: 100%;
+        gap: 1rem;
+
+    }
+    .filtre > .card {
+        min-width: 100%!important;
+    }
+
+    .listSortie {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        min-width: 90%;
+    }
+
+    .card {
+        border-radius: 20px;
+        min-width: 80% !important;
+        box-shadow: #00407A 4px 4px;
+    }
+
+    .filtre {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .top {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+    .filtreForm {
+        display: flex;
+        flex-direction: column;
+        min-width: 100%;
+    }
+    #datesFiltre > .col-10 {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+    #datesFiltre > .col-10 > .col-md-5{
+        margin-top: 5px;
+    }
+    .sortie {
+        border: 2px solid #00407A;
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: #00407A 4px 4px;
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+
+    }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
