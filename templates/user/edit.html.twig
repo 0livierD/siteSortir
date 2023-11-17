@@ -4,13 +4,13 @@
 
 {% block body %}
     <h1 class="titre"><strong>Modifier profil</strong></h1>
-    <div class="text-danger">
+    <h4 class="text-danger">
         {% for flashMessage in app.flashes('erreurMdp') %}
 
                 {{ flashMessage }}
 
         {% endfor %}
-    </div>
+    </h4>
 
     {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 

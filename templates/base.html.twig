@@ -29,12 +29,14 @@
 
 
 <div class="container">
-    {% for label, messages in app.flashes %}
+  {#
+  {% for label, messages in app.flashes %}
         {% for message in messages %}
             <p class="flash flash-{{ label }}">{{ message }}</p>
         {% endfor %}
 
     {% endfor %}
+  #}
     {% block body %}{% endblock %}
 </div>
 

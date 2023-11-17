@@ -62,10 +62,6 @@
     <h2 class="h2Accueil">Liste des sorties</h2>
 
 
-
-    <p><a class="btn btn-primary" href="{{ path('app_sortie_new') }}">Créer une nouvelle sortie</a></p>
-
-
     <div class="listSortie">
 
         {% for sortie in sorties %}
@@ -108,7 +104,7 @@
                         {% if boutonCardSortie == "S'inscrire" %}
                             <a class=" btn btn-primary" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Se desister" %}
-                            <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link" >{{ boutonCardSortie }}</a>
+                            <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link"  id="seDesister" >{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Annuler sortie" %}
                             <a class=" btn btn-primary" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Complet" %}
