@@ -7,6 +7,7 @@ body {
     min-height: 100vh;
 }
 .container{
+    color: black;
     max-width: 90% !important;
     padding-top: 50px;
     display: flex;
@@ -15,6 +16,7 @@ body {
     align-self: center;
     gap: 40px;
     flex-grow: 1;
+    background-color: lightslategrey;
 
 }
 .btn-primary{
@@ -152,6 +154,7 @@ strong::before {
 
 form{
     width: 60%;
+
 }
 
 .marginLeft40{

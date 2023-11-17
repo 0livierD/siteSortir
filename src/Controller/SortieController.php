@@ -191,7 +191,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/miseAjourStatut/{id}', name: 'app_mise_a_jour_statut')]
-    public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager)
     {
         $id = $sortie->getId();
 
@@ -209,7 +209,8 @@ class SortieController extends AbstractController
         // Enregistrez les modifications en base de données
         $entityManager->flush();
 
-        return $this->json(['success' => 'Statut mis à jour avec succès.']);
+        return  $this->redirectToRoute('app_sortie_index');
+
     }
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]

@@ -33,7 +33,8 @@
     </div>
 </div>
 -->
-{{ form_row(form.lieu) }}
+{{ form_row(form.lieu ,{ 'id': 'select_lieu' }) }}
+{{ form_row(form.isPublished) }}
 <a class=" btn btn-primary m-3" href="{{ path('app_lieu_new') }}"> Ajouter un lieu</a>
 
 <a class=" btn btn-primary m-3" href="#"> annuler</a>
