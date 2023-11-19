@@ -23,8 +23,9 @@ class EtatSortie
         $etatAnnulee = $etats[5];
 
 
+        /*$now = new \DateTime('+1 hour');*/
+        $now = new \DateTime('now');
 
-        $now = new \DateTime('+1 hour');
 
 
         //verification si cloture

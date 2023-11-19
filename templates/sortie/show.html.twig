@@ -7,19 +7,23 @@
     {#
     Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
     #}
-    {% set boutonCardSortie = "S'inscrire" %}
-    {% for participant in sortie.participants %}
-        {% if app.user.id == participant.id %}
-            {% set boutonCardSortie = "Se desister" %}
-        {% endif %}
-    {% endfor %}
-    {% if sortie.organisateur == app.user %}
-        {% set boutonCardSortie = "Annuler sortie" %}
-    {% endif %}
+    {% set boutonCardSortie = sortie.getEtat.getlibelle %}
     {% set nbParticipant = sortie.participants|length %}
-    {% if sortie.nbInscriptionMax == nbParticipant
-        and boutonCardSortie == "S'inscrire" %}
-        {% set boutonCardSortie = "Complet" %}
+    {% if boutonCardSortie != "Passée" and boutonCardSortie != "En cours" %}
+        {% if sortie.nbInscriptionMax == nbParticipant  %}
+            {% set boutonCardSortie = "Complet" %}
+        {% endif %}
+        {% for participant in sortie.participants %}
+            {% if app.user.id == participant.id %}
+                {% set boutonCardSortie = "Se desister" %}
+            {% endif %}
+        {% endfor %}
+        {% if sortie.organisateur == app.user %}
+            {% set boutonCardSortie = "Annuler sortie" %}
+        {% endif %}
+        {% if boutonCardSortie == sortie.getEtat.getlibelle and boutonCardSortie != "Clôturée" %}
+            {% set boutonCardSortie = "S'inscrire" %}
+        {% endif %}
     {% endif %}
     <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
 
@@ -65,8 +69,9 @@
         </div>
         <div class="boutons">
 
-            <a class="btn btn-primary" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
-
+            {% if app.user == sortie.organisateur %}
+            <a class="btn btn-primary mt-4" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" id="seDesister">Modifier la sortie</a>
+            {% endif %}
             {% if boutonCardSortie == "S'inscrire" %}
                 <a class=" btn btn-primary mt-4" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
                    class="card-link" id="inscription">{{ boutonCardSortie }}</a>
