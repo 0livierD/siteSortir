@@ -72,12 +72,13 @@ class EtatSortie
         }
 
         //vérification si annulée
-        if (str_starts_with($sortie->getInfosSortie(), 'Sortie annulée - ')) {
+        if (!empty($sortie->getMotifAnnulation())) {
             $sortie->setEtat($etatAnnulee);
             $entityManager->persist($sortie);
             $entityManager->flush();
         }
 
+        // Archiver sortie
         if ($sortie->getDateHeureDebut()<new \DateTime('-1 month')){
             $sortie->setIsArchive(true);
             $entityManager->persist($sortie);

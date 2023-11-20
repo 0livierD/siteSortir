@@ -287,8 +287,6 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $motifAnnulation = $sortie->getInfosSortie();
-            $sortie->setInfosSortie('Sortie annulée - '.$motifAnnulation);
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index');

@@ -41,6 +41,12 @@
                 <h5>Description et Infos</h5>
                 <p>{{ sortie.infosSortie }}</p>
 
+                {% if sortie.motifAnnulation is not empty %}
+                <h5>Motif d'annulation</h5>
+                <p>{{ sortie.motifAnnulation }}</p>
+                {% endif %}
+
+
             </div>
             <div class="siteInfo">
                 <div>
