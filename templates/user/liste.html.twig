@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste d'utilisateur{% endblock %}
+
+{% block body %}
+
+<h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <div class="mt-4">
+
+        <button class="btn btn-primary mr-3">{{ button_label|default('Importer') }}</button>
+
+        {{ form_end(form) }}
+
+    </div>
+
+{% endblock %}
