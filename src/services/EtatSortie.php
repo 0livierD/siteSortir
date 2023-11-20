@@ -1,12 +1,10 @@
 <?php
 
-namespace App\WorkLogic;
+namespace App\services;
 
-use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Repository\EtatRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use function PHPUnit\Framework\stringStartsWith;
 
 class EtatSortie
 {

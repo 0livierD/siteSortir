@@ -4,34 +4,22 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Filtre;
-use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\annulationType;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
-
-
-use App\Repository\SortieRepository;
-use App\WorkLogic\EtatSortie;
-
 use App\Repository\LieuRepository;
-
-
-
+use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
-
+use App\services\EtatSortie;
 use Doctrine\ORM\EntityManagerInterface;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 
 class SortieController extends AbstractController

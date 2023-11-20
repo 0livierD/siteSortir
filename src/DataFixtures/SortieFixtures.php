@@ -112,7 +112,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie5->setSite($siteRennes);
         $sortie5->setOrganisateur($userAlan);
         $sortie5->setLieu($lieuBlizz);
-        $sortie5->setInfosSortie('Sortie annulée - pas assez froid on va prévoir une piscine plutôt');
+        $sortie5->setInfosSortie('Sortie annulée - Réalisation d\'un concert Holliday On Ice');
         $sortie5->setDateHeureDebut(new \DateTime('+7 day'));
         $sortie5->setDateLimiteInscription(new \DateTime('+1 day'));
         $sortie5->setDuree(300);
@@ -122,6 +122,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie5->setEtat($etatAnnulee);
         $sortie5->setNom('Patinoire');
         $sortie5->setIsPublished(true);
+        $sortie5->setMotifAnnulation("pas assez froid on va prévoir une piscine plutôt");
         $manager->persist($sortie5);
 
         //sortie passée
