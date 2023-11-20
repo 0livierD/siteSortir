@@ -49,6 +49,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Villes'),
             MenuItem::linkToCrud('Villes', 'fa fa-solid fa-city', Ville::class),
 
+            MenuItem::section('Liste d\'utilisateurs'),
+            MenuItem::linkToRoute('Ajouter fichier', 'fa fa-home', 'app_user_liste'),
+
             MenuItem::section('Sortie'),
             MenuItem::linkToRoute('Quitter', 'fa fa-home', 'app_sortie_index')
         ];

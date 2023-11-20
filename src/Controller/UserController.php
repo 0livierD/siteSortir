@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\ListeType;
 use App\Repository\UserRepository;
 use App\services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +31,28 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/liste', name: 'app_user_liste')]
+    #[IsGranted("ROLE_ADMIN")]
+    public function ajouterListeUser(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader):Response
+    {
+        $form = $this->createForm(ListeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var UploadedFile $ListeFile */
+            $ListeFile = $form->get('ListeFile')->getData();
+            $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+        }
+
+        return $this->renderForm('user/liste.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
