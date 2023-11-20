@@ -68,19 +68,23 @@
 {#
             Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
 #}
-            {% set boutonCardSortie = "S'inscrire"%}
-            {% for participant in sortie.participants %}
-                {% if app.user.id == participant.id %}
-                    {% set boutonCardSortie = "Se desister" %}
-                {% endif %}
-            {% endfor %}
-            {% if sortie.organisateur == app.user %}
-                {% set boutonCardSortie = "Annuler sortie" %}
-            {% endif %}
+            {% set boutonCardSortie = sortie.getEtat.getlibelle %}
             {% set nbParticipant = sortie.participants|length %}
-            {% if sortie.nbInscriptionMax == nbParticipant
-                and boutonCardSortie == "S'inscrire" %}
-                {% set boutonCardSortie = "Complet" %}
+            {% if boutonCardSortie != "Passée" and boutonCardSortie != "En cours" %}
+                {% if sortie.nbInscriptionMax == nbParticipant  %}
+                    {% set boutonCardSortie = "Complet" %}
+                {% endif %}
+                {% for participant in sortie.participants %}
+                    {% if app.user.id == participant.id %}
+                        {% set boutonCardSortie = "Se desister" %}
+                    {% endif %}
+                {% endfor %}
+                {% if sortie.organisateur == app.user %}
+                    {% set boutonCardSortie = "Annuler sortie" %}
+                {% endif %}
+                {% if boutonCardSortie == sortie.getEtat.getlibelle and boutonCardSortie != "Clôturée" %}
+                    {% set boutonCardSortie = "S'inscrire" %}
+                {% endif %}
             {% endif %}
 
             <div class="card">
@@ -92,8 +96,8 @@
                     </div>
                     <div class="date">
                         <h6 class="card-subtitle mb-2 text-muted"> Places disponibles
-                            : {{ sortie.nbInscriptionMax }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted"> Status
+                            : {{ sortie.nbInscriptionMax - sortie.participants|length }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted"> Statut
                             : {{ sortie.etat.libelle }}</h6>
                     </div>
                     <div class="date">
@@ -109,6 +113,8 @@
                             <a class=" btn btn-primary" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Complet" %}
                             <button type="button" class=" btn btn-primary" href="" class="card-link"  id="completSortie">{{ boutonCardSortie }}</button>
+                        {% else %}
+                                <button type="button" class=" btn btn-primary" href="" class="card-link"  id="completSortie">{{ boutonCardSortie }}</button>
                         {% endif %}
                     </div>
                 </div>
