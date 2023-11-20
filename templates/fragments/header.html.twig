@@ -5,46 +5,56 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link " href="{{ path('app_sortie_index') }}">Accueil
-                            <span class="visually-hidden">(current)</span>
-                        </a>
-                    </li>
+            <div class="collapse navbar" id="navbarColor01">
+                <div class="row">
+                    <div class="col-md-10">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ path('app_sortie_index') }}">Accueil
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="{{ path('app_sortie_new') }}">Ville
-                            <span class="visually-hidden">(current)</span>
-                        </a>
-                    </li>
-                    {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ path('app_sortie_new') }}">Ville
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
+                            {% if app.user %}
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{{ path('app_logout') }}">déconnexion
+                                        <span class="visually-hidden">(current)</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{{ path('app_login')}}">Connexion
+                                        <span class="visually-hidden">(current)</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{{ path('admin')}}">Espace Admin
+                                        <span class="visually-hidden">(current)</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-md-2 text-right">
                         <li class="nav-item">
-                            <i class="fa-solid fa-user"><a class="nav-link " href="{{ path('app_user_show', {'id': app.user.id}) }}">
-                                <span class="visually-hidden">(current)</span>
+                            <i class="fa-solid fa-user"><a class="nav-link " href="{{ path('app_user_show', {'id': app.user.id}) }}"><img
+                                            src="{{ asset('images/LogoProfil.svg') }}" alt="" height="30">
+                                    <span class="visually-hidden">(current)</span>
 
-                            </a></i>
+                                </a></i>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="{{ path('app_logout') }}">déconnexion
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link " href="{{ path('app_login')}}">Connexion
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link " href="{{ path('admin')}}">Espace Admin
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
+                    </div>
+
+
+                </div>
+
 
             </div>
         </div>

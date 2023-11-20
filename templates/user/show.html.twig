@@ -12,7 +12,7 @@
                     <p>{{ user.pseudo }}</p>
                 </div>
                 <div class="col-md-6 mx-auto">
-                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="">
+                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="" height="100">
                 </div>
             </div>
             <div class="flex" >
@@ -42,10 +42,10 @@
 
 
         </div>
-    <div class="mt-4">
-        <a class="btn btn-primary" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
-    </div>
-
-
+    {% if app.user.id == user.id %}
+        <div class="mt-4">
+            <a class="btn btn-primary" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+        </div>
+    {% endif %}
 
 {% endblock %}
