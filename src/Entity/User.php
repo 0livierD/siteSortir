@@ -16,6 +16,7 @@ use Webmozart\Assert\Assert;
 #[UniqueEntity('pseudo', message: 'Ce pseudo est déjà utilisé')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -63,6 +64,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
+
+    private $plainPassword;
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
 
     public function __construct()
     {

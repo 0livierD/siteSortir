@@ -20,6 +20,49 @@ body {
     /*background-color: lightslategrey;*/
 
 }
+nav{
+    background-color: #00407A;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+}
+
+
+nav a {
+    display:block;
+    padding:0 10px;
+    color:black;
+    font-size:20px;
+    line-height: 60px;
+    text-decoration:none;
+}
+
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 60px; /* the height of the main nav */
+}
+
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+    display: inherit;
+    transform:translateX(-20%)translateY(10%) ;
+}
+
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+    width: 170px;
+    float: none;
+    display: list-item;
+    background-color: white;
+    border: 1px solid #00407A;
+}
+nav ul ul li:hover{
+    background-color: #00407A;
+}
 
 .btn-primary {
     border: 1px solid #00407A !important;
@@ -162,9 +205,11 @@ strong::before {
     min-width: 30vw;
     box-shadow: #00407A 4px 4px;
 }
-.card , a:link{
+
+.card, a:link {
     text-decoration: none;
 }
+
 .card-body {
     display: flex;
     flex-direction: column;
@@ -238,7 +283,7 @@ form {
 
 #inscription {
     border: 1px solid #00407A !important;
-    background-image: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(0,64,122,1));
+    background-image: linear-gradient(40deg, rgba(2, 0, 36, 1) 0%, rgba(0, 64, 122, 1));
     color: white !important;
     border-radius: 10px;
     font-size: 15px;
@@ -427,18 +472,65 @@ form {
     justify-content: center;
 }
 
+.rowAnnulationForm{
+    margin-top: 5dvh;
+    margin-bottom: 5dvh;
+
+}
+
+.rowAnnulationForm>.col-sm-10>textarea{
+    max-width: 100%;
+}
+.rowAnnulationForm>.mb-3>.col-form-label{
+    width: auto;
+    align-self: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 1.2rem;
+}
+
+.rowAnnulationForm>.mb-3{
+    display: flex;
+}
+
+.rowAnnulationForm>.mb-3>.col-sm-10{
+    width: 80%;
+}
+
+
+#boutonPageAnnuler{
+    display: flex;
+    justify-content: center;
+}
+
+.pageAnnulationDescriptif{
+    display: flex;
+    flex-direction: row;
+    margin-top: 4dvh;
+    margin-bottom: 4dvh;
+}
+.pageAnnulationDescriptif>p{
+    align-self: center;
+    margin: 0;
+}
+.pageAnnulationDescriptif>h5{
+    display: contents;
+    margin: 0;
+}
+
 /* -------------- Ne rien faire Apres cette ligne*/
 /* ---------- MEDIA QUERIES */
 /*
  */
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 400px) and (max-width: 890px)     {
+@media only screen and (min-width: 400px) and (max-width: 890px) {
 
 
-    .container{
-        width: 100%!important;
+    .container {
+        width: 100% !important;
     }
+
     .pageNavigation {
         display: flex;
         flex-direction: column;
@@ -446,8 +538,9 @@ form {
         gap: 1rem;
 
     }
+
     .filtre > .card {
-        min-width: 100%!important;
+        min-width: 100% !important;
     }
 
     .listSortie {
@@ -472,25 +565,30 @@ form {
         justify-content: center;
         align-items: center;
     }
+
     .top {
         display: flex;
         justify-content: space-evenly;
         flex-direction: column;
     }
+
     .filtreForm {
         display: flex;
         flex-direction: column;
         min-width: 100%;
     }
+
     #datesFiltre > .col-10 {
         margin-top: 5px;
         display: flex;
         justify-content: space-between;
         flex-direction: column;
     }
-    #datesFiltre > .col-10 > .col-md-5{
+
+    #datesFiltre > .col-10 > .col-md-5 {
         margin-top: 5px;
     }
+
     .sortie {
         border: 2px solid #00407A;
         padding: 10px;
@@ -500,15 +598,18 @@ form {
         display: flex;
         justify-content: center;
         width: 100%;
-        gap:5px;
+        gap: 5px;
         flex-direction: column;
 
     }
-    form{
+
+    form {
         width: 100%;
     }
 
 }
+
+
 
 /* Medium devices (landscape tablets, 768px and up) */
 /* Large devices (laptops/desktops, 992px and up) */
