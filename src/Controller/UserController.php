@@ -60,55 +60,64 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository, FileUploader $uploader): Response
     {
-        $userBase = $userRepository->find($user->getId());
-        $oldPassword = $userBase->getPassword();
+        if($this->getUser()->getId() == $request->get(('id'))){
+            $userBase = $userRepository->find($user->getId());
+            $oldPassword = $userBase->getPassword();
 
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+            $form = $this->createForm(UserType::class, $user);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $userBase->setPassword($oldPassword);
+                $userBase->setPassword($oldPassword);
 
-            if ($hashes->isPasswordValid($userBase, $form->get('password')->getData()))
-            {
-                /** @var UploadedFile $photoFile */
-                $photoFile = $form->get('photoFile')->getData();
-                $photoFileName = $uploader->upload($photoFile, $this->getParameter('user_photos_directory'));
-                $user->setPhoto($photoFileName);
-
-                if ($form->get('plainPassword')->getData()==null)
+                if ($hashes->isPasswordValid($userBase, $form->get('password')->getData()))
                 {
-                    $entityManager->flush();
+                    if ($form->get('photoFile')->getData() != null)
+                    {
+                        /** @var UploadedFile $photoFile */
+                        $photoFile = $form->get('photoFile')->getData();
+                        $photoFileName = $uploader->upload($photoFile, $this->getParameter('user_photos_directory'));
+                        $user->setPhoto($photoFileName);
+                    }
 
-                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                    if ($form->get('plainPassword')->getData()==null)
+                    {
+                        $entityManager->flush();
 
+                        return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+
+                    }else
+                    {
+                        $encodedPassword = $hashes->hashPassword(
+                            $user,
+                            $form->get('plainPassword')->getData()
+                        );
+
+                        $user->setPassword($encodedPassword);
+
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+
+                        return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                    }
                 }else
                 {
-                    $encodedPassword = $hashes->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                     );
+                    $this->addFlash('erreurMdp','Le mot de passe n\'est pas bon !');
 
-                   $user->setPassword($encodedPassword);
-
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-
-                    return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
                 }
-            }else
-            {
-                $this->addFlash('erreurMdp','Le mot de passe n\'est pas bon !');
-
-                return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
             }
+
+            return $this->renderForm('user/edit.html.twig', [
+                'user' => $user,
+                'form' => $form,
+            ]);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_sortie_index');
+
+
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]

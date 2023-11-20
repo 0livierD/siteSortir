@@ -47,9 +47,13 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Sorties', 'fa fa-solid fa-plane', Sortie::class),
 
             MenuItem::section('Villes'),
-            MenuItem::linkToCrud('Villes', 'fa fa-solid fa-city', Ville::class)
+            MenuItem::linkToCrud('Villes', 'fa fa-solid fa-city', Ville::class),
 
+            MenuItem::section('Sortie'),
+            MenuItem::linkToRoute('Quitter', 'fa fa-home', 'app_sortie_index')
         ];
+
+
 
        // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);

@@ -14,6 +14,7 @@ class LieuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('nom')
             ->add('rue')
             ->add('latitude')
@@ -28,6 +29,7 @@ class LieuType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Lieu::class,
+
         ]);
     }
 }
