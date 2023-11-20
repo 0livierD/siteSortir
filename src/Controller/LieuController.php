@@ -26,7 +26,11 @@ class LieuController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
-        $form = $this->createForm(LieuType::class, $lieu);
+        $form = $this->createForm(LieuType::class, $lieu, [
+            'action' => $this->generateUrl('app_lieu_new'),
+            'method'=>'post'
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
