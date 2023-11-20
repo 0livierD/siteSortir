@@ -158,6 +158,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie7->addParticipant($userElisabeth);
         $sortie7->setNom('Match France - All Black');
         $sortie7->setIsPublished(true);
+        $sortie7->setIsArchive(true);
         $manager->persist($sortie7);
 
         //sortie en cours

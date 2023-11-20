@@ -66,20 +66,28 @@ class EtatSortie
 
         }
 
-        //vérification si annulée
-        if (str_starts_with($sortie->getInfosSortie(), 'Sortie annulée -')) {
-            $sortie->setEtat($etatAnnulee);
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-        }
-
-
         //vérification si créee
         if ($sortie->isIsPublished() === false) {
             $sortie->setEtat($etatCreee);
             $entityManager->persist($sortie);
             $entityManager->flush();
         }
+
+        //vérification si annulée
+        if (str_starts_with($sortie->getInfosSortie(), 'Sortie annulée - ')) {
+            $sortie->setEtat($etatAnnulee);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        if ($sortie->getDateHeureDebut()<new \DateTime('-1 month')){
+            $sortie->setIsArchive(true);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+
 
 
         return $sortie;

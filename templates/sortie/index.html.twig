@@ -70,7 +70,7 @@
 #}
             {% set boutonCardSortie = sortie.getEtat.getlibelle %}
             {% set nbParticipant = sortie.participants|length %}
-            {% if boutonCardSortie != "Passée" and boutonCardSortie != "En cours" %}
+            {% if boutonCardSortie != "Passée" and boutonCardSortie != "En cours" and sortie.getEtat.getlibelle != "Annulée" %}
                 {% if sortie.nbInscriptionMax == nbParticipant  %}
                     {% set boutonCardSortie = "Complet" %}
                 {% endif %}
@@ -110,7 +110,7 @@
                         {% elseif boutonCardSortie == "Se desister" %}
                             <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link"  id="seDesister" >{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Annuler sortie" %}
-                            <a class=" btn btn-primary" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
+                            <a class=" btn btn-primary" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Complet" %}
                             <button type="button" class=" btn btn-primary" href="" class="card-link"  id="completSortie">{{ boutonCardSortie }}</button>
                         {% else %}

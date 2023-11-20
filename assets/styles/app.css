@@ -425,6 +425,52 @@ form {
     justify-content: center;
 }
 
+.rowAnnulationForm{
+    margin-top: 5dvh;
+    margin-bottom: 5dvh;
+
+}
+
+.rowAnnulationForm>.col-sm-10>textarea{
+    max-width: 100%;
+}
+.rowAnnulationForm>.mb-3>.col-form-label{
+    width: auto;
+    align-self: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 1.2rem;
+}
+
+.rowAnnulationForm>.mb-3{
+    display: flex;
+}
+
+.rowAnnulationForm>.mb-3>.col-sm-10{
+    width: 80%;
+}
+
+
+#boutonPageAnnuler{
+    display: flex;
+    justify-content: center;
+}
+
+.pageAnnulationDescriptif{
+    display: flex;
+    flex-direction: row;
+    margin-top: 4dvh;
+    margin-bottom: 4dvh;
+}
+.pageAnnulationDescriptif>p{
+    align-self: center;
+    margin: 0;
+}
+.pageAnnulationDescriptif>h5{
+    display: contents;
+    margin: 0;
+}
+
 /* -------------- Ne rien faire Apres cette ligne*/
 /* ---------- MEDIA QUERIES */
 /*
@@ -500,6 +546,8 @@ form {
     }
 
 }
+
+
 
 /* Medium devices (landscape tablets, 768px and up) */
 /* Large devices (laptops/desktops, 992px and up) */

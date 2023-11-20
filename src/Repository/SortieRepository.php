@@ -46,12 +46,15 @@ class SortieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findAllUnder1Month(): array
+    public function findAllUnder1Month(User $user): array
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->where('s.dateHeureDebut > :dateLimite');
+        $qb->andWhere('s.isPublished = 1')
+        ->orWhere('s.organisateur = :user')
+        ->setParameter('user', $user)
+        ->andWhere('s.isArchive = 0');
 
-        $qb->setParameter('dateLimite', new \DateTime('-1 month'));
+
 
         $query = $qb->getQuery();
         return $query->execute();
@@ -72,8 +75,10 @@ class SortieRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('s')
-            ->where('s.dateHeureDebut > :dateLimite')
-            ->setParameter('dateLimite', new \DateTime('-1 month'));
+                ->andWhere('s.isPublished = 1')
+                ->orWhere('s.organisateur = :user')
+                ->setParameter('user', $user)
+                ->andWhere('s.isArchive = 0');;
 
 
         if (!empty($filtre->getNom())) {

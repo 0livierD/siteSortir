@@ -7,6 +7,7 @@ use App\Entity\Filtre;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\User;
+use App\Form\annulationType;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -23,6 +24,7 @@ use App\Repository\VilleRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +67,7 @@ class SortieController extends AbstractController
 
 
 
-        $sorties = $sortieRepository->findAllUnder1Month();
+        $sorties = $sortieRepository->findAllUnder1Month($user);
 
         foreach ($sorties as $sortie){
 
@@ -132,6 +134,16 @@ class SortieController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository,Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+        /*
+         * verification de la route
+         * */
+
+        if( $sortie->getEtat()->getLibelle() == "En cours" && $sortie->getEtat()->getLibelle() == 'Passée' && $this->getUser() !== $sortie->getOrganisateur() )
+            return $this->redirectToRoute('app_sortie_index');
+
+        if ($sortie->getEtat()->getLibelle() == 'Annulée')
+            return $this->redirectToRoute('app_sortie_index');
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -156,7 +168,8 @@ class SortieController extends AbstractController
     #[Route('/delete/{id}', name: 'app_sortie_delete')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        dd('Fait lors du changement du bouton sur le homepage, enlever le dd var autoriser le bouton à prendre cette route');
+
+
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($sortie);
             $entityManager->flush();
@@ -220,7 +233,7 @@ class SortieController extends AbstractController
                 $isInscrit = true;
 
         $placesRestantes = $sortie->getNbInscriptionMax() - count($sortie->getParticipants());
-        if (!$isInscrit && $placesRestantes > 0) {
+        if (!$isInscrit && $placesRestantes > 0 && $sortie->getEtat()->getLibelle() == "Ouverte") {
             /**
              * @var User $user
              */
@@ -253,7 +266,7 @@ class SortieController extends AbstractController
                 $isInscrit = true;
 
 
-        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit) {
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" &&  $sortie->getEtat()->getLibelle() != "Passée") {
             /**
              * @var User $user
              */
@@ -265,6 +278,41 @@ class SortieController extends AbstractController
 
 
         return $this->redirectToRoute('app_sortie_index');
+
+    }
+
+    #[Route('/annuler/{id}', name: 'app_sortie_annuler')]
+    public function annuler(Sortie $sortie, Request $request, EntityManagerInterface $entityManager) : Response
+    {
+        /*
+        * Vérification de route
+        * User session = organisateur
+        *
+        * Etat de sortie antérieure à en cours
+        * */
+        $libelleEtat = $sortie->getEtat()->getLibelle();
+        if($this->getUser() !== $sortie->getOrganisateur() || $libelleEtat =! "En cours" || $libelleEtat =! "Annulée" || $libelleEtat =! "Passée"  ){
+            return $this->redirectToRoute('app_sortie_index');
+        }
+
+        $form = $this->createForm(AnnulationType::class, $sortie);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $motifAnnulation = $sortie->getInfosSortie();
+            $sortie->setInfosSortie('Sortie annulée - '.$motifAnnulation);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_sortie_index');
+        }
+
+
+
+
+        return $this->render('sortie/annulation.html.twig', [
+            'sortie' => $sortie,
+            'form' =>$form->createView()
+        ]);
 
     }
 

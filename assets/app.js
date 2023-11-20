@@ -9,6 +9,7 @@
 import './styles/app.css';
 
 document.addEventListener('DOMContentLoaded', function() {
+
     var selectVille = document.getElementById('select-ville');
     var selectLieu = document.getElementById('select_lieu');
 
@@ -57,4 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Erreur lors de la requête AJAX', error);
             });
     });
+
+
 });
+
+
