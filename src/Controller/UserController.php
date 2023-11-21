@@ -103,7 +103,7 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[Route('/creer', name: 'app_user_new', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -132,10 +132,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository, FileUploader $uploader, SortieRepository $sortieRepository): Response
     {
-
+        // sécurisation de la route
         if($this->getUser()->getId() == $request->get(('id'))){
             $userBase = $userRepository->find($user->getId());
             $oldPassword = $userBase->getPassword();
@@ -194,15 +194,15 @@ class UserController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    //routes non utilisées
+ /*   #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $user->setIsActif(false);
-            $entityManager->persist($user);
+            $entityManager->remove($user);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Filtre;
 use App\Entity\Sortie;
 use App\Entity\User;
-use App\Form\annulationType;
+use App\Form\AnnulationType;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -27,12 +27,8 @@ class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie,
-                          EtatRepository $etatRepository,EntityManagerInterface $entityManager,
-                          UserRepository $userRepository): Response
+                          EtatRepository $etatRepository,EntityManagerInterface $entityManager): Response
     {
-        /*if (!$this->getUser()->isIsActif())
-            return $this->redirectToRoute('app_login');*/
-
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
 
@@ -80,7 +76,7 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
+    #[Route('/creer-sortie', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(LieuRepository $lieuRepository,
                         EtatRepository $etatRepository,
                         VilleRepository $villeRepository ,
@@ -129,7 +125,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository,Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         /*
@@ -163,7 +159,9 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'app_sortie_delete')]
+    /*
+     * Route non utilisée
+     * #[Route('/delete/{id}', name: 'app_sortie_delete')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
 
@@ -174,8 +172,9 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-    #[Route('/getLieuxByVille/{id}', name: 'app_get_lieux_by_ville')]
+    }*/
+
+    #[Route('/lieux-par-villes/{id}', name: 'app_get_lieux_by_ville')]
     public function getLieuxByVille(int $id, LieuRepository $lieuRepository): JsonResponse
     {
         // Utilisez directement l'annotation de type pour obtenir l'id
@@ -198,28 +197,6 @@ class SortieController extends AbstractController
         return $this->json($lieuxArray);
     }
 
-    #[Route('/miseAjourStatut/{id}', name: 'app_mise_a_jour_statut')]
-    public function miseAjourStatut(int $id,Sortie $sortie,Request $request, EntityManagerInterface $entityManager)
-    {
-        $id = $sortie->getId();
-
-        // Récupérez la sortie depuis la base de données
-        $sortie = $entityManager->getRepository(Sortie::class)->find($id);
-
-        if (!$sortie) {
-            return $this->json(['error' => 'Sortie non trouvée.'], Response::HTTP_NOT_FOUND);
-        }
-
-        // Mettez à jour le statut de la sortie (vous devrez adapter cette partie en fonction de votre logique)
-        $nouveauStatut = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-        $sortie->setEtat($nouveauStatut);
-
-        // Enregistrez les modifications en base de données
-        $entityManager->flush();
-
-        return  $this->redirectToRoute('app_sortie_index');
-
-    }
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
     public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
@@ -253,7 +230,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index');
     }
 
-    #[Route('//se-desister/{id}', name: 'app_sortie_desistement')]
+    #[Route('/se-desister/{id}', name: 'app_sortie_desistement')]
     public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
 
