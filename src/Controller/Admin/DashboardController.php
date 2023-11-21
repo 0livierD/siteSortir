@@ -38,8 +38,8 @@ class DashboardController extends AbstractDashboardController
     {
         return [MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::section('Users'),
-            MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+            MenuItem::section('Utilisateurs'),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class),
 
             MenuItem::section('Lieux'),
             MenuItem::linkToCrud('Lieux', 'fa fa-solid fa-map', Lieu::class),
@@ -54,10 +54,13 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Villes', 'fa fa-solid fa-city', Ville::class),
 
             MenuItem::section('Liste d\'utilisateurs'),
-            MenuItem::linkToRoute('Ajouter fichier', 'fa fa-home', 'app_user_liste'),
+            MenuItem::linkToRoute('Ajouter fichier', 'fa fa-solid fa-address-card', 'app_user_liste'),
 
             MenuItem::section('Sortie'),
-            MenuItem::linkToRoute('Quitter', 'fa fa-home', 'app_sortie_index')
+            MenuItem::linkToRoute('Retour vers site', 'fa fa-solid fa-globe', 'app_sortie_index'),
+
+            MenuItem::section('Deconnexion'),
+            MenuItem::linkToLogout('Deconnexion', 'fa fa-solid fa-right-from-bracket'),
         ];
 
 
