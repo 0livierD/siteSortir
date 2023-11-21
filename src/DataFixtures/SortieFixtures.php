@@ -178,6 +178,24 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie8->setIsPublished(true);
         $manager->persist($sortie8);
 
+        //sortie passée alan participant mais pas organisateur
+        $sortie9 = new Sortie();
+        $sortie9->setSite($siteRennes);
+        $sortie9->setOrganisateur($userSerge);
+        $sortie9->setLieu($lieuBDS);
+        $sortie9->setInfosSortie('Sortez les hâches, ça va bûcheronner sec !');
+        $sortie9->setDateHeureDebut(new \DateTime('-10 day'));
+        $sortie9->setDateLimiteInscription(new \DateTime('-22 day'));
+        $sortie9->setDuree(130);
+        $sortie9->setNbInscriptionMax(5);
+        $sortie9->setEtat($etatPassee);
+        $sortie9->addParticipant($userAlan);
+        $sortie9->addParticipant($userSerge);
+        $sortie9->addParticipant($userElisabeth);
+        $sortie9->setNom('Concourt de bûcheronnage');
+        $sortie9->setIsPublished(true);
+        $manager->persist($sortie9);
+
 
 
         $manager->flush();

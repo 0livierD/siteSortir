@@ -311,6 +311,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setIsActif(bool $isActif): static
     {
+        /*if($isActif==false)*/
+
+
+
         $this->isActif = $isActif;
 
         return $this;
