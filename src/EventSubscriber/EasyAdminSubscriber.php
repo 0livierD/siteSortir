@@ -2,7 +2,9 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Sortie;
 use App\Entity\User;
+use App\services\EtatUser;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
@@ -25,12 +27,15 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         return [
             BeforeEntityPersistedEvent::class => ['hashPassword'],
             BeforeEntityUpdatedEvent::class => ['hashPassword'],
+
         ];
     }
 
     public function hashPassword($event)
     {
+
         $entity = $event->getEntityInstance();
+
 
         if (!($entity instanceof User)) {
             return;
@@ -42,6 +47,16 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     private function updatePassword(User $user)
     {
         if (!$user->getPlainPassword()) {
+            if(!$user->isIsActif()){
+                $etatUser = new EtatUser();
+                $etatUser->annulerSortiesUser($user,$this->entityManager);
+                return;
+            } else{
+                $etatUser = new EtatUser();
+                $etatUser->reactiverSortieUser($user,$this->entityManager);
+                return;
+            }
+
             return;
         }
 

@@ -12,6 +12,7 @@ use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\services\EtatSortie;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,8 +26,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie, EtatRepository $etatRepository,EntityManagerInterface $entityManager): Response
+    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie,
+                          EtatRepository $etatRepository,EntityManagerInterface $entityManager,
+                          UserRepository $userRepository): Response
     {
+        /*if (!$this->getUser()->isIsActif())
+            return $this->redirectToRoute('app_login');*/
 
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
@@ -41,10 +46,16 @@ class SortieController extends AbstractController
          */
         $user = $this->getUser();
 
+
+
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) {
             $filtre = $filtreForm->getData();
             $sorties = $sortieRepository->findSearch($filtre, $user);
 
+            foreach ($sorties as $sortie){
+
+                $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
+            }
 
             return $this->render('sortie/index.html.twig', [
                 'sorties' => $sorties,
@@ -54,14 +65,13 @@ class SortieController extends AbstractController
         }
 
 
-
         $sorties = $sortieRepository->findAllUnder1Month($user);
+
 
         foreach ($sorties as $sortie){
 
-           $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
+            $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
         }
-
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,

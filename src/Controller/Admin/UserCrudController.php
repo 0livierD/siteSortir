@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Site;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -43,5 +46,16 @@ class UserCrudController extends AbstractCrudController
             BooleanField::new('isActif'),
         ];
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+
+        return parent::configureActions($actions)
+            ->disable(Action::DELETE);
+
+    }
+
+
+
 
 }
