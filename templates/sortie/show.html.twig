@@ -76,14 +76,14 @@
         <div class="boutons">
 
             {% if app.user == sortie.organisateur and sortie.etat.libelle != "Passée" and sortie.etat.libelle != "En cours" and sortie.etat.libelle != "Annulée" %}
-            <a class="btn btn-primary mt-4" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" id="seDesister">Modifier la sortie</a>
+            <a class="btn btn-primary" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" id="seDesister">Modifier la sortie</a>
             {% endif %}
             {% if boutonCardSortie == "S'inscrire" %}
                 <a class=" btn btn-primary" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link" id="inscription">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Se desister" %}
                 <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link"  id="seDesister" >{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Annuler sortie" %}
-                <a class=" btn btn-primary" href="{{ path('app_sortie_delete', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
+                <a class=" btn btn-primary" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Complet" %}
                 <button type="button" class=" btn btn-primary" href="" class="card-link"  id="completSortie">{{ boutonCardSortie }}</button>
             {% else %}
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div class="bouttonsDetailSortie">
-        <a class="btn btn-primary mt-4" href="{{ path('app_sortie_index') }}">Retour à l'accueil</a>
+        <a class="btn btn-primary mt-4" id="seDesister" href="{{ path('app_sortie_index') }}">Retour à l'accueil</a>
     </div>
 
 
