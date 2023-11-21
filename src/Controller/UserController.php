@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\ListeType;
+use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +34,7 @@ class UserController extends AbstractController
 
     #[Route('/liste', name: 'app_user_liste')]
     #[IsGranted("ROLE_ADMIN")]
-    public function ajouterListeUser(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader):Response
+    public function ajouterListeUser(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, SiteRepository $siteRepository, UserPasswordHasherInterface $passwordHasher):Response
     {
         $form = $this->createForm(ListeType::class);
         $form->handleRequest($request);
@@ -42,7 +43,43 @@ class UserController extends AbstractController
 
             /** @var UploadedFile $ListeFile */
             $ListeFile = $form->get('ListeFile')->getData();
-            $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+            $ListeFileName = $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+
+            $chemin = 'C:\wamp64\www\Site-sortir.com\public/uploads/listes/'.$ListeFileName;
+            $csvFile = fopen($chemin, 'r');
+
+            $data = array();
+
+            while ($row = fgetcsv($csvFile)) {
+                $data[] = $row;
+            }
+
+            fclose($csvFile);
+
+            foreach ($data as $row) {
+                foreach ($row as $item) {
+                    $user = new User();
+                    $tab = explode(';', $item);
+                    $siteInt = intval($tab[0]);
+                    $site = $siteRepository->find($siteInt);
+                    $user->setSite($site);
+                    $user->setEmail($tab[1]);
+                    $motDePasseHashe = $passwordHasher->hashPassword($user, $tab[2]);
+                    $user->setPassword($motDePasseHashe);
+                    $user->setNom($tab[3]);
+                    $user->setPrenom($tab[4]);
+                    $user->setTelephone($tab[5]);
+                    $user->setIsAdministrateur($tab[6]);
+                    $user->setIsActif($tab[7]);
+                    $user->setPhoto($tab[8]);
+
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                }
+
+            }
+
         }
 
         return $this->renderForm('user/liste.html.twig', [

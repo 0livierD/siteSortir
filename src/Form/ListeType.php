@@ -15,7 +15,6 @@ class ListeType extends AbstractType
             ->add('ListeFile', FileType::class, [
                 'label'=> 'Liste',
                 'mapped' => false,
-                'required' => false
             ])
         ;
     }
