@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,13 +30,14 @@ class SortieType extends AbstractType
         $builder
             ->add('nom')
             ->add('dateHeureDebut',DateType::class, [
+                'label'=>'Début',
                 'html5'=>true,
                 'widget'=>'single_text',
-                'attr'=>['class'=>'col-2']
+
             ])
             ->add('duree')
             ->add('dateLimiteInscription',DateType::class, [
-                'label'=>"Limite d'inscription",
+                'label'=>"Fin d'inscription",
                 'html5'=>true,
                 'widget'=>'single_text'
             ])
@@ -52,13 +54,11 @@ class SortieType extends AbstractType
                 'choice_value' => function (?Lieu $lieu) {
                     return $lieu ? $lieu->getId() : '';
                 },
-                'label' => 'Lieu',
-                'attr' => ['id' => 'select_lieu'],
-                'placeholder' => 'Choisir un lieu', // Ajoutez cette ligne si vous souhaitez un libellé par défaut
+                'placeholder' => 'Choisir un lieu',
                 'required' => false,
             ])
             ->add('isPublished' , CheckboxType::class, [
-                'label' => 'Publier ?',
+                'label'=>' Publier la sortie?',
                 'required' => false, // Si la case n'est pas cochée, la valeur sera null
             ])
         ;

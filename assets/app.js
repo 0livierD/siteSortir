@@ -10,7 +10,7 @@ import './styles/app.css';
 
 document.addEventListener('DOMContentLoaded', function() {
     var selectVille = document.getElementById('select-ville');
-    var selectLieu = document.getElementById('select_lieu');
+    var selectLieu = document.getElementById('sortie_lieu');
 
     selectVille.addEventListener('change', function() {
         var selectedVilleId = this.value;

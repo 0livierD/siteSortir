@@ -20,12 +20,14 @@
                                     <span class="visually-hidden">(current)</span>
                                 </a>
                             </li>
+
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link text-light mt-3" href="{{ path('app_login')}}">Connexion
                                     <span class="visually-hidden">(current)</span>
                                 </a>
                             </li>
+
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item">
@@ -39,9 +41,10 @@
 
 
                         {% if app.user %}
+                            <a href="{{ path('app_sortie_new') }}" id="creation" class="btn  btn-primary m-3">Créer Sortie</a>
                             <ul>
                                 <li class="nav-item list-unstyled">
-                                    <a class="nav-link text-light mt-3" href="">{{ app.user.prenom ~ ' ' ~ app.user.nom }}   &nbsp;&nbsp;   <img
+                                    <a class="nav-link text-light " href="">{{ app.user.prenom ~ ' ' ~ app.user.nom }}   &nbsp;&nbsp;   <img
                                                 src="{{ asset('images/profil.png') }}" alt="" height="30">
                                         <span class="visually-hidden">(current)</span>
                                     </a>
