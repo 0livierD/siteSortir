@@ -56,10 +56,10 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToRoute('Ajouter fichier', 'fa fa-solid fa-address-card', 'app_user_liste'),
 
             MenuItem::section('Sortie'),
-            MenuItem::linkToRoute('Retour vers site', 'fa fa-home', 'app_sortie_index'),
+            MenuItem::linkToRoute('Retour vers site', 'fa fa-solid fa-globe', 'app_sortie_index'),
 
             MenuItem::section('Deconnexion'),
-            MenuItem::linkToLogout('Deconnexion', 'fa fa-home'),
+            MenuItem::linkToLogout('Deconnexion', 'fa fa-solid fa-right-from-bracket'),
         ];
 
 
