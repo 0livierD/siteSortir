@@ -13,9 +13,8 @@ class ListeType extends AbstractType
     {
         $builder
             ->add('ListeFile', FileType::class, [
-                'label'=> 'Liste',
+                'label'=> 'Liste d\'utilisateur :' ,
                 'mapped' => false,
-                'required' => false
             ])
         ;
     }

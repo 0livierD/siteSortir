@@ -6,6 +6,16 @@
 
 <h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
 
+   {#
+   <h4 class="text-danger">
+        {% for flashMessage in app.flashes('erreurUserExistant') %}
+
+            {{ flashMessage }}
+
+        {% endfor %}
+    </h4>
+   #}
+
     {{ form_start(form) }}
 
     {{ form_widget(form) }}
@@ -16,6 +26,16 @@
 
         {{ form_end(form) }}
 
+        <div class="mt-4">
+            {% if emailEnDouble!=null %}
+                <p>Attention, les utilisateurs avec ces adresses mails sont déjà présents dans la base de donnée</p>
+                <p>S'ils sont désactivés, possibilité de les rendre actifs</p>
+                {% for email in emailEnDouble %}
+                    <li>{{ email }}</li>
+                {% endfor %}
+
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

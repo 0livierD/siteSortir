@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\ListeType;
+
 use App\Repository\SortieRepository;
+use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -34,20 +37,68 @@ class UserController extends AbstractController
 
     #[Route('/liste', name: 'app_user_liste')]
     #[IsGranted("ROLE_ADMIN")]
-    public function ajouterListeUser(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader):Response
+    public function ajouterListeUser(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader,
+                                     UserRepository $userRepository, SiteRepository $siteRepository,
+                                     UserPasswordHasherInterface $passwordHasher):Response
     {
+        $listeEmailEnDouble = [];
+
         $form = $this->createForm(ListeType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var UploadedFile $ListeFile */
-            $ListeFile = $form->get('ListeFile')->getData();
-            $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+                /** @var UploadedFile $ListeFile */
+                $ListeFile = $form->get('ListeFile')->getData();
+                $ListeFileName = $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+
+                $chemin = 'C:\wamp64\www\Site-sortir.com\public/uploads/listes/'.$ListeFileName;
+                $csvFile = fopen($chemin, 'r');
+
+                $data = [];
+
+                while ($row = fgetcsv($csvFile)) {
+                    $data[] = $row;
+                }
+
+                fclose($csvFile);
+
+                foreach ($data as $row) {
+                    foreach ($row as $item) {
+                        $user = new User();
+                        $tab = explode(';', $item);
+                        $siteInt = intval($tab[0]);
+                        $site = $siteRepository->find($siteInt);
+                        $user->setSite($site);
+                        $verifEmail = [$tab[1]];
+                        $user->setEmail($tab[1]);
+                        $motDePasseHashe = $passwordHasher->hashPassword($user, $tab[2]);
+                        $user->setPassword($motDePasseHashe);
+                        $user->setNom($tab[3]);
+                        $user->setPrenom($tab[4]);
+                        $user->setTelephone($tab[5]);
+                        $user->setIsAdministrateur($tab[6]);
+                        $user->setIsActif($tab[7]);
+                        $user->setPhoto($tab[8]);
+
+                        $test = $userRepository->findOneBy(['email' => $tab[1]]);
+
+                        if ($test==null)
+                        {
+                            $entityManager->persist($user);
+                            $entityManager->flush();
+                        }else
+                        {
+                            $emailEnDouble = end($verifEmail);
+                            $listeEmailEnDouble[] = $emailEnDouble;
+                        }
+                    }
+                }
         }
 
         return $this->renderForm('user/liste.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'emailEnDouble' => $listeEmailEnDouble
         ]);
     }
 
@@ -133,13 +184,11 @@ class UserController extends AbstractController
                     return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
                 }
             }
-
             return $this->renderForm('user/edit.html.twig', [
                 'user' => $user,
                 'form' => $form,
             ]);
         }
-
         return $this->redirectToRoute('app_sortie_index');
 
 
