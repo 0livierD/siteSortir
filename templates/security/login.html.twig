@@ -4,17 +4,21 @@
 
 {% block body %}
 <form method="post">
+
     {% if error %}
         {% if error.message=='Your user account no longer exists.' %}
-            <div class="alert alert-danger">Votre compte n'est pas activé. Merci de contacter l'administrateur du site</div>
+            <div class="alert alert-danger mt-3">Votre compte n'est pas activé. Merci de contacter l'administrateur du site</div>
         {% endif %}
-
         {% if error.message=='The presented password is invalid.' %}
-            <div class="alert alert-danger">Mauvais mot de passe ou pseudo !</div>
+            <div class="alert alert-danger mt-3">Erreur sur mot de passe !</div>
+        {% endif %}
+        {% if error.message=='Bad credentials.' %}
+            <div class="alert alert-danger mt-3">Erreur sur email !</div>
         {% endif %}
     {% endif %}
 
     <h1 class="titre"><strong>Connexion</strong></h1>
+
     <label class="marginTop40" for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
    <!-- <label class="marginTop20" for="inputPseudo">Pseudo</label>

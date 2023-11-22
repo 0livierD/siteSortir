@@ -4,17 +4,19 @@
 
 {% block body %}
 
-<h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
-
-   {#
-   <h4 class="text-danger">
-        {% for flashMessage in app.flashes('erreurUserExistant') %}
-
+    {% for flashMessage in app.flashes('success') %}
+        <div class="alert alert-success mt-3">
             {{ flashMessage }}
+        </div>
+    {% endfor %}
 
-        {% endfor %}
-    </h4>
-   #}
+    {% for flashMessage in app.flashes('erreur') %}
+        <div class="alert alert-danger mt-3">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+<h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
 
     {{ form_start(form) }}
 
