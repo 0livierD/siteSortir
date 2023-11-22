@@ -18,11 +18,11 @@ class LieuController extends AbstractController
     public function index(LieuRepository $lieuRepository): Response
     {
         return $this->render('lieu/index.html.twig', [
-            'lieus' => $lieuRepository->findAll(),
+            'lieux' => $lieuRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
+    #[Route('/nouveau-lieu', name: 'app_lieu_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
@@ -46,7 +46,7 @@ class LieuController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_lieu_show', methods: ['GET'])]
+/*    #[Route('/{id}', name: 'app_lieu_show', methods: ['GET'])]
     public function show(Lieu $lieu): Response
     {
         return $this->render('lieu/show.html.twig', [
@@ -81,5 +81,5 @@ class LieuController extends AbstractController
         }
 
         return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
-    }
+    }*/
 }

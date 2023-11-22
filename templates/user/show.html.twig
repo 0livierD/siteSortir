@@ -4,40 +4,42 @@
 
 {% block body %}
 
-    <h1 class="titre"><strong>Profil</strong></h1>
+    <h1 class="titre">Mon Profil</h1>
         <div class="profil">
             <div class="flex" >
-                <div class="col-md-6 mx-auto">
+                <div >
                     <h5>Pseudo : </h5>
                     <p>{{ user.pseudo }}</p>
                 </div>
-                <div class="col-md-6 mx-auto">
-                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="" height="100">
+                <div >
+                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="" height="200">
                 </div>
             </div>
             <div class="flex" >
-                <div class="col-md-6 mx-auto">
+                <div >
                     <h5>Prénom : </h5>
                     <p>{{ user.prenom }}</p>
                 </div>
-                <div class="col-md-6 mx-auto">
+                <div >
                     <h5>Nom : </h5>
                     <p>{{ user.nom }}</p>
                 </div>
             </div>
             <div class="flex" >
-                <div class="col-md-6 mx-auto">
+                <div >
                     <h5>Email : </h5>
                     <p>{{ user.email }}</p>
                 </div>
-                <div class="col-md-6 mx-auto">
+                <div >
                     <h5>Téléphone : </h5>
                     <p>{{ user.telephone }}</p>
                 </div>
             </div>
+            <div class="flex">
             <div>
                 <h5>Site de rattachement : </h5>
                 <p>{{ user.site.nom }}</p>
+            </div>
             </div>
 
 
