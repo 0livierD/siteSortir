@@ -8,9 +8,10 @@
 
     <div class="hero">
         <h1>Sortir avec Eni</h1>
+        {{ form_start(filtreForm,{'attr': {'class': 'filtreForm form-floating','id':'filtreForm'}}) }}
+
         <div class="filtre">
 
-            {{ form_start(filtreForm,{'attr': {'class': 'filtreForm form-floating'}}) }}
             <div class="" id="filtreGauche">
                 {{ form_row(filtreForm.site) }}
                 {{ form_row(filtreForm.nom,{'label':'Par nom'} ) }}
@@ -106,4 +107,10 @@
         {% endfor %}
     </div>
 
+
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/filter.js') }}"></script>
+{% endblock %}
+
