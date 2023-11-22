@@ -623,6 +623,45 @@ input, select {
     margin: 0;
 }
 
+#formConnexion{
+    margin-top: 10dvh;
+}
+
+#formConnexion > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#formConnexion > div > label + input{
+    width: 60%;
+}
+
+
+#formConnexion > div:last-child {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* -------------- Ne rien faire Apres cette ligne*/
 /* ---------- MEDIA QUERIES */
 /*
@@ -805,28 +844,7 @@ input, select {
 
 }
 
-#formConnexion{
-    margin-top: 10dvh;
-}
 
-#formConnexion > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-#formConnexion > div > label + input{
-    width: 60%;
-}
-
-
-#formConnexion > div:last-child {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-
-}
 
 
 /* Medium devices (landscape tablets, 768px and up) */
