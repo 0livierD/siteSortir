@@ -217,7 +217,6 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-
             if (--$placesRestantes == 0){
                 $etatComplet = $etatRepository->findOneBy(['libelle'=>'Clôturée']);
                 $sortie->setEtat($etatComplet);

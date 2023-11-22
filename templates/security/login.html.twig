@@ -3,7 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-<form method="post">
+<form method="post" id="formConnexion">
     {% if error %}
         <div class="alert alert-danger">Mauvais mot de passe ou pseudo !</div>
     {% endif %}
@@ -15,26 +15,29 @@
     {% endif %}
 
     <h1 class="titre"><strong>Connexion</strong></h1>
-    <label class="marginTop40" for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
+    <div>
+        <label class="marginTop40" for="inputEmail">Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
+    </div>
    <!-- <label class="marginTop20" for="inputPseudo">Pseudo</label>
     <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" autocomplete="pseudo">-->
-    <label class="marginTop20" for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+    <div>
+        <label class="marginTop20" for="inputPassword">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    </div>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
-<div class="marginLeft40 marginTop40" >
+<div class= "marginTop40" >
     <label>
         <input type="checkbox" name="_remember_me" checked>
         Se souvenir de moi
     </label>
 
-    <button class="btn btn-primary marginLeft40" type="submit">
+    <button class="btn btn-primary" type="submit">
         Se connecter
     </button>
-    <a class="marginLeft40" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+    <a  href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
 </div>
 
 </form>
