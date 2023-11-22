@@ -133,7 +133,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hashes , UserRepository $userRepository, FileUploader $uploader, SortieRepository $sortieRepository): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,
+                         UserPasswordHasherInterface $hashes , UserRepository $userRepository,
+                         FileUploader $uploader, SortieRepository $sortieRepository): Response
     {
 
         if($this->getUser()->getId() == $request->get(('id'))){

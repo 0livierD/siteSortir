@@ -5,13 +5,13 @@
 {% block body %}
 <form method="post">
     {% if error %}
-        <div class="alert alert-danger">Mauvais mot de passe ou pseudo !</div>
-    {% endif %}
+        {% if error.message=='Your user account no longer exists.' %}
+            <div class="alert alert-danger">Votre compte n'est pas activé. Merci de contacter l'administrateur du site</div>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
+        {% if error.message=='The presented password is invalid.' %}
+            <div class="alert alert-danger">Mauvais mot de passe ou pseudo !</div>
+        {% endif %}
     {% endif %}
 
     <h1 class="titre"><strong>Connexion</strong></h1>
