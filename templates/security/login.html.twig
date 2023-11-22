@@ -3,6 +3,8 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+    <div class="login">
+        <h1>Connexion</h1>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">Mauvais mot de passe ou pseudo !</div>
@@ -10,11 +12,12 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
 
-    <h1 class="titre"><strong>Connexion</strong></h1>
+
+
     <label class="marginTop40" for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
    <!-- <label class="marginTop20" for="inputPseudo">Pseudo</label>
@@ -23,19 +26,20 @@
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-<div class="marginLeft40 marginTop40" >
+           value="{{ csrf_token('authenticate') }}">
+
+    <div class="logButton">
+    <button class="btn btn-primary  " style="width: 30%" type="submit">
+        Se connecter
+    </button>
+    </div>
     <label>
         <input type="checkbox" name="_remember_me" checked>
         Se souvenir de moi
     </label>
+    <a class="" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
 
-    <button class="btn btn-primary marginLeft40" type="submit">
-        Se connecter
-    </button>
-    <a class="marginLeft40" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
-</div>
 
 </form>
+    </div>
 {% endblock %}
