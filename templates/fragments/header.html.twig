@@ -8,19 +8,14 @@
                     <img src="{{ asset('images/logo eni.png') }}" alt="" width="80px">
                     <ul class="navbar-nav">
 
-
                         {% if app.user %}
-
-
-
-                        {% else %}
                             <li class="nav-item">
-                                <a class="nav-link text-light mt-3" href="{{ path('app_login')}}">Connexion
+                                <a class="nav-link text-light mt-3" href="{{ path('app_sortie_index') }}">Accueil
                                     <span class="visually-hidden">(current)</span>
                                 </a>
                             </li>
-
                         {% endif %}
+
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item">
                                 <a class="nav-link text-light mt-3" href="{{ path('admin')}}">Espace Admin
@@ -30,8 +25,6 @@
                         {% endif %}
                     </ul>
                 </div>
-
-
                         {% if app.user %}
                             <a href="{{ path('app_sortie_new') }}" id="creation" class="btn  buttonBlancBleu m-3">Créer Sortie</a>
                             <ul>
