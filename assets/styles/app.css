@@ -516,7 +516,7 @@ form {
 .filtreForm {
     gap: 10px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     min-width: 100%;
     align-items: center;
