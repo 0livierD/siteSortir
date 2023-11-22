@@ -108,29 +108,14 @@ h1 , h2 {
     color: white;
 }
 
-.btn-primary {
-    border: 1px solid #00407A !important;
-    background-color: white !important;
-    color: #00407A !important;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: inherit;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
+
 
 .form-select, .form-control {
     border: 1px solid #00407A !important;
     border-radius: 10px!important;
 }
 
-.btn-primary:hover {
-    color: white !important;
-    background-color: #00407A !important;
-    border: 1px solid white !important;
 
-}
 .profil>.form-check{
     display: flex!important;
     flex-direction: row-reverse;
@@ -138,14 +123,6 @@ h1 , h2 {
     align-items: center!important;
 }
 
-
-.btn-primary:hover::before {
-    width: 25em;
-}
-
-.btn {
-    border-radius: 15px;
-}
 
 footer {
     margin-top: 20px;
@@ -292,7 +269,7 @@ form {
 }
 
 
-#seDesister {
+.buttonBlancBleu {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -304,7 +281,7 @@ form {
     z-index: 1;
 }
 
-#seDesister::before {
+.buttonBlancBleu::before {
 
     content: '';
     width: 0;
@@ -319,16 +296,16 @@ form {
     z-index: -1;
 }
 
-#seDesister:hover {
+.buttonBlancBleu:hover {
     color: white !important;
 
 }
 
-#seDesister:hover::before {
+.buttonBlancBleu:hover::before {
     width: 25em;
 }
 
-#inscription {
+.buttonBleuVert {
     border: 1px solid #00407A !important;
     background-image: linear-gradient(40deg, rgba(2, 0, 36, 1) 0%, rgba(0, 64, 122, 1));
     color: white !important;
@@ -340,7 +317,7 @@ form {
     z-index: 1;
 }
 
-#inscription::before {
+.buttonBleuVert::before {
 
     content: '';
     width: 0;
@@ -355,38 +332,18 @@ form {
     z-index: -1;
 }
 
-/*#inscription::before {
-
-    content: '';
-    width: 0;
-    height: 4em;
-    border-radius: 1px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(40deg, rgb(216, 241, 255) 0%, rgb(255, 255, 255) 62%);
-    transition: .5s ease-in;
-    display: block;
-    z-index: -1;
-}*/
-
-/*#inscription:hover {
-    color: #00407A !important;
-
-}*/
-
-#inscription:hover {
+.buttonBleuVert:hover {
     color: white !important;
     border: 1px solid #4D8644FF !important;
 
 }
 
-#inscription:hover::before {
+.buttonBleuVert:hover::before {
     width: 25em;
 }
 
 
-#annulerSortie {
+.buttonBlancRouge {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -398,7 +355,7 @@ form {
     z-index: 1;
 }
 
-#annulerSortie::before {
+.buttonBlancRouge::before {
 
     content: '';
     width: 0;
@@ -413,17 +370,17 @@ form {
     z-index: -1;
 }
 
-#annulerSortie:hover {
+.buttonBlancRouge:hover {
     color: white !important;
     border: 1px solid #A63535FF !important;
 
 }
 
-#annulerSortie:hover::before {
+.buttonBlancRouge:hover::before {
     width: 25em;
 }
 
-#completSortie {
+.buttonGris {
     border: 1px solid #6d6b6b !important;
     background-color: white !important;
     color: #6d6b6b !important;
@@ -435,7 +392,7 @@ form {
     z-index: 1;
 }
 
-#completSortie::before {
+.buttonGris::before {
 
     content: '';
     width: 0;
@@ -450,12 +407,12 @@ form {
     z-index: -1;
 }
 
-#completSortie:hover {
+.buttonGris:hover {
     color: white !important;
 
 }
 
-#completSortie:hover::before {
+.buttonGris:hover::before {
     width: 25em;
 }
 
