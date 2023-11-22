@@ -46,13 +46,18 @@ class SortieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findAllUnder1Month(User $user): array
+    public function findAllUnder1Month(User $user, $filters = null): array
     {
         $qb = $this->createQueryBuilder('s');
         $qb->andWhere('s.isPublished = 1')
-        ->orWhere('s.organisateur = :user')
-        ->setParameter('user', $user)
-        ->andWhere('s.isArchive = 0');
+            ->orWhere('s.organisateur = :user')
+            ->setParameter('user', $user)
+            ->andWhere('s.isArchive = 0');
+
+        if ($filters != null){
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', "%".$filters["nom"]."%");
+        }
 
 
 
@@ -71,53 +76,54 @@ class SortieRepository extends ServiceEntityRepository
 //    }
 
 
-    public function findSearch(Filtre $filtre, User $user): array
+    public function findSearch(User $user, array $filtres = null): array
     {
 
         $qb = $this->createQueryBuilder('s')
                 ->andWhere('s.isPublished = 1')
                 ->orWhere('s.organisateur = :user')
                 ->setParameter('user', $user)
-                ->andWhere('s.isArchive = 0');;
+                ->andWhere('s.isArchive = 0');
 
 
-        if (!empty($filtre->getNom())) {
+        if (!empty($filtres["nom"])) {
             $qb = $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%' . $filtre->getNom() . '%');
+                ->setParameter('nom', '%' . $filtres["nom"] . '%');
         }
 
-        if (!empty($filtre->getSite()) && isInstanceOf(Site::class)) {
-            $qb = $qb->andWhere('s.site = :idSite')
-                ->setParameter('idSite', $filtre->getSite()->getId());
+        if (!empty($filtres["site"])) {
+            $qb = $qb->andWhere('s.site =:idSite')
+                ->setParameter('idSite', $filtres["site"]);
         }
 
-        if (!empty($filtre->getDateDebut())) {
+        if (!empty($filtres["dateDebut"])) {
             $qb = $qb->andWhere('s.dateHeureDebut > :dateDebut')
-                ->setParameter('dateDebut', $filtre->getDateDebut());
+                ->setParameter('dateDebut', $filtres["dateDebut"]);
         }
 
-        if (!empty($filtre->getDateFin())) {
+        if (!empty($filtres["dateFin"])) {
             $qb = $qb->andWhere('s.dateLimiteInscription < :dateFin')
-                ->setParameter('dateFin', $filtre->getDateFin());
+                ->setParameter('dateFin', $filtres["dateFin"]);
         }
 
 
-        if ($filtre->isSortieOuJeParcitipe() && $filtre->isSortieOuJeNeParticipePas()) {
+        if (!empty($filtres["sortieOuJeParcitipe"]) && !empty($filtres["sortieOuJeNeParticipePas"])) {
 
 
             $qb = $qb->orWhere(':userId NOT MEMBER OF s.participants')
                 ->setParameter('userId', $user->getId())
                 ->orWhere(':userId MEMBER OF s.participants')
-                ->setParameter('userId', $user->getId());
+                ->setParameter('userId', $user->getId())
+                ->andWhere('s.isArchive = 0');
 
 
         } else {
-            if ($filtre->isSortieOuJeNeParticipePas()) {
+            if (!empty($filtres["sortieOuJeNeParticipePas"])) {
                 $qb = $qb->andWhere(':userId NOT MEMBER OF s.participants')
                     ->setParameter('userId', $user->getId());
             }
 
-            if ($filtre->isSortieOuJeParcitipe()) {
+            if (!empty($filtres["sortieOuJeParcitipe"])) {
 
                 $qb = $qb->andWhere(':userId MEMBER OF s.participants')
                     ->setParameter('userId', $user->getId());
@@ -125,13 +131,13 @@ class SortieRepository extends ServiceEntityRepository
 
         }
 
-        if ($filtre->isSortiePassee()) {
+        if (!empty($filtres["sortiePassee"])) {
             $qb = $qb->andWhere('s.dateHeureDebut < :today')
                 ->setParameter('today', new \DateTime('now'));
         }
 
 
-        if ($filtre->isSortieQueJOrganise()) {
+        if (!empty($filtres["sortieQueJOrganise"])) {
             $qb = $qb->andWhere('s.organisateur = :userId')
                 ->setParameter('userId', $user->getId());
         }

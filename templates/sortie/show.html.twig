@@ -25,7 +25,7 @@
             {% set boutonCardSortie = "S'inscrire" %}
         {% endif %}
     {% endif %}
-    <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
+    <h1 >{{ sortie.nom }}</h1>
 
     <div class="sortie">
         <div class="top">
@@ -35,8 +35,10 @@
                     <h5>Fin
                         : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
                 </div>
-                <p> Durée : {{ sortie.duree }} minutes</p>
-                <p>Nombre maximum de participants : {{ sortie.nbInscriptionMax }}</p>
+                <h5>Durée :</h5>
+                <p>  {{ sortie.duree }} minutes</p>
+                <h5>Places disponibles :</h5>
+                <p> {{ sortie.nbInscriptionMax }}</p>
 
                 <h5>Description et Infos</h5>
                 <p>{{ sortie.infosSortie }}</p>
