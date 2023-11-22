@@ -7,6 +7,13 @@ window.onload = () => {
 
         input.addEventListener("change",() => {
             console.log("clic");
+            const  FORM = new FormData(FORM_FILTER);
+            // fabrication de l'url
+            const PARAMS = new for
+
+            FORM.forEach((value,key)=>[
+                console.log(key,value)
+            ])
         })
     })
 

@@ -48,6 +48,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            try {
                 /** @var UploadedFile $ListeFile */
                 $ListeFile = $form->get('ListeFile')->getData();
                 $ListeFileName = $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
@@ -87,6 +88,9 @@ class UserController extends AbstractController
                         {
                             $entityManager->persist($user);
                             $entityManager->flush();
+
+
+                            $this->addFlash('success', 'La liste d\'utilisateurs a bien été importée dans la base de donnée');
                         }else
                         {
                             $emailEnDouble = end($verifEmail);
@@ -94,7 +98,13 @@ class UserController extends AbstractController
                         }
                     }
                 }
+            }catch(Exception $e)
+            {
+                $this->addFlash('erreur', 'Le fichier n\'est pas valide');
+            }
+
         }
+
 
         return $this->renderForm('user/liste.html.twig', [
             'form' => $form,
