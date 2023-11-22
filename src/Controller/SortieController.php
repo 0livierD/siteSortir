@@ -26,8 +26,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, Request $request,EtatSortie $etatSortie,
-                          EtatRepository $etatRepository,EntityManagerInterface $entityManager): Response
+    public function index(SortieRepository $sortieRepository, Request $request, EtatSortie $etatSortie,
+                          EtatRepository   $etatRepository, EntityManagerInterface $entityManager): Response
     {
         if (!$this->getUser())
             return $this->redirectToRoute('app_login');
@@ -42,32 +42,28 @@ class SortieController extends AbstractController
          */
         $user = $this->getUser();
 
+        //on récupère les filtres
 
 
-        if ($filtreForm->isSubmitted() && $filtreForm->isValid()) {
-            $filtre = $filtreForm->getData();
-            $sorties = $sortieRepository->findSearch($filtre, $user);
-
-            foreach ($sorties as $sortie){
-
-                $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
-            }
-
-            return $this->render('sortie/index.html.twig', [
-                'sorties' => $sorties,
-                'filtreForm' => $filtreForm->createView()
-            ]);
-
-        }
-
-
-        $sorties = $sortieRepository->findAllUnder1Month($user);
-
+        $filtres = $request->get("filtre");
+        /*if ($filtres != null)
+            dd($filtres);*/
+        $sorties = $sortieRepository->findSearch($user, $filtres);
 
         foreach ($sorties as $sortie){
 
             $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
         }
+
+        if ($request->get('ajax')) {
+            return new JsonResponse([
+                'content' => $this->renderView('sortie/_sorties.html.twig', [
+                    'sorties' => $sorties,
+                    'filtreForm' => $filtreForm->createView()
+                ])
+            ]);
+        }
+
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
@@ -77,10 +73,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/creer-sortie', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(LieuRepository $lieuRepository,
-                        EtatRepository $etatRepository,
-                        VilleRepository $villeRepository ,
-                        Request $request,
+    public function new(LieuRepository         $lieuRepository,
+                        EtatRepository         $etatRepository,
+                        VilleRepository        $villeRepository,
+                        Request                $request,
                         EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
@@ -109,8 +105,8 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
             'user' => $user,
-            'villes'=>$villes,
-            'lieux'=>$lieux,
+            'villes' => $villes,
+            'lieux' => $lieux,
 
         ]);
 
@@ -126,13 +122,13 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/modifier', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(LieuRepository $lieuRepository,EtatRepository $etatRepository,VilleRepository $villeRepository,Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(LieuRepository $lieuRepository, EtatRepository $etatRepository, VilleRepository $villeRepository, Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         /*
          * verification de la route
          * */
 
-        if( $sortie->getEtat()->getLibelle() == "En cours" && $sortie->getEtat()->getLibelle() == 'Passée' && $this->getUser() !== $sortie->getOrganisateur() )
+        if ($sortie->getEtat()->getLibelle() == "En cours" && $sortie->getEtat()->getLibelle() == 'Passée' && $this->getUser() !== $sortie->getOrganisateur())
             return $this->redirectToRoute('app_sortie_index');
 
         if ($sortie->getEtat()->getLibelle() == 'Annulée')
@@ -154,8 +150,8 @@ class SortieController extends AbstractController
         return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
-            'villes'=>$villes,
-            'lieux'=>$lieux,
+            'villes' => $villes,
+            'lieux' => $lieux,
         ]);
     }
 
@@ -193,7 +189,7 @@ class SortieController extends AbstractController
         }
 
 
-        return  $this->json($lieuxArray);
+        return $this->json($lieuxArray);
     }
 
 
@@ -216,8 +212,8 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            if (--$placesRestantes == 0){
-                $etatComplet = $etatRepository->findOneBy(['libelle'=>'Clôturée']);
+            if (--$placesRestantes == 0) {
+                $etatComplet = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
                 $sortie->setEtat($etatComplet);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
@@ -239,7 +235,7 @@ class SortieController extends AbstractController
                 $isInscrit = true;
 
 
-        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" &&  $sortie->getEtat()->getLibelle() != "Passée") {
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" && $sortie->getEtat()->getLibelle() != "Passée") {
             /**
              * @var User $user
              */
@@ -255,7 +251,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/annuler/{id}', name: 'app_sortie_annuler')]
-    public function annuler(Sortie $sortie, Request $request, EntityManagerInterface $entityManager) : Response
+    public function annuler(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
     {
         /*
         * Vérification de route
@@ -264,25 +260,23 @@ class SortieController extends AbstractController
         * Etat de sortie antérieure à en cours
         * */
         $libelleEtat = $sortie->getEtat()->getLibelle();
-        if($this->getUser() !== $sortie->getOrganisateur() || $libelleEtat =! "En cours" || $libelleEtat =! "Annulée" || $libelleEtat =! "Passée"  ){
+        if ($this->getUser() !== $sortie->getOrganisateur() || $libelleEtat = !"En cours" || $libelleEtat = !"Annulée" || $libelleEtat = !"Passée") {
             return $this->redirectToRoute('app_sortie_index');
         }
 
         $form = $this->createForm(AnnulationType::class, $sortie);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index');
         }
 
 
-
-
         return $this->render('sortie/annulation.html.twig', [
             'sortie' => $sortie,
-            'form' =>$form->createView()
+            'form' => $form->createView()
         ]);
 
     }
