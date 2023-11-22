@@ -21,11 +21,13 @@
 
         </div>
         <div class="col-md-4" id="filtreDroit">
+            <div class="check">
             {{ form_row(filtreForm.sortieQueJOrganise, {'label': "Où j'organise"}) }}
             {{ form_row(filtreForm.sortieOuJeParcitipe,{'label': "Où je participe"}) }}
             {{ form_row(filtreForm.sortieOuJeNeParticipePas,{'label': "Où je ne participe pas"}) }}
             {{ form_row(filtreForm.sortiePassee,{'label': "Passées"}) }}
-            <div>
+            </div>
+            <div class="boutons ">
                 <button type="submit" class=" btn buttonBlancBleu">Filtrer</button>
             </div>
         </div>
@@ -68,17 +70,17 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ sortie.nom }}</h4>
+                    <h4 class="card-title"> <strong>{{ sortie.nom }}</strong></h4>
                     <div class="date">
-                        <h6 class="card-subtitle mb-2 text-muted"> Le {{ sortie.dateHeureDebut |date('d/m/y H:i') }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted"> Durée: {{ sortie.duree }} min</h6>
+                        <h6 class=" mb-2 "> Le {{ sortie.dateHeureDebut |date('d/m/y H:i') }}</h6>
+                        <h6 class=" mb-2 "> Durée: {{ sortie.duree }} min</h6>
                     </div>
                     <div class="date">
-                        <h6 class="card-subtitle mb-2 text-muted"> Places disponibles
+                        <h6 class=" mb-2 "> Places disponibles
                             : {{ sortie.nbInscriptionMax - sortie.participants|length }}</h6>
 
                     </div>
-                    <h6 class="card-subtitle mb-2 text-muted"> Statut
+                    <h6 class=" mb-2"> Statut
                         : {{ sortie.etat.libelle }}</h6>
                     <div class="date">
                         <h6>Organisateur : <a href="{{ path('app_user_show',{'id':sortie.organisateur.id}) }}"

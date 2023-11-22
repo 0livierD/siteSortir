@@ -7,12 +7,14 @@
     <h1>Mon Profil</h1>
         <div class="profil">
             <div class="flex" >
+                <div>
+                <div class="photo" >
+                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="">
+                </div>
+                </div>
                 <div >
                     <h5>Pseudo : </h5>
                     <p>{{ user.pseudo }}</p>
-                </div>
-                <div >
-                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="" height="200">
                 </div>
             </div>
             <div class="flex" >
