@@ -66,13 +66,13 @@
         {{ form_widget(form.infosSortie, {'attr': {'class': 'form-control'}}) }}
     </div>
     <div class="mb-3">
-        {{ form_widget(form.isPublished, {'attr': {'class': 'form-control m-2'}}) }}
+        {{ form_widget(form.isPublished, {'attr': {'class': 'form-control m-0'}}) }}
 
     </div>
     <div class="mt-3">
-        <a class="btn btn-primary m-3" id="ajouterLieu" href="{{ path('app_lieu_new') }}"> Ajouter un lieu</a>
-        <a class="btn btn-primary m-3" href="#"> Annuler</a>
-        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn buttonBlancBleu m-3" id="ajouterLieu" href="{{ path('app_lieu_new') }}"> Ajouter un lieu</a>
+        <a class="btn buttonBlancBleu m-3" href="#"> Annuler</a>
+        <button class="btn buttonBleuVert">{{ button_label|default('Enregistrer') }}</button>
     </div>
 
     {{ form_end(form) }}

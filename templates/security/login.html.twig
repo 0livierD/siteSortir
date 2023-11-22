@@ -3,7 +3,6 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-<form method="post">
 
     {% if error %}
         {% if error.message=='Your user account no longer exists.' %}
@@ -17,29 +16,36 @@
         {% endif %}
     {% endif %}
 
-    <h1 class="titre"><strong>Connexion</strong></h1>
+    <div class="login">
 
-    <label class="marginTop40" for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
-   <!-- <label class="marginTop20" for="inputPseudo">Pseudo</label>
-    <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" autocomplete="pseudo">-->
-    <label class="marginTop20" for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <h1>Connexion</h1>
+        <form method="post">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-<div class="marginLeft40 marginTop40" >
-    <label>
-        <input type="checkbox" name="_remember_me" checked>
-        Se souvenir de moi
-    </label>
+            <label class="marginTop40" for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                   autocomplete="email" autofocus>
 
-    <button class="btn btn-primary marginLeft40" type="submit">
-        Se connecter
-    </button>
-    <a class="marginLeft40" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
-</div>
 
-</form>
+                <label class="marginTop20" for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control"
+                       autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+
+            <div class="logButton">
+                <button class="btn  btn-primary " style="width: 30%" type="submit">
+                    Se connecter
+                </button>
+            </div>
+
+            <label>
+                <input type="checkbox" name="_remember_me" checked>
+                Se souvenir de moi
+            </label>
+            <a class="" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+
+
+        </form>
+    </div>
 {% endblock %}

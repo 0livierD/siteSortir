@@ -8,9 +8,10 @@
 
     <div class="hero">
         <h1>Sortir avec Eni</h1>
+        {{ form_start(filtreForm,{'attr': {'class': 'filtreForm form-floating','id':'filtreForm'}}) }}
+
         <div class="filtre">
 
-            {{ form_start(filtreForm,{'attr': {'class': 'filtreForm form-floating'}}) }}
             <div class="" id="filtreGauche">
                 {{ form_row(filtreForm.site) }}
                 {{ form_row(filtreForm.nom,{'label':'Par nom'} ) }}
@@ -25,7 +26,7 @@
             {{ form_row(filtreForm.sortieOuJeNeParticipePas,{'label': "Où je ne participe pas"}) }}
             {{ form_row(filtreForm.sortiePassee,{'label': "Passées"}) }}
             <div>
-                <button type="submit" class=" btn btn-primary">Filtrer</button>
+                <button type="submit" class=" btn buttonBlancBleu">Filtrer</button>
             </div>
         </div>
 
@@ -33,6 +34,8 @@
 
     </div>
     <div>
+
+
     <h2 class="h2Accueil">Liste des sorties</h2>
     </div>
 
@@ -84,21 +87,18 @@
                     <div class="date d-flex justify-content-between">
                         <a class="mt-3 " href="{{ path('app_sortie_show', {'id':sortie.getId()}) }}">Plus d'infos</a>
                         {% if boutonCardSortie == "S'inscrire" %}
-                            <a class=" btn btn-primary" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
-                               class="card-link" id="inscription">{{ boutonCardSortie }}</a>
+                            <a class="btn buttonBleuVert" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
+                               class="card-link" >{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Se desister" %}
-                            <a class=" btn btn-primary" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}"
-                               class="card-link" id="seDesister">{{ boutonCardSortie }}</a>
+                            <a class="btn buttonBlancBleu " href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}"
+                               class="card-link">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Annuler sortie" %}
-
-                            <a class=" btn btn-primary" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
-
-
+                            <a class="btn buttonBlancRouge" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="card-link" id="annulerSortie">{{ boutonCardSortie }}</a>
                         {% elseif boutonCardSortie == "Complet" %}
-                            <button type="button" class=" btn btn-primary" href="" class="card-link"
+                            <button type="button" class="btn buttonGris" href="" class="card-link"
                                     id="completSortie">{{ boutonCardSortie }}</button>
                         {% else %}
-                            <button type="button" class=" btn btn-primary" href="" class="card-link"
+                            <button type="button" class="btn buttonGris" href="" class="card-link"
                                     id="completSortie">{{ boutonCardSortie }}</button>
                         {% endif %}
                     </div>
@@ -107,4 +107,10 @@
         {% endfor %}
     </div>
 
+
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/filter.js') }}"></script>
+{% endblock %}
+

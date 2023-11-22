@@ -18,6 +18,8 @@ body {
     align-self: center;
     gap: 20px;
     flex-grow: 1;
+    justify-content: center;
+
     /*background-color: lightslategrey;*/
 
 }
@@ -86,7 +88,6 @@ nav ul li a:hover {
 }
 
 h1 , h2 {
-    color: #00407A !important;
     margin-top: 30px !important;
 }
 
@@ -107,7 +108,30 @@ h1 , h2 {
 .hero > h1 {
     color: white;
 }
+.login{
 
+    margin-top: 50px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    border: 2px solid #00407A;
+    border-radius: 20px;
+    background: white;
+}
+.login>form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.logButton{
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
 .btn-primary {
     border: 1px solid #00407A !important;
     background-color: white !important;
@@ -131,12 +155,14 @@ h1 , h2 {
     border: 1px solid white !important;
 
 }
-.profil>.form-check{
-    display: flex!important;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    align-items: center!important;
+.form-check{
+    padding: 0!important;
 }
+.form-check>label{
+    margin-left: 5px;
+}
+
+
 
 
 .btn-primary:hover::before {
@@ -205,6 +231,7 @@ footer {
     gap: 100px;
     justify-content: left;
     align-items: center;
+    background: white;
     width: 60%;
 }
 
@@ -543,9 +570,9 @@ input, select {
 
 }
 
-/*.col-sm-10 {
+.col-sm-10 {
     width: 100% !important;
-}*/
+}
 
 #filtreDroit {
     display: flex;
@@ -690,9 +717,7 @@ input, select {
         gap: 10px;
         width: 100%;
     }
-    h1{
-        margin-top: 30px!important;
-    }
+
     p , h5{
         margin: 0!important;
     }
