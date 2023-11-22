@@ -177,7 +177,6 @@ class SortieController extends AbstractController
     #[Route('/lieux-par-villes/{id}', name: 'app_get_lieux_by_ville')]
     public function getLieuxByVille(int $id, LieuRepository $lieuRepository): JsonResponse
     {
-        // Utilisez directement l'annotation de type pour obtenir l'id
 
 
         // Utilisez le paramètre typé plutôt que get()
@@ -194,7 +193,7 @@ class SortieController extends AbstractController
         }
 
 
-        return $this->json($lieuxArray);
+        return  $this->json($lieuxArray);
     }
 
 

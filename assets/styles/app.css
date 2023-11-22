@@ -18,6 +18,8 @@ body {
     align-self: center;
     gap: 20px;
     flex-grow: 1;
+    justify-content: center;
+
     /*background-color: lightslategrey;*/
 
 }
@@ -86,7 +88,6 @@ nav ul li a:hover {
 }
 
 h1 , h2 {
-    color: #00407A !important;
     margin-top: 30px !important;
 }
 
@@ -107,22 +108,70 @@ h1 , h2 {
 .hero > h1 {
     color: white;
 }
+.login{
 
-
+    margin-top: 50px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    border: 2px solid #00407A;
+    border-radius: 20px;
+    background: white;
+}
+.login>form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.logButton{
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+.btn-primary {
+    border: 1px solid #00407A !important;
+    background-color: white !important;
+    color: #00407A !important;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
 
 .form-select, .form-control {
     border: 1px solid #00407A !important;
     border-radius: 10px!important;
 }
 
+.btn-primary:hover {
+    color: white !important;
+    background-color: #00407A !important;
+    border: 1px solid white !important;
 
-.profil>.form-check{
-    display: flex!important;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    align-items: center!important;
+}
+.form-check{
+    padding: 0!important;
+}
+.form-check>label{
+    margin-left: 5px;
 }
 
+
+
+
+.btn-primary:hover::before {
+    width: 25em;
+}
+
+.btn {
+    border-radius: 15px;
+}
 
 footer {
     margin-top: 20px;
@@ -182,6 +231,7 @@ footer {
     gap: 100px;
     justify-content: left;
     align-items: center;
+    background: white;
     width: 60%;
 }
 
@@ -269,7 +319,7 @@ form {
 }
 
 
-.buttonBlancBleu {
+#seDesister {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -281,7 +331,7 @@ form {
     z-index: 1;
 }
 
-.buttonBlancBleu::before {
+#seDesister::before {
 
     content: '';
     width: 0;
@@ -296,16 +346,16 @@ form {
     z-index: -1;
 }
 
-.buttonBlancBleu:hover {
+#seDesister:hover {
     color: white !important;
 
 }
 
-.buttonBlancBleu:hover::before {
+#seDesister:hover::before {
     width: 25em;
 }
 
-.buttonBleuVert {
+#inscription {
     border: 1px solid #00407A !important;
     background-image: linear-gradient(40deg, rgba(2, 0, 36, 1) 0%, rgba(0, 64, 122, 1));
     color: white !important;
@@ -317,7 +367,7 @@ form {
     z-index: 1;
 }
 
-.buttonBleuVert::before {
+#inscription::before {
 
     content: '';
     width: 0;
@@ -332,18 +382,38 @@ form {
     z-index: -1;
 }
 
-.buttonBleuVert:hover {
+/*#inscription::before {
+
+    content: '';
+    width: 0;
+    height: 4em;
+    border-radius: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(40deg, rgb(216, 241, 255) 0%, rgb(255, 255, 255) 62%);
+    transition: .5s ease-in;
+    display: block;
+    z-index: -1;
+}*/
+
+/*#inscription:hover {
+    color: #00407A !important;
+
+}*/
+
+#inscription:hover {
     color: white !important;
     border: 1px solid #4D8644FF !important;
 
 }
 
-.buttonBleuVert:hover::before {
+#inscription:hover::before {
     width: 25em;
 }
 
 
-.buttonBlancRouge {
+#annulerSortie {
     border: 1px solid #00407A !important;
     background-color: white !important;
     color: #00407A !important;
@@ -355,7 +425,7 @@ form {
     z-index: 1;
 }
 
-.buttonBlancRouge::before {
+#annulerSortie::before {
 
     content: '';
     width: 0;
@@ -370,17 +440,17 @@ form {
     z-index: -1;
 }
 
-.buttonBlancRouge:hover {
+#annulerSortie:hover {
     color: white !important;
     border: 1px solid #A63535FF !important;
 
 }
 
-.buttonBlancRouge:hover::before {
+#annulerSortie:hover::before {
     width: 25em;
 }
 
-.buttonGris {
+#completSortie {
     border: 1px solid #6d6b6b !important;
     background-color: white !important;
     color: #6d6b6b !important;
@@ -392,7 +462,7 @@ form {
     z-index: 1;
 }
 
-.buttonGris::before {
+#completSortie::before {
 
     content: '';
     width: 0;
@@ -407,12 +477,12 @@ form {
     z-index: -1;
 }
 
-.buttonGris:hover {
+#completSortie:hover {
     color: white !important;
 
 }
 
-.buttonGris:hover::before {
+#completSortie:hover::before {
     width: 25em;
 }
 
@@ -500,9 +570,9 @@ input, select {
 
 }
 
-/*.col-sm-10 {
+.col-sm-10 {
     width: 100% !important;
-}*/
+}
 
 #filtreDroit {
     display: flex;
@@ -580,45 +650,6 @@ input, select {
     margin: 0;
 }
 
-#formConnexion{
-    margin-top: 10dvh;
-}
-
-#formConnexion > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-#formConnexion > div > label + input{
-    width: 60%;
-}
-
-
-#formConnexion > div:last-child {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* -------------- Ne rien faire Apres cette ligne*/
 /* ---------- MEDIA QUERIES */
 /*
@@ -686,9 +717,7 @@ input, select {
         gap: 10px;
         width: 100%;
     }
-    h1{
-        margin-top: 30px!important;
-    }
+
     p , h5{
         margin: 0!important;
     }
@@ -800,7 +829,6 @@ input, select {
     }
 
 }
-
 
 
 
