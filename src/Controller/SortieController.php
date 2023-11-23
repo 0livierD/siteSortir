@@ -46,8 +46,6 @@ class SortieController extends AbstractController
 
 
         $filtres = $request->get("filtre");
-        /*if ($filtres != null)
-            dd($filtres);*/
         $sorties = $sortieRepository->findSearch($user, $filtres);
 
         foreach ($sorties as $sortie){
@@ -55,13 +53,30 @@ class SortieController extends AbstractController
             $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
         }
 
-        if ($request->get('ajax')) {
-            return new JsonResponse([
-                'content' => $this->renderView('sortie/_sorties.html.twig', [
-                    'sorties' => $sorties,
-                    'filtreForm' => $filtreForm->createView()
-                ])
-            ]);
+        $ajaxValue = $request->get('ajax');
+        if (isset($ajaxValue)) {
+            if($ajaxValue == 1){
+                return new JsonResponse([
+                    'content' => $this->renderView('sortie/_sorties.html.twig', [
+                        'sorties' => $sorties,
+                        'filtreForm' => $filtreForm->createView()
+                    ])
+                ]);
+            }else if ($ajaxValue == 2)
+            {
+                foreach ($sorties as $sortie){
+
+                    $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
+                }
+                return new JsonResponse([
+                    'content' => $this->renderView('sortie/_sorties.html.twig', [
+                        'sorties' => $sorties,
+                        'filtreForm' => $filtreForm->createView()
+                    ])
+                ]);
+
+            }
+
         }
 
 
@@ -196,8 +211,10 @@ class SortieController extends AbstractController
 
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository, SortieRepository $sortieRepository): Response
     {
+        $sortie = $sortieRepository->find($sortie->getId());
+
         // vérifie que l'utilisateur ne soit pas déjà connecté
         $isInscrit = false;
         foreach ($sortie->getParticipants() as $participant)
@@ -221,34 +238,50 @@ class SortieController extends AbstractController
                 $entityManager->flush();
             }
 
+
+
+        }else{
+            dd('probleme inscription');
         }
 
-        return $this->redirectToRoute('app_sortie_index');
+        return new JsonResponse(['message' => 'Inscription réussie']);
     }
 
     #[Route('/se-desister/{id}', name: 'app_sortie_desistement')]
-    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository,UserRepository $userRepository): Response
     {
+
+        $laSortie = $sortieRepository->findUneSortieAvecParticipant($sortie);
+        $sortie = $laSortie[0];
 
         // vérifie que l'utilisateur participe à la sortie
         $isInscrit = false;
-        foreach ($sortie->getParticipants() as $participant)
-            if ($participant === $this->getUser())
+        foreach ($sortie->getParticipants() as $participant){
+            if ($participant === $this->getUser()) {
                 $isInscrit = true;
+            }
+        }
 
 
-        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" && $sortie->getEtat()->getLibelle() != "Passée") {
-            /**
-             * @var User $user
-             */
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit==true && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" && $sortie->getEtat()->getLibelle() != "Passée") {
+
             $user = $this->getUser();
             $sortie->removeParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
+        }else{
+            dd($sortie->getOrganisateur() !== $this->getUser(),
+                $isInscrit,
+                $sortie->getEtat()->getLibelle() != "En cours",
+                $sortie->getEtat()->getLibelle() != "Annulée" ,
+                $sortie->getEtat()->getLibelle() != "Passée",
+                $sortie,
+                $sortie->getParticipants(),
+                $this->getUser());
         }
 
 
-        return $this->redirectToRoute('app_sortie_index');
+        return new JsonResponse(['message' => 'desistement']);
 
     }
 
