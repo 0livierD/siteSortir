@@ -130,9 +130,16 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
-    public function show(Sortie $sortie): Response
+    #[Route('/{id}', name: 'app_sortie_show')]
+    public function show(Request $request,SortieRepository $sortieRepository, EtatSortie $etatSortie,
+                         EtatRepository   $etatRepository, EntityManagerInterface $entityManager): Response
     {
+
+        $idSortie = $request->get('id');
+        $sortie = $sortieRepository->find($idSortie);
+        $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
+
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
         ]);
@@ -263,21 +270,12 @@ class SortieController extends AbstractController
         }
 
 
-        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit==true && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" && $sortie->getEtat()->getLibelle() != "Passée") {
+        if ($sortie->getOrganisateur() !== $this->getUser() && $isInscrit && $sortie->getEtat()->getLibelle() != "En cours" && $sortie->getEtat()->getLibelle() != "Annulée" && $sortie->getEtat()->getLibelle() != "Passée") {
 
             $user = $this->getUser();
             $sortie->removeParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
-        }else{
-            dd($sortie->getOrganisateur() !== $this->getUser(),
-                $isInscrit,
-                $sortie->getEtat()->getLibelle() != "En cours",
-                $sortie->getEtat()->getLibelle() != "Annulée" ,
-                $sortie->getEtat()->getLibelle() != "Passée",
-                $sortie,
-                $sortie->getParticipants(),
-                $this->getUser());
         }
 
 
