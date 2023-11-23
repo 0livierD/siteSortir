@@ -313,7 +313,7 @@ hr {
 .flex {
     display: flex;
     align-items: center;
-    width: 90%;
+
 }
 
 form {
@@ -322,7 +322,7 @@ form {
 }
 
 .profil > form {
-
+    width: 90%;
 }
 
 .profil > form > .mb-3 > label {
@@ -829,7 +829,7 @@ p, h5 {
     .profilInfos {
         display: flex;
         justify-content: space-between;
-        width: 90%;
+        width: 100%;
         flex-direction: column;
         align-items: center;
     }
@@ -839,7 +839,7 @@ p, h5 {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        width: 90%;
+        width: 100%;
     }
 
 }

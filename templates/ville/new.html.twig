@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ville{% endblock %}
+
+{% block body %}
+    {% block header %}
+        
+    {% endblock %}
+
+    <h1>Ajouter une Ville</h1>
+
+    {{ include('ville/_form.html.twig') }}
+
+{% endblock %}
