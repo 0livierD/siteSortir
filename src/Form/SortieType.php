@@ -45,9 +45,7 @@ class SortieType extends AbstractType
                 'html5'=>true,
                 'widget'=>'single_text'
             ])
-            ->add('nbInscriptionMax',NumberType::class,[
-                'label'=>'Nombres de participants',
-            ])
+            ->add('nbInscriptionMax')
             ->add('infosSortie', TextareaType::class,[
                 'label'=>"Description",
             ])
@@ -61,7 +59,7 @@ class SortieType extends AbstractType
                     return $lieu ? $lieu->getId() : '';
                 },
                 'placeholder' => 'Choisir un lieu',
-                'required' => false,
+                'required' => true,
             ])
             ->add('isPublished' , CheckboxType::class, [
                 'label'=>' Publier la sortie?',

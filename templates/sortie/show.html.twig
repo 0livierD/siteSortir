@@ -7,10 +7,10 @@
     {#
     Savoir si l'utilisateur connecté est participant ou non, organisateur ou non
     #}
-    {% set boutonCardSortie = sortie.getEtat.getlibelle  %}
+    {% set boutonCardSortie = sortie.getEtat.getlibelle %}
     {% set nbParticipant = sortie.participants|length %}
     {% if boutonCardSortie != "Passée" and boutonCardSortie != "En cours" and sortie.getEtat.getlibelle != "Annulée" %}
-        {% if sortie.nbInscriptionMax == nbParticipant  %}
+        {% if sortie.nbInscriptionMax == nbParticipant %}
             {% set boutonCardSortie = "Complet" %}
         {% endif %}
         {% for participant in sortie.participants %}
@@ -25,50 +25,75 @@
             {% set boutonCardSortie = "S'inscrire" %}
         {% endif %}
     {% endif %}
-    <h1 class="titre"><strong>{{ sortie.nom }}</strong></h1>
+    <h1>{{ sortie.nom }}</h1>
 
     <div class="sortie">
         <div class="top">
             <div class="infos">
                 <div class="date">
-                    <h5>Début : {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</h5>
-                    <h5>Fin
-                        : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
+                    <h5>Début: {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</h5>
+                    <h5>Fin: {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription |date('d/m/y H:i') : '' }}</h5>
                 </div>
-                <p> Durée : {{ sortie.duree }} minutes</p>
-                <p>Nombre maximum de participants : {{ sortie.nbInscriptionMax }}</p>
+                <hr>
+                <div class="flex">
+                    <h5>Durée:</h5>
+                    <p>  {{ sortie.duree }} minutes</p>
+                </div>
+                <hr>
+                <div class="flex">
+                    <h5>Places disponibles:</h5>
 
-                <h5>Description et Infos</h5>
-                <p>{{ sortie.infosSortie }}</p>
-
+                    <p> {{ sortie.nbInscriptionMax }}</p>
+                </div>
+                <hr>
+                <div>
+                    <h5>Description et Infos:</h5>
+                    <p>{{ sortie.infosSortie }}</p>
+                </div>
                 {% if sortie.motifAnnulation is not empty %}
-                <h5>Motif d'annulation</h5>
-                <p>{{ sortie.motifAnnulation }}</p>
+                    <h5>Motif d'annulation</h5>
+                    <p>{{ sortie.motifAnnulation }}</p>
                 {% endif %}
 
 
             </div>
             <div class="siteInfo">
-                <div>
-                    <h5>Site de rattachement : </h5>
+                <div class="flex">
+                    <h5>Site:  </h5>
                     <p>{{ sortie.site.nom }}</p>
                 </div>
-                <div>
-                    <h5>Ville : </h5>
+                <hr>
+                <div class="flex">
+                    <h5>Ville: </h5>
                     <p>{{ sortie.lieu.ville.nom }}</p>
                 </div>
-                <div>
-                    <h5>Code Postal : </h5>
+                <hr>
+                <div class="flex">
+                    <h5>Lieu: </h5>
+                    <p>{{ sortie.lieu.nom }}</p>
+                </div>
+                <hr>
+                <div class="flex">
+                    <h5>Rue: </h5>
+                    <p>{{ sortie.lieu.rue }}</p>
+                </div>
+                <hr>
+                <div class="flex">
+                    <h5>Code Postal: </h5>
                     <p>{{ sortie.lieu.ville.codePostal }}</p>
                 </div>
+                <hr>
                 <div class="participants">
-                    <h5>Liste des inscrits : </h5>
-
+                    <h5>Liste des inscrits: </h5>
+                    <hr>
 
                     {% for participant in sortie.participants %}
-                        <p><a href="{{ path('app_user_show',{'id':sortie.organisateur.id}) }}">{{ participant.getFullName }}</a></p>
+                        <p>
+                            <a href="{{ path('app_user_show',{'id':sortie.organisateur.id}) }}">{{ participant.getFullName }}</a>
+                        </p>
                     {% endfor %}
                 </div>
+
 
 
             </div>
@@ -76,18 +101,22 @@
         <div class="boutons">
 
             {% if app.user == sortie.organisateur and sortie.etat.libelle != "Passée" and sortie.etat.libelle != "En cours" and sortie.etat.libelle != "Annulée" %}
-            <a class="buttonBlancBleu btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" id="seDesister">Modifier la sortie</a>
+                <a class="buttonBlancBleu btn" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" id="seDesister">Modifier
+                    la sortie</a>
             {% endif %}
             {% if boutonCardSortie == "S'inscrire" %}
-                <a class="buttonBleuVert btn" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}" class="card-link">{{ boutonCardSortie }}</a>
+                <a class="buttonBleuVert btn" href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
+                   class="card-link">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Se desister" %}
-                <a class="buttonBlancBleu btn" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}" class="card-link"  >{{ boutonCardSortie }}</a>
+                <a class="buttonBlancBleu btn" href="{{ path('app_sortie_desistement', {'id': sortie.id}) }}"
+                   class="card-link">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Annuler sortie" %}
-                <a class="buttonBlancRouge btn" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="card-link" >{{ boutonCardSortie }}</a>
+                <a class="buttonBlancRouge btn" href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}"
+                   class="card-link">{{ boutonCardSortie }}</a>
             {% elseif boutonCardSortie == "Complet" %}
-                <button type="button" class="buttonGris btn" href="" class="card-link"  >{{ boutonCardSortie }}</button>
+                <button type="button" class="buttonGris btn" href="" class="card-link">{{ boutonCardSortie }}</button>
             {% else %}
-                <button type="button" class="buttonGris btn" href="" class="card-link"  >{{ boutonCardSortie }}</button>
+                <button type="button" class="buttonGris btn" href="" class="card-link">{{ boutonCardSortie }}</button>
             {% endif %}
 
         </div>

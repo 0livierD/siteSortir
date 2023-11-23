@@ -21,10 +21,14 @@
 
         </div>
         <div class="col-md-4" id="filtreDroit">
+            <div class="check">
             {{ form_row(filtreForm.sortieQueJOrganise, {'label': "Où j'organise"}) }}
             {{ form_row(filtreForm.sortieOuJeParcitipe,{'label': "Où je participe"}) }}
             {{ form_row(filtreForm.sortieOuJeNeParticipePas,{'label': "Où je ne participe pas"}) }}
             {{ form_row(filtreForm.sortiePassee,{'label': "Passées"}) }}
+
+            </div>
+
         </div>
 
         {{ form_end(filtreForm) }}
@@ -35,8 +39,14 @@
 
     <h2 class="h2Accueil">Liste des sorties</h2>
     </div>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <p class="  flash flash-{{ label }}">{{ message }}</p>
+        {% endfor %}
 
+    {% endfor %}
     <div class="listSortie" id="listSortie">
+
 
         {% include 'sortie/_sorties.html.twig' %}
     </div>
