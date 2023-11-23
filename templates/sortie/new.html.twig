@@ -8,6 +8,6 @@
     <h6>Site organisateur: {{ user.site }}</h6>
     {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('app_sortie_index') }}"> <-  Retour à l'accueil</a>
+    <a class="btn buttonBlancBleu" href="{{ path('app_sortie_index') }}">   Retour à l'accueil</a>
     <script src="{{ asset('js/listeLieux.js') }}"></script>
 {% endblock %}

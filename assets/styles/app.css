@@ -196,7 +196,7 @@ footer {
     justify-content: center;
     width: 60%;
     flex-direction: column;
-    background-color: white;
+    background-color: ghostwhite;
 
 
 }
@@ -224,7 +224,7 @@ footer {
     gap: 100px;
     justify-content: left;
     align-items: center;
-    background: white;
+    background: ghostwhite;
     width: 40%;
 }
 
