@@ -97,6 +97,8 @@ class SortieController extends AbstractController
             $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
+            $this->addFlash('success', 'La sortie a été créée avec succès!');
+
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }

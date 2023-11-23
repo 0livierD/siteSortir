@@ -103,7 +103,7 @@ h1, h2 {
     margin-bottom: 20px;
     width: 100%;
     display: flex;
-    height: 400px;
+    height: 300px;
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -162,7 +162,7 @@ h1, h2 {
 }
 
 footer {
-    margin-top: 20px;
+    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,9 +224,10 @@ footer {
     background: white;
     width: 40%;
 }
-.photo{
+
+.photo {
     border-radius: 50%;
-    width: 200px;  /* La largeur souhaitée */
+    width: 200px; /* La largeur souhaitée */
     height: 200px; /* La hauteur souhaitée */
     overflow: hidden;
     position: relative;
@@ -239,14 +240,38 @@ footer {
     object-fit: cover; /* Redimensionne l'image pour qu'elle remplisse le conteneur tout en conservant son ratio d'aspect */
     object-position: center; /* Centre l'image dans le conteneur */
 }
+
 .participants {
     padding: 20px;
     border: 2px solid #00407A;
     border-radius: 10px;
 }
 
-.infos {
+hr {
+    border: 0;
+    margin-bottom: 10px!important;
+    margin-top: 5px!important;
+    display: block;
+    width: 100%;
+    background-color: #FFFF00;
+    height: 1px
+}
 
+.infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px;
+    max-width: 50%;
+
+}
+
+.siteInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    width: 40%;
 }
 
 .listSortie {
@@ -266,6 +291,7 @@ footer {
     box-shadow: #00407A 4px 4px;
 }
 
+
 .card, a:link {
     text-decoration: none;
 }
@@ -274,6 +300,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    color: black !important;
     align-items: flex-start;
 }
 
@@ -285,10 +312,8 @@ footer {
 
 .flex {
     display: flex;
-    justify-content: space-between;
-    gap: 40px;
     align-items: center;
-    width: 50%;
+    width: 90%;
 }
 
 form {
@@ -353,7 +378,7 @@ form {
 
 .buttonBleuVert {
     border: 1px solid #00407A !important;
-    background-color: #00407A!important;
+    background-color: #00407A !important;
     color: white !important;
     border-radius: 10px;
     font-size: 15px;
@@ -364,14 +389,12 @@ form {
 }
 
 
-
 .buttonBleuVert:hover {
     color: white !important;
     background-color: #22c55e !important;
     border: 1px solid #22c55e !important;
 
 }
-
 
 
 .buttonBlancRouge {
@@ -387,14 +410,12 @@ form {
 }
 
 
-
 .buttonBlancRouge:hover {
     color: white !important;
     background-color: #A63535FF !important;
     border: 1px solid #A63535FF !important;
 
 }
-
 
 
 .buttonGris {
@@ -413,7 +434,7 @@ form {
 .buttonGris:hover {
     color: white !important;
     background-color: #6d6b6b !important;
-    border: 1px solid  #6d6b6b  !important;
+    border: 1px solid #6d6b6b !important;
 
 }
 
@@ -495,12 +516,12 @@ input, select {
 }
 
 #filtreGauche > .mb-3 > label {
-    width: 30%;
+    width: 35%;
     text-align: right;
 }
 
 #filtreGauche > .mb-3 > .col-sm-10 {
-    width: 60% !important;
+    width: 65% !important;
 }
 
 #filtreGauche > .mb-3 > .col-sm-10 {
@@ -590,8 +611,23 @@ input, select {
     display: contents;
     margin: 0;
 }
+
 p, h5 {
-    margin: 0 !important;
+    margin-bottom: 0!important;
+    margin-right: 10px;
+}
+.profilInfos {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-items: center;
+}
+.profilDetails {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
 }
 
 /* -------------- Ne rien faire Apres cette ligne*/
@@ -614,6 +650,9 @@ p, h5 {
         min-width: 100%;
         gap: 1rem;
 
+    }
+    .siteInfo{
+        width: 90%;
     }
 
     #filtreGauche {
@@ -655,8 +694,9 @@ p, h5 {
         align-items: center;
         width: 90%;
     }
-    .photo{
-        width: 80px;  /* La largeur souhaitée */
+
+    .photo {
+        width: 80px; /* La largeur souhaitée */
         height: 80px; /* La hauteur souhaitée */
         overflow: hidden;
         position: relative;
@@ -666,7 +706,6 @@ p, h5 {
 
     .flex {
         display: flex;
-        flex-direction: column;
         gap: 10px;
         width: 100%;
     }
@@ -675,7 +714,7 @@ p, h5 {
     .flex > div {
         display: flex;
         align-items: center;
-        width:100% ;
+        width: 100%;
 
 
     }
@@ -741,6 +780,7 @@ p, h5 {
         display: flex;
         justify-content: space-evenly;
         flex-direction: column;
+        align-items: center;
     }
 
     .filtreForm {
@@ -774,6 +814,9 @@ p, h5 {
 
     }
 
+    .infos {
+        max-width: 90%;
+    }
 
     #creation {
         display: none;
@@ -781,6 +824,22 @@ p, h5 {
 
     form {
         width: 100%;
+    }
+
+    .profilInfos {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profilDetails {
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 90%;
     }
 
 }
@@ -802,31 +861,53 @@ p, h5 {
     form {
         width: 100%;
     }
+
     .top {
         display: flex;
         justify-content: space-evenly;
         gap: 30px;
     }
+
     .infos {
         width: 50%;
     }
-    .sortie{
+
+    .sortie {
         width: 90%;
     }
-    .photo{
-        width: 100px;  /* La largeur souhaitée */
+
+    .photo {
+        width: 100px; /* La largeur souhaitée */
         height: 100px; /* La hauteur souhaitée */
         overflow: hidden;
         position: relative;
         border: 2px solid #00407A;
 
     }
-    .profil{
-        width: 60%;
+    .siteInfo{
+        width: 50%;
+    }
+
+    .profil {
+        width: 80%;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .profilInfos {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        align-items: center;
+    }
+    .profilDetails {
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 80%;
     }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
 
