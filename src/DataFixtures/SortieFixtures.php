@@ -60,7 +60,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie2->setSite($siteRennes);
         $sortie2->setOrganisateur($userSerge);
         $sortie2->setLieu($lieuParcDesLoisirs);
-        $sortie2->setInfosSortie('Nous remettons notre titre en jeu, sortez les boules et visez le cochonet !');
+        $sortie2->setInfosSortie('Nous remettons notre titre en jeu, sortez les boules et visez le cochonet !Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque convallis urna eu suscipit ultrices. Praesent quis nulla sit amet nisi sollicitudin congue. Nunc in est porta, varius lorem sit amet, egestas libero. Vivamus in dictum diam, eu efficitur nulla. Morbi vel erat dapibus, elementum enim vel, varius quam. Donec condimentum nec sem quis tincidunt. Aliquam id tincidunt tortor. Donec suscipit, ligula eget ultrices auctor, lorem orci efficitur erat, in eleifend urna nulla tempus libero. In ultrices, turpis et efficitur aliquet, sapien enim ultricies sem, in consectetur metus nisi a dolor. Nunc efficitur sapien orci, efficitur pharetra ipsum placerat sed. Nam sed fermentum sapien.');
         $sortie2->setDateHeureDebut(new \DateTime('+3 day'));
         $sortie2->setDateLimiteInscription(new \DateTime('+1 day'));
         $sortie2->setDuree(90);

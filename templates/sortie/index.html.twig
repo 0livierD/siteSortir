@@ -39,7 +39,12 @@
 
     <h2 class="h2Accueil">Liste des sorties</h2>
     </div>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <p class="  flash flash-{{ label }}">{{ message }}</p>
+        {% endfor %}
 
+    {% endfor %}
     <div class="listSortie" id="listSortie">
 
 
