@@ -175,6 +175,8 @@ class UserController extends AbstractController
                     {
                         $entityManager->flush();
 
+                        $this->addFlash('profilModif','Le profil a bien été modifié !');
+
                         return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
 
                     }else
@@ -188,6 +190,8 @@ class UserController extends AbstractController
 
                         $entityManager->persist($user);
                         $entityManager->flush();
+
+                        $this->addFlash('profilModif','Le mot de passe a bien été modifié !');
 
                         return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
                     }

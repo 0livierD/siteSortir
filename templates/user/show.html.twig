@@ -5,6 +5,13 @@
 {% block body %}
 
     <h1>Mon Profil</h1>
+
+    {% for flashMessage in app.flashes('profilModif') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
         <div class="profil">
             <div class="flex" >
                 <div>
