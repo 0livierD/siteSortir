@@ -1,15 +1,16 @@
-{% for label, messages in app.flashes %}
+{#{% for label, messages in app.flashes %}
     {% for message in messages %}
         <p class="flash flash-{{ label }}">{{ message }}</p>
     {% endfor %}
 
-{% endfor %}
+{% endfor %}#}
 <div class="profil">
     {{ form_start(form) }}
 
     <div class="mb-3">
         <label for="{{ form.nom.vars.id }}" class="form-label">Nom:</label>
         {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nom) }}
     </div>
 
     <div class="row">
@@ -17,12 +18,14 @@
             <div class="mb-3">
                 <label for="{{ form.dateHeureDebut.vars.id }}" class="form-label">Date et heure de début:</label>
                 {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateHeureDebut) }}
             </div>
         </div>
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="{{ form.dateLimiteInscription.vars.id }}" class="form-label">Limite d'inscription:</label>
                 {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateLimiteInscription) }}
             </div>
         </div>
     </div>
@@ -32,12 +35,14 @@
             <div class="mb-3">
                 <label for="{{ form.duree.vars.id }}" class="form-label">Durée:</label>
                 {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.duree) }}
             </div>
         </div>
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="{{ form.nbInscriptionMax.vars.id }}" class="form-label">Places disponibles:</label>
                 {{ form_widget(form.nbInscriptionMax, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nbInscriptionMax) }}
             </div>
         </div>
     </div>
@@ -46,7 +51,7 @@
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="select-ville" class="form-label">Ville:</label>
-                <select class="form-control form-select" id="select-ville" name="villes">
+                <select class="form-control form-select" id="select-ville" name="villes" required>
                     <option value="">Choisir une ville</option>
                     {% for ville in villes %}
                         <option value="{{ ville.id }}">{{ ville.nom }}</option>
