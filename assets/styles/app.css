@@ -612,6 +612,27 @@ input, select {
     margin: 0;
 }
 
+
+#notification{
+    position: fixed;
+    bottom: -74px;
+    display: block;
+    width: 300px;
+    padding-top: 25px ;
+    padding-bottom: 25px ;
+    background: #ff6363;
+    transition: all .4s;
+    color: #600000;
+    z-index: 999;
+    text-align: center;
+    border-radius: 15px;
+
+}
+
+#notification.show{
+    bottom: 2rem;
+    }
+
 p, h5 {
     margin-bottom: 0!important;
     margin-right: 10px;
@@ -628,6 +649,7 @@ p, h5 {
     flex-direction: column;
     gap: 10px;
     width: 80%;
+
 }
 
 /* -------------- Ne rien faire Apres cette ligne*/
@@ -907,7 +929,9 @@ p, h5 {
         gap: 10px;
         width: 80%;
     }
-}
+    }
+
+
 
 /* Large devices (laptops/desktops, 992px and up) */
 

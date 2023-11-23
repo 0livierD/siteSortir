@@ -51,10 +51,14 @@
         {% include 'sortie/_sorties.html.twig' %}
     </div>
 
+    <div id="notification" class="bg-danger.bg-gradient">
+        L'inscription n'est plus possible
+    </div>
+
 
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/filter.js') }}"></script>
+    <script src="{{ asset('js/home_page.js') }}"></script>
 {% endblock %}
 

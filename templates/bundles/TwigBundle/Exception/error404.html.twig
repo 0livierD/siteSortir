@@ -1,13 +1,28 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+<style>
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        background-image: url('{{ asset('images/Image404.png') }}');
+        background-size: contain; /* Redimensionner l'image pour qu'elle soit complètement visible dans le conteneur */
+        background-repeat: no-repeat; /* Empêcher la répétition de l'image si elle est plus petite que le conteneur */
+        background-position: center center; /* Centrer l'image dans le conteneur */
+    }
+</style>
+{% endblock %}
+
 {% block title %}
     Page introuvable | {{ parent() }}
 {% endblock %}
 
 {% block body %}
+    <div class="image-container" style="background-image: url('{{ asset('images/Image404.png') }}'); height: 100vh; width: 65%; background-size: cover;">
 
-    <h1>Page introuvable 404</h1>
-
+    </div>
 {% endblock %}
-
 

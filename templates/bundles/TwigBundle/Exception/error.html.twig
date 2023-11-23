@@ -1,14 +1,40 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .image-container {
+            position: relative;
+            width: 1000px; /* Ajustez la largeur selon vos besoins */
+            height: 900px; /* Ajustez la hauteur selon vos besoins */
+            overflow: hidden;
+        }
+
+        .clipped-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+            max-width: 100%; /* Rendre l'image responsive */
+            display: block; /* Supprimer l'espace réservé sous l'image */
+            margin: 0 auto; /* Centrer l'image horizontalement */
+        }
+    </style>
+{% endblock %}
+
+{% block head %}
+    C'est cassé | {{ parent() }}
+{% endblock %}
+
 {% block title %}
     C'est cassé | {{ parent() }}
 {% endblock %}
 
 {% block body %}
 
-    <h1>C'est cassé</h1>
-
-    <p>Une erreur s'est produite...</p>
+    <div class="image-container">
+        <img class="clipped-image" src="{{ asset('images/pageErreur.gif') }}" alt="">
+    </div>
 
 {% endblock %}
 

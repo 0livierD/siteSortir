@@ -4,6 +4,12 @@
 
 {% block body %}
 
+    {% for flashMessage in app.flashes('profilModif') %}
+        <div class="alert alert-success mt-3">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
 <h1>Mon Profil</h1>
 <div class="profil">
 
@@ -58,4 +64,5 @@
         </div>
     {% endif %}
 
-    {% endblock %}
+
+{% endblock %}
