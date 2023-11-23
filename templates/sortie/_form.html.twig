@@ -63,6 +63,7 @@
             <div class="mb-3">
                 <label for="{{ form.lieu.vars.id }}" class="form-label">Lieu:</label>
                 {{ form_widget(form.lieu) }}
+
             </div>
         </div>
     </div>
@@ -75,10 +76,70 @@
 
     </div>
     <div class="mt-3">
-        <a class="btn buttonBlancBleu m-3" id="ajouterLieu" href="{{ path('app_lieu_new') }}"> Ajouter un lieu</a>
-        <a class="btn buttonBlancBleu m-3" href="#"> Annuler</a>
+        <a class="btn buttonBlancBleu m-3" id="ajouterLieu" href="#"> Ajouter un lieu</a>
+
         <button class="btn buttonBleuVert">{{ button_label|default('Enregistrer') }}</button>
     </div>
+    <!-- Modale pour l'ajout de lieu -->
+
 
     {{ form_end(form) }}
+    <div class="modal fade" id="ajoutLieuModal" tabindex="-1" role="dialog" aria-labelledby="ajoutLieuModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ajoutLieuModalLabel">Ajouter un lieu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    {{ render(controller('App\\Controller\\LieuController::new')) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#ajouterLieu').click(function(e) {
+            e.preventDefault();
+            $('#ajoutLieuModal').modal('show');
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Intercepter la soumission du formulaire
+        $('#lieuForm').submit(function(e) {
+            e.preventDefault();
+
+            // Récupérer l'URL de soumission depuis l'attribut data-url
+            var url = $(this).attr('action');
+            console.log("URL de soumission du formulaire : ", url);
+
+            // Envoyer une requête AJAX pour soumettre le formulaire
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(data) {
+                    // Traiter la réponse si nécessaire
+                    console.log("Formulaire soumis avec succès", data);
+
+                    // Fermer la modale (si nécessaire)
+                    $('#ajoutLieuModal').modal('hide');
+                },
+                error: function(error) {
+                    console.error("Erreur lors de la soumission du formulaire", error);
+                }
+            });
+        });
+
+    });
+</script>
+
+

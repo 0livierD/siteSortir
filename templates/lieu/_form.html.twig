@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'action': path('app_lieu_new'), 'id': 'lieuForm'}}) }}
     {{ form_widget(form) }}
     <button class="btn" type="submit">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

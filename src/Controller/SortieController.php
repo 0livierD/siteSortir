@@ -199,7 +199,6 @@ class SortieController extends AbstractController
     {
 
 
-        // Utilisez le paramètre typé plutôt que get()
         $lieux = $lieuRepository->findByVille($id);
 
         // Convertion des lieux en un tableau au format JSON
@@ -208,7 +207,6 @@ class SortieController extends AbstractController
             $lieuxArray[] = [
                 'id' => $lieu->getId(),
                 'nom' => $lieu->getNom(),
-                // ... autres propriétés du lieu ...
             ];
         }
 
@@ -313,5 +311,6 @@ class SortieController extends AbstractController
         ]);
 
     }
+
 
 }
