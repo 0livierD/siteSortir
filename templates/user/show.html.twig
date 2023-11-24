@@ -9,8 +9,14 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
+    {% if app.user.id == user.id %}
+        <h1>Mon Profil</h1>
 
-<h1>Mon Profil</h1>
+        {% else %}
+
+        <h1>Profil de {{ user.fullName }}</h1>
+    {% endif %}
+
 <div class="profil">
 
         <div>

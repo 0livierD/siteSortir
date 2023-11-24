@@ -16,6 +16,7 @@ use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\services\EtatSortie;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,6 +89,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/creer-sortie', name: 'app_sortie_new', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_USER")]
     public function new(LieuRepository         $lieuRepository,
                         EtatRepository         $etatRepository,
                         VilleRepository        $villeRepository,
@@ -131,6 +133,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sortie_show')]
+    #[IsGranted("ROLE_USER")]
     public function show(Request $request,SortieRepository $sortieRepository, EtatSortie $etatSortie,
                          EtatRepository   $etatRepository, EntityManagerInterface $entityManager): Response
     {
@@ -146,13 +149,15 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/modifier', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_USER")]
     public function edit(LieuRepository $lieuRepository, EtatRepository $etatRepository, VilleRepository $villeRepository, Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         /*
          * verification de la route
          * */
 
-        if ($sortie->getEtat()->getLibelle() == "En cours" && $sortie->getEtat()->getLibelle() == 'Passée' && $this->getUser() !== $sortie->getOrganisateur())
+
+        if ($this->getUser()->getId() !== $sortie->getOrganisateur()->getId()|| $sortie->getEtat()->getLibelle() == "En cours" ||$sortie->getEtat()->getLibelle() == 'Passée' )
             return $this->redirectToRoute('app_sortie_index');
 
         if ($sortie->getEtat()->getLibelle() == 'Annulée')
@@ -195,6 +200,7 @@ class SortieController extends AbstractController
     }*/
 
     #[Route('/lieux-par-villes/{id}', name: 'app_get_lieux_by_ville')]
+    #[IsGranted("ROLE_USER")]
     public function getLieuxByVille(int $id, LieuRepository $lieuRepository): JsonResponse
     {
 
@@ -216,6 +222,7 @@ class SortieController extends AbstractController
 
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    #[IsGranted("ROLE_USER")]
     public function inscription(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository, SortieRepository $sortieRepository): Response
     {
         $sortie = $sortieRepository->find($sortie->getId());
@@ -253,6 +260,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/se-desister/{id}', name: 'app_sortie_desistement')]
+    #[IsGranted("ROLE_USER")]
     public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository,UserRepository $userRepository): Response
     {
 
@@ -282,6 +290,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/annuler/{id}', name: 'app_sortie_annuler')]
+    #[IsGranted("ROLE_USER")]
     public function annuler(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
     {
         /*

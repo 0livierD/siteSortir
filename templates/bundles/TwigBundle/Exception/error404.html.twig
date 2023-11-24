@@ -3,15 +3,23 @@
 {% block stylesheets %}
     {{ parent() }}
 <style>
-    .image-container {
-        position: relative;
-        width: 100%;
-        height: auto;
-        overflow: hidden;
-        background-image: url('{{ asset('images/Image404.png') }}');
-        background-size: contain; /* Redimensionner l'image pour qu'elle soit complètement visible dans le conteneur */
-        background-repeat: no-repeat; /* Empêcher la répétition de l'image si elle est plus petite que le conteneur */
-        background-position: center center; /* Centrer l'image dans le conteneur */
+    .canvas {
+       display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 800px;
+    }
+    .square{
+        background-color: #1d1d1d;
+        box-shadow: 0 0 2px #000;
+        height: 14px;
+        width: 14px;
+        margin: 2px;
+        transition: 2s ease;
+    }
+    .square:hover{
+        transition-duration: 0s;
     }
 </style>
 {% endblock %}
@@ -21,8 +29,11 @@
 {% endblock %}
 
 {% block body %}
-    <div class="image-container" style="background-image: url('{{ asset('images/Image404.png') }}'); height: 100vh; width: 65%; background-size: cover;">
+    <h1 style="font-size:180px !important; ">404</h1>
+    <div class="canvas" id="canvas"></div>
+    <h2>Page introuvable</h2>
 
-    </div>
+    <a class="btn buttonBlancBleu" href="{{ path('app_sortie_index') }}">Retour à l'accueil</a>
+    <script src="{{ asset('js/404.js') }}"></script>
 {% endblock %}
 

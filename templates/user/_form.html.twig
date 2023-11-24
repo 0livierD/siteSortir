@@ -40,6 +40,8 @@
             <div class="mb-3">
                 <label for="{{ form.photoFile.vars.id }}" class="form-label">Photo de profil:</label>
                 {{ form_widget(form.photoFile, {'attr': {'class': 'form-control mb-2'}}) }}
+                {{ form_errors(form.photoFile) }}
+
             </div>
         </div>
     </div>
