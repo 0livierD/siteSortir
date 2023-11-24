@@ -30,6 +30,8 @@ window.onload = () => {
                     CONTENT.innerHTML = data.content;
                     //mise à jour de l'url
                     history.pushState({}, null, Url.pathname + "?" + PARAMS.toString())
+                    handleDesinscription();
+                    handleInscription();
                 }).catch(e => alert(e))
             })
         })
@@ -63,6 +65,11 @@ window.onload = () => {
                             CONTENT.innerHTML = data.content;
                             handleDesinscription();
                             handleInscription();
+                            const notification = document.querySelector('#notificationSuccessDesistement')
+                            notification.classList.add('show')
+                            setTimeout(()=>{
+                                notification.classList.remove('show')
+                            },2000)
                         }).catch(e => alert(e))
                     })
                     .catch(function (error) {
@@ -95,13 +102,13 @@ window.onload = () => {
                             ).then(data => {
                                 const CONTENT = document.querySelector("#listSortie")
                                 CONTENT.innerHTML = data.content;
-                                handleDesinscription();
-                                handleInscription();
                                 const notification = document.querySelector('#notification')
                                 notification.classList.add('show')
                                 setTimeout(()=>{
                                     notification.classList.remove('show')
                                 },2000)
+                                handleDesinscription();
+                                handleInscription();
                             }).catch(e => alert(e))
                         }
 
@@ -119,6 +126,12 @@ window.onload = () => {
                             CONTENT.innerHTML = data.content;
                             handleInscription();
                             handleDesinscription();
+                            const notification = document.querySelector('#notificationSuccessInscription')
+                            notification.classList.add('show')
+                            setTimeout(()=>{
+                                notification.classList.remove('show')
+                            },2000)
+                            console.log('coucou')
                         }).catch(e => alert(e))
                     })
                     .catch(function (error) {
