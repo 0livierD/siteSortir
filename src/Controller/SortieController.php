@@ -135,7 +135,7 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'app_sortie_show')]
     #[IsGranted("ROLE_USER")]
     public function show(Request $request,SortieRepository $sortieRepository, EtatSortie $etatSortie,
-                         EtatRepository   $etatRepository, EntityManagerInterface $entityManager): Response
+                         EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
 
         $idSortie = $request->get('id');
@@ -253,7 +253,7 @@ class SortieController extends AbstractController
 
 
         }else{
-            dd('probleme inscription');
+            return $this->redirectToRoute('app_sortie_index');
         }
 
         return new JsonResponse(['message' => 'Inscription réussie']);
@@ -261,7 +261,10 @@ class SortieController extends AbstractController
 
     #[Route('/se-desister/{id}', name: 'app_sortie_desistement')]
     #[IsGranted("ROLE_USER")]
-    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository,UserRepository $userRepository): Response
+
+    public function seDesister(Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository, EtatSortie $etatSortie,
+                               EtatRepository $etatRepository): Response
+
     {
 
         $laSortie = $sortieRepository->findUneSortieAvecParticipant($sortie);
@@ -280,8 +283,12 @@ class SortieController extends AbstractController
 
             $user = $this->getUser();
             $sortie->removeParticipant($user);
+            $etatSortie = new EtatSortie();
+            $sortie = $etatSortie->miseAJourEtatDeSortie($entityManager,$etatRepository,$sortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
+        }else{
+            return $this->redirectToRoute('app_sortie_index');
         }
 
 

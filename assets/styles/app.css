@@ -617,19 +617,63 @@ input, select {
 
 
 #notification {
+    font-family: cursive;
+    font-size: large;
     position: fixed;
-    bottom: -74px;
+    bottom: -100px;
     display: block;
-    width: 300px;
+    width: 325px;
     padding-top: 25px;
     padding-bottom: 25px;
-    background: #ff6363;
+    background: #ff7575;
     transition: all .4s;
     color: #600000;
     z-index: 999;
     text-align: center;
     border-radius: 15px;
 
+}
+#notificationSuccessDesistement {
+    font-family: cursive;
+    font-size: large;
+    position: fixed;
+    bottom: -100px;
+    display: block;
+    width: 300px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background: #7df57d;
+    transition: all .4s;
+    color: #165f00;
+    z-index: 999;
+    text-align: center;
+    border-radius: 15px;
+
+}
+#notificationSuccessInscription {
+    font-family: cursive;
+    font-size: large;
+    position: fixed;
+    bottom: -100px;
+    display: block;
+    width: 300px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background: #7df57d;
+    transition: all .4s;
+    color: #165f00;
+    z-index: 999;
+    text-align: center;
+    border-radius: 15px;
+
+}
+
+#notificationSuccessInscription.show {
+    bottom: 2rem;
+}
+
+#notificationSuccessDesistement.show {
+    bottom: 2rem;
 }
 
 #notification.show {
