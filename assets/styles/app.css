@@ -701,6 +701,15 @@ p, h5 {
 
 }
 
+#liste{
+    display: flex;
+    flex-direction: column;
+}
+
+#liste > div > label{
+    width: 100%;
+}
+
 /* -------------- Ne rien faire Apres cette ligne*/
 /* ---------- MEDIA QUERIES */
 /*
@@ -914,6 +923,15 @@ p, h5 {
         width: 100%;
     }
 
+}
+
+.aideConnexion{
+    font-size: x-large;
+    font-weight: bold;
+}
+.aideConnexion>li{
+    font-size: smaller;
+    font-weight: normal;
 }
 
 

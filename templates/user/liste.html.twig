@@ -16,27 +16,31 @@
         </div>
     {% endfor %}
 
-<h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
+    <h1 class="titre"><strong>Upload fichier d'utilisateur</strong></h1>
 
-    {{ form_start(form) }}
+    <div class="profil">
 
-    {{ form_widget(form) }}
+        {{ form_start(form) }}
 
-    <div class="mt-4">
-
-        <button class="btn btn-primary mr-3">{{ button_label|default('Importer') }}</button>
-
-        {{ form_end(form) }}
+        <div class="listeUtilisateur">
+        {{ form_widget(form) }}
+        </div>
 
         <div class="mt-4">
-            {% if emailEnDouble!=null %}
-                <p>Attention, les utilisateurs avec ces adresses mails sont déjà présents dans la base de donnée</p>
-                <p>S'ils sont désactivés, possibilité de les rendre actifs</p>
-                {% for email in emailEnDouble %}
-                    <li>{{ email }}</li>
-                {% endfor %}
 
-            {% endif %}
+            <button class="btn btn-primary mr-3 buttonBleuVert">{{ button_label|default('Importer') }}</button>
+
+            {{ form_end(form) }}
+            <div class="mt-4">
+                {% if emailEnDouble!=null %}
+                <p>Attention, les utilisateurs avec ces adresses mails sont déjà présents dans la base de donnée</p><br>
+                    <p>S'ils sont désactivés, possibilité de les rendre actifs</p><br>
+                    {% for email in emailEnDouble %}
+                        <li>{{ email }}</li>
+                    {% endfor %}
+
+                {% endif %}
+            </div>
         </div>
     </div>
 

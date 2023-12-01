@@ -25,8 +25,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user1 = new User();
         $user1->setNom('Oie');
         $user1->setPrenom('Alan');
-        $user1->setEmail('alan.oie@gmail.com');
-        $user1->setPassword($this->hasher->hashPassword( $user1,'123'));
+        $user1->setEmail('alan.oie@fakemail.com');
+        $user1->setPassword($this->hasher->hashPassword( $user1,'Pa$$w0rd'));
         $user1->setTelephone('0697580026');
         $user1->setSite($siteRennes);
         $user1->setPhoto('photo_de_base.webp');
@@ -48,7 +48,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user3 = new User();
         $user3->setNom('Im');
         $user3->setPrenom('Admin');
-        $user3->setEmail('admin@gmail.com');
+        $user3->setEmail('admin.olivier.yval.bryan@gmail.com');
         $user3->setPassword($this->hasher->hashPassword($user3 ,'123'));
         $user3->setTelephone('0697825403');
         $user3->setRoles(['ROLE_ADMIN']);
@@ -61,8 +61,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user4 = new User();
         $user4->setNom('Rhoïde');
         $user4->setPrenom('Paula');
-        $user4->setEmail('paula.rhoide@gmail.com');
-        $user4->setPassword($this->hasher->hashPassword($user4,'123'));
+        $user4->setEmail('paula.rhoide@fakemail.com');
+        $user4->setPassword($this->hasher->hashPassword($user4,'Pa$$w0rd'));
         $user4->setTelephone('0684628166');
         $user4->setSite($siteRennes);
         $user4->setPhoto('photo_de_base.webp');

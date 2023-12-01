@@ -52,15 +52,18 @@ class UserController extends AbstractController
                 /** @var UploadedFile $ListeFile */
                 $ListeFile = $form->get('ListeFile')->getData();
                 $ListeFileName = $fileUploader->upload($ListeFile, $this->getParameter('user_listes_directory'));
+                $uploadsDirectory = $this->getParameter('user_listes_directory');
+                $chemin = $uploadsDirectory.$ListeFileName;
 
-                $chemin = 'C:\wamp64\www\Site-sortir.com\public/uploads/listes/'.$ListeFileName;
                 $csvFile = fopen($chemin, 'r');
+
 
                 $data = [];
 
                 while ($row = fgetcsv($csvFile)) {
                     $data[] = $row;
                 }
+
 
                 fclose($csvFile);
 
@@ -88,9 +91,6 @@ class UserController extends AbstractController
                         {
                             $entityManager->persist($user);
                             $entityManager->flush();
-
-
-                            $this->addFlash('success', 'La liste d\'utilisateurs a bien été importée dans la base de donnée');
                         }else
                         {
                             $emailEnDouble = end($verifEmail);
@@ -98,6 +98,7 @@ class UserController extends AbstractController
                         }
                     }
                 }
+                $this->addFlash('success', 'La liste d\'utilisateurs a bien été importée dans la base de donnée');
             }catch(Exception $e)
             {
                 $this->addFlash('erreur', 'Le fichier n\'est pas valide');
@@ -150,7 +151,7 @@ class UserController extends AbstractController
 
     {
         // sécurisation de la route
-        if($this->getUser()->getId() == $request->get(('id'))){
+        if($this->getUser() === $user){
             $userBase = $userRepository->find($user->getId());
             $oldPassword = $userBase->getPassword();
 
@@ -202,11 +203,13 @@ class UserController extends AbstractController
                     return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
                 }
             }
+
             return $this->renderForm('user/edit.html.twig', [
                 'user' => $user,
                 'form' => $form,
             ]);
         }
+
         return $this->redirectToRoute('app_sortie_index');
 
 

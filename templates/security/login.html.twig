@@ -8,11 +8,8 @@
         {% if error.message=='Your user account no longer exists.' %}
             <div class="alert alert-danger mt-3">Votre compte n'est pas activé. Merci de contacter l'administrateur du site</div>
         {% endif %}
-        {% if error.message=='The presented password is invalid.' %}
-            <div class="alert alert-danger mt-3">Erreur sur mot de passe !</div>
-        {% endif %}
-        {% if error.message=='Bad credentials.' %}
-            <div class="alert alert-danger mt-3">Erreur sur email !</div>
+        {% if error.message=='The presented password is invalid.' or error.message=='Bad credentials.' %}
+            <div class="alert alert-danger mt-3">Erreur de mail ou de mot de passe !</div>
         {% endif %}
     {% endif %}
 
@@ -47,5 +44,20 @@
 
 
         </form>
+    </div>
+
+    <div class="login">
+        <h3>Pour se connecter :</h3>
+        <ul>
+            <ol class="aideConnexion">Avec Alan
+                <li>Mail : alan.oie@fakemail.com</li>
+                <li>Mot de passe : Pa$$w0rd</li>
+            </ol>
+            <ol class="aideConnexion">Avec Paula
+                <li>Mail : paula.rhoide@fakemail.com</li>
+                <li>Mot de passe : Pa$$w0rd</li>
+            </ol>
+        </ul>
+
     </div>
 {% endblock %}
